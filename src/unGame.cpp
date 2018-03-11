@@ -32,90 +32,32 @@
 #include "rotozoom/SDL2_rotozoom.h"
 #include <stdio.h>
 #include "include/unGame.h"
-#include "engine/Engine.h"
-
-bool init() {
-    bool success = true;
-    if (SDL_Init( SDL_INIT_VIDEO) < 0) {
-        printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-        success = false;
-    } else {
-        window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-        if (window == NULL) {
-            printf("Window could not be created! SDL_Error: %s\n",
-                    SDL_GetError());
-            success = false;
-        } else {
-            screenSurface = SDL_GetWindowSurface(window);
-        }
-    }
-    return success;
-}
-bool loadMedia() {
-    bool success = true;
-    imageSurface = SDL_LoadBMP("res/hello_world.bmp");
-    SDL_SetColorKey(imageSurface, SDL_TRUE,
-            SDL_MapRGB(imageSurface->format, 0, 255, 255));
-
-    if (imageSurface == NULL) {
-        printf("Unable to load image %s! SDL Error: %s\n",
-                "res/hello_world.bmp", SDL_GetError());
-        success = false;
-    }
-    return success;
-}
-
-void close() {
-    SDL_FreeSurface(imageSurface);
-    imageSurface = NULL;
-    SDL_DestroyWindow(window);
-    window = NULL;
-    SDL_Quit();
-}
+#include "engine/SDLEngine.h"
 
 int main(int argc, char* args[]) {
-    Engine engine();
-    if (!init()) {
-        printf("Failed to initialize!\n");
-    } else {
-        if (!loadMedia()) {
-            printf("Failed to load media!\n");
-        } else {
+    SDLEngine engine;
+    engine.init();
+    engine.run(world);
+    engine.close();
+    SDL_Rect rectPos { 200, 200, 0, 0 };
+    SDL_Rect rectCut { 0, 0, 300, 300 };
 
-            SDL_Rect rectPos{200,200,0,0};
-            SDL_Rect rectCut{0,0,300,300};
-
-
-            int rot = 80;
-            float x = 0;
-            float y = 0;
-            bool isRunning = true;
-            SDL_Event ev;
-            while (isRunning) {
-                rot += 1;
-                if(rot>360){
-                    rot -=360;
-                }
-                SDL_FillRect(screenSurface,NULL,0);
-                SDL_Surface *rotSurface = rotozoomSurface(imageSurface, rot,1,0);
-                x+=sin(rot*M_PI/180)*2.0;
-                y+=cos(rot*M_PI/180)*2.0;
-                SDL_Rect rec{int(x),int(y),0,0};
-                rec.x -= rotSurface->w/2-imageSurface->w/2;
-                rec.y -= rotSurface->h/2-imageSurface->h/2;
-
-                SDL_BlitSurface(rotSurface, NULL, screenSurface, &rec);
-                while (SDL_PollEvent(&ev) != 0) {
-                    if (ev.type == SDL_QUIT)
-                        isRunning = false;
-                }
-                SDL_UpdateWindowSurface(window);
-
-            }
-        }
-    }
-    close();
-
+//    int rot = 80;
+//    float x = 0;
+//    float y = 0;
+//
+//        rot += 1;
+//        if (rot > 360) {
+//            rot -= 360;
+//        }
+//        SDL_FillRect(screenSurface, NULL, 0);
+//        SDL_Surface *rotSurface = rotozoomSurface(imageSurface, rot, 1, 0);
+//        x += sin(rot * M_PI / 180) * 2.0;
+//        y += cos(rot * M_PI / 180) * 2.0;
+//        SDL_Rect rec { int(x), int(y), 0, 0 };
+//        rec.x -= rotSurface->w / 2 - imageSurface->w / 2;
+//        rec.y -= rotSurface->h / 2 - imageSurface->h / 2;
+//
+//        SDL_BlitSurface(rotSurface, NULL, screenSurface, &rec);
     return 0;
 }
