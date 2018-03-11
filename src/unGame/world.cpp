@@ -5,18 +5,18 @@
  *      Author: Kamil
  */
 
-#include "world.h"
+#include "World.h"
 
-world::world() {
+World::World() {
     // TODO Auto-generated constructor stub
 
 }
 
-world::~world() {
+World::~World() {
     // TODO Auto-generated destructor stub
 }
 
-void world::addPlayer(player pplayer){
-    players.push_back(pplayer);
+void World::addPlayer(Player player) {
+    players.push_back(player);
 }
 

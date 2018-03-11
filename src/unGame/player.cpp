@@ -5,10 +5,10 @@
  *      Author: Kamil
  */
 
-#include "player.h"
+#include "Player.h"
 #include <SDL2/SDL.h>
 
-player::player() {
+Player::Player() {
     skin = "res/defultSkin.bmp";
     rotAngle = 0;
     posX = 0;
@@ -16,6 +16,6 @@ player::player() {
 
 }
 
-player::~player() {
+Player::~Player() {
 }
 

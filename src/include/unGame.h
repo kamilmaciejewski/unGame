@@ -7,15 +7,9 @@
 
 #ifndef UNGAME_H_
 #define UNGAME_H_
+#include "../unGame/World.h"
 
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 600;
-
-bool init();
-bool loadMedia();
-void close();
-
-SDL_Window* window = NULL;
+World world;
 SDL_Surface* screenSurface = NULL;
 SDL_Surface* imageSurface = NULL;
 

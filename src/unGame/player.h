@@ -12,15 +12,15 @@
 
 #include <string>
 
-class player {
+class Player {
     int rotAngle;
     int posX;
     int posY;
     std::string skin;
 
 public:
-    player();
-    virtual ~player();
+    Player();
+    virtual ~Player();
     void draw(SDL_Surface *surface);
     void rotate(int angle);
     void move(float speed);

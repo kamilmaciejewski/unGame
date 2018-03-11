@@ -12,15 +12,15 @@
 #include <vector>
 #include "player.h"
 
-class world {
+class World {
 
     SDL_Surface backgroundTexture;
 public:
-    world();
-    virtual ~world();
-    void addPlayer(player player);
+    World();
+    virtual ~World();
+    void addPlayer(Player player);
     void draw(SDL_Surface surface);
-    std::vector<player> players;
+    std::vector<Player> players;
 };
 
 #endif /* WORLD_H_ */

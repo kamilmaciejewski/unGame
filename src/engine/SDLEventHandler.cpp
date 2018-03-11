@@ -1,18 +1,18 @@
 /*
- * Engine.cpp
+ * SDLEventHandler.cpp
  *
  *  Created on: 11 mar 2018
  *      Author: Kamil
  */
 
-#include "Engine.h"
+#include "SDLEventHandler.h"
 
-Engine::Engine() {
+SDLEventHandler::SDLEventHandler() {
     // TODO Auto-generated constructor stub
 
 }
 
-Engine::~Engine() {
+SDLEventHandler::~SDLEventHandler() {
     // TODO Auto-generated destructor stub
 }
 
