@@ -19,3 +19,5 @@ Player::Player() {
 Player::~Player() {
 }
 
+void Player::draw(SDL_Surface* surface){}
+

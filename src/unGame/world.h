@@ -19,7 +19,7 @@ public:
     World();
     virtual ~World();
     void addPlayer(Player player);
-    void draw(SDL_Surface surface);
+    void draw();
     std::vector<Player> players;
 };
 
