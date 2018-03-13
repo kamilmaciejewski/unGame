@@ -18,5 +18,13 @@ World::~World() {
 
 void World::addPlayer(Player player) {
     players.push_back(player);
+
+}
+
+void World::draw(){
+    for (auto &player : players){
+        player.draw(NULL);
+        }
+
 }
 
