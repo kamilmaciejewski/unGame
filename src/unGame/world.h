@@ -14,12 +14,12 @@
 
 class World {
 
-    SDL_Surface backgroundTexture;
+    SDL_Surface* backgroundTexture = NULL;
 public:
     World();
     virtual ~World();
     void addPlayer(Player player);
-    void draw();
+    void draw(SDL_Surface*);
     std::vector<Player> players;
 };
 

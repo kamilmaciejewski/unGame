@@ -17,13 +17,16 @@ class Player {
     int posX;
     int posY;
     std::string skin;
+    SDL_Surface* surface = NULL;
+    SDL_Rect rectPos { 0, 0, 0, 0 };
 
 public:
     Player();
     virtual ~Player();
     void draw(SDL_Surface *surface);
     void rotate(int angle);
-    void move(float speed);
+    void move(int speed);
+    void updatePos();
 };
 
 #endif /* PLAYER_H_ */

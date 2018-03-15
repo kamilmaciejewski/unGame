@@ -9,15 +9,28 @@
 #include <SDL2/SDL.h>
 
 Player::Player() {
-    skin = "res/defultSkin.bmp";
+    surface = SDL_LoadBMP("res/arrow.bmp");
+        if( surface == NULL )
+        {
+            printf( "Unable to load image");
+        }
+        else {printf("OK");}
     rotAngle = 0;
-    posX = 0;
-    posY = 0;
+    posX = 100;
+    posY = 100;
+
 
 }
 
 Player::~Player() {
 }
 
-void Player::draw(SDL_Surface* surface){}
+void Player::draw(SDL_Surface* destSurface){
+    updatePos();
+    SDL_BlitSurface(surface, NULL, destSurface, &rectPos);
+}
 
+void Player::updatePos(){
+    rectPos.x = posX;
+    rectPos.y = posY;
+}
