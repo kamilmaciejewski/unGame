@@ -15,9 +15,8 @@ Player::Player() {
 
         if( surface == NULL )
         {
-            printf( "Unable to load image");
+            printf( "Unable to load image: %s\n", SDL_GetError());
         }
-        else {printf("OK");}
     rotAngle = 0;
     posX = 100;
     posY = 100;
