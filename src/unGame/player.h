@@ -18,6 +18,7 @@ class Player {
     int posY;
     std::string skin;
     SDL_Surface* surface = NULL;
+    SDL_Surface* optimizedSurface = NULL;
     SDL_Rect rectPos { 0, 0, 0, 0 };
 
 public:
