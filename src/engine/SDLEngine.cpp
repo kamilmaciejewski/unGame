@@ -5,6 +5,9 @@
  *      Author: Kamil
  */
 
+#include <iostream>
+#include <chrono>
+
 #include "SDLEngine.h"
 
 SDLEngine::SDLEngine() {
@@ -46,12 +49,22 @@ bool SDLEngine::init() {
     return success;
 }
 void SDLEngine::run(World world) {
+
+        using namespace std::chrono;
+        milliseconds msStart, msEnd;
     while (isRunning) {
+        msStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
         while (SDL_PollEvent(&ev) != 0) {
             if (ev.type == SDL_QUIT)
                 isRunning = false;
         }
+        SDL_FillRect(screenSurface, NULL, 0);
+        world.draw(screenSurface);
+//        SDL_BlitSurface(imageSurface, NULL, screenSurface, NULL);
         SDL_UpdateWindowSurface(window);
+        //SDL_Delay( 2000 );
+        msEnd = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+        std::cout<<"Time milis: " << (msEnd-msStart).count() << std::endl;
     }
 }
 void SDLEngine::close() {

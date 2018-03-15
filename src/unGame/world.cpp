@@ -8,7 +8,8 @@
 #include "World.h"
 
 World::World() {
-    // TODO Auto-generated constructor stub
+    Player player0;
+    addPlayer(player0);
 
 }
 
@@ -21,9 +22,9 @@ void World::addPlayer(Player player) {
 
 }
 
-void World::draw(){
+void World::draw(SDL_Surface* surface){
     for (auto &player : players){
-        player.draw(NULL);
+        player.draw(surface);
         }
 
 }

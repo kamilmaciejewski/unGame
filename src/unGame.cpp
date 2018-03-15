@@ -29,8 +29,10 @@
  and may not be redistributed without written permission.*/
 
 #include <SDL2/SDL.h>
-#include "rotozoom/SDL2_rotozoom.h"
 #include <stdio.h>
+#include <iostream>
+
+#include "rotozoom/SDL2_rotozoom.h"
 #include "include/unGame.h"
 #include "engine/SDLEngine.h"
 
@@ -39,8 +41,8 @@ int main(int argc, char* args[]) {
     engine.init();
     engine.run(world);
     engine.close();
-    SDL_Rect rectPos { 200, 200, 0, 0 };
-    SDL_Rect rectCut { 0, 0, 300, 300 };
+//    SDL_Rect rectPos { 200, 200, 0, 0 };
+//    SDL_Rect rectCut { 0, 0, 300, 300 };
 
 //    int rot = 80;
 //    float x = 0;
