@@ -13,21 +13,25 @@
 #include <string>
 
 class Creature {
-    int rotAngle;
+    float rotAngle;
     std::string skin;
     SDL_Surface* surface = NULL;
     SDL_Surface* optimizedSurface = NULL;
+    SDL_Surface* rotSurface = NULL;
     SDL_Rect rectPos { 0, 0, 0, 0 };
+    float posX, posY;
+    float speed, rotationSpeed;
 
 public:
-    int posX;
-    int posY;
     Creature();
     virtual ~Creature();
     void draw(SDL_Surface *surface);
-    void rotate(int angle);
-    void move(int speed);
-    void updatePos();
+    void rotate(float angle);
+    void move(float speed);
+    void setPos(int posX, int posY);
+    void setRotationAngle(float rotationAngle);
+    void setRotationSpeed(float rotationSpeed);
+    void setSpeed(float speed);
 };
 
 #endif /* CREATURE_H_ */

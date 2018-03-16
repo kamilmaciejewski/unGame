@@ -12,8 +12,11 @@ World::World() {
     //TODO: ekammac, pass the screen size here.
     for (int i = 0; i < 99; i++) {
         Creature* creature = new Creature();
-        creature->posX = rand() % 800;
-        creature->posY = rand() % 800;
+        creature->setPos(rand() % 800,rand() % 800);
+        creature->setRotationAngle(rand() % 359);
+        creature->setSpeed(5+ rand() % 10);
+        creature->setRotationSpeed((rand() % 40)-20);
+
         addPlayer(creature);
     }
 
