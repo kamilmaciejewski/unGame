@@ -10,7 +10,10 @@
 
 #include <SDL2/SDL.h>
 #include <vector>
-#include "player.h"
+#include <stdlib.h>
+#include <time.h>
+
+#include "Creature.h"
 
 class World {
 
@@ -18,9 +21,9 @@ class World {
 public:
     World();
     virtual ~World();
-    void addPlayer(Player player);
+    void addPlayer(Creature* player);
     void draw(SDL_Surface*);
-    std::vector<Player> players;
+    std::vector<Creature> creatures;
 };
 
 #endif /* WORLD_H_ */
