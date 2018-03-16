@@ -50,10 +50,13 @@ bool SDLEngine::init() {
 }
 void SDLEngine::run(World world) {
 
-        using namespace std::chrono;
-        milliseconds msStart, msEnd;
+    using namespace std::chrono;
+    milliseconds msStart, msEnd;
+    msStart = duration_cast<milliseconds>(
+            system_clock::now().time_since_epoch());
+    int counter = 0;
     while (isRunning) {
-        msStart = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+        ++counter;
         while (SDL_PollEvent(&ev) != 0) {
             if (ev.type == SDL_QUIT)
                 isRunning = false;
@@ -63,8 +66,14 @@ void SDLEngine::run(World world) {
 //        SDL_BlitSurface(imageSurface, NULL, screenSurface, NULL);
         SDL_UpdateWindowSurface(window);
         //SDL_Delay( 2000 );
-        msEnd = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
-        std::cout<<"Time milis: " << (msEnd-msStart).count() << std::endl;
+        msEnd = duration_cast<milliseconds>(
+                system_clock::now().time_since_epoch());
+        if ((msEnd - msStart).count() > 1000) {
+            msStart = duration_cast<milliseconds>(
+                       system_clock::now().time_since_epoch());
+            std::cout << "FPS " << counter << std::endl;
+            counter = 0;
+        }
     }
 }
 void SDLEngine::close() {
