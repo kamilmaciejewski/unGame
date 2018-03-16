@@ -8,24 +8,32 @@
 #include "World.h"
 
 World::World() {
-    Player player0;
-    addPlayer(player0);
+    srand(time(NULL));
+    //TODO: ekammac, pass the screen size here.
+    for (int i = 0; i < 99; i++) {
+        Creature* creature = new Creature();
+        creature->posX = rand() % 800;
+        creature->posY = rand() % 800;
+        addPlayer(creature);
+    }
 
 }
 
 World::~World() {
-    // TODO Auto-generated destructor stub
-}
-
-void World::addPlayer(Player player) {
-    players.push_back(player);
-
-}
-
-void World::draw(SDL_Surface* surface){
-    for (auto &player : players){
-        player.draw(surface);
+    for (auto creature : creatures) {
+            delete(&creature);
         }
+}
+
+void World::addPlayer(Creature* player) {
+    creatures.push_back(*player);
+
+}
+
+void World::draw(SDL_Surface* surface) {
+    for (auto &player : creatures) {
+        player.draw(surface);
+    }
 
 }
 
