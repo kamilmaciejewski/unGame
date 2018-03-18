@@ -10,25 +10,31 @@
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <chrono>
 #include "../rotozoom/SDL2_rotozoom.h"
 #include "../unGame/World.h"
+#include "SDLEventHandler.h"
 
 class SDLEngine {
-    SDL_Event ev;
+    SDLEventHandler SdlEventHandler;
     bool isRunning = true;
+    bool isFPSLimitEnabled = false;
+    int fpsLimit = 200;
     const int SCREEN_WIDTH = 800;
     const int SCREEN_HEIGHT = 600;
+    int frame_counter = 0;
 
-    SDL_Window* window = NULL;
-    SDL_Surface* screenSurface = NULL;
-    SDL_Surface* imageSurface = NULL;
+    SDL_Window* window = nullptr;
+    SDL_Surface* screenSurface = nullptr;
+    std::chrono::milliseconds frameTimeDelta, frameTimeDeltaTemp, msStart,
+            msEnd;
+    void countFPS();
+    long countFrameTimeDelta();
 
 public:
-    SDLEngine();
-    virtual ~SDLEngine();
     bool init();
     void close();
-    void run(World world);
+    void run(World);
 };
 
 #endif /* SDLENGINE_H_ */

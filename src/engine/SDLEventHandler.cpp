@@ -7,12 +7,10 @@
 
 #include "SDLEventHandler.h"
 
-SDLEventHandler::SDLEventHandler() {
-    // TODO Auto-generated constructor stub
-
-}
-
-SDLEventHandler::~SDLEventHandler() {
-    // TODO Auto-generated destructor stub
+void SDLEventHandler::handleEvents(bool* result){
+    while (SDL_PollEvent(&ev) != 0) {
+                if (ev.type == SDL_QUIT)
+                    *result = false;
+            }
 }
 
