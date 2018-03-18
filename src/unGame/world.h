@@ -17,13 +17,13 @@
 
 class World {
 
-    SDL_Surface* backgroundTexture = NULL;
+    SDL_Surface* backgroundTexture = nullptr;
 public:
     World();
     virtual ~World();
-    void addPlayer(Creature* player);
-    void draw(SDL_Surface*);
-    std::vector<Creature> creatures;
+    void addCreature(Creature *);
+    void updateAndDraw(long, SDL_Surface*);
+    std::vector<Creature*> creatures;
 };
 
 #endif /* WORLD_H_ */

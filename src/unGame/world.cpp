@@ -6,36 +6,34 @@
  */
 
 #include "World.h"
+#include <iostream>
 
 World::World() {
-    srand(time(NULL));
-    //TODO: ekammac, pass the screen size here.
+    srand(time(nullptr));
     for (int i = 0; i < 99; i++) {
-        Creature* creature = new Creature();
-        creature->setPos(rand() % 800,rand() % 800);
-        creature->setRotationAngle(rand() % 359);
-        creature->setSpeed(5+ rand() % 10);
-        creature->setRotationSpeed((rand() % 40)-20);
-
-        addPlayer(creature);
+        addCreature(new Creature());
     }
-
 }
 
 World::~World() {
+//    for (auto creature : creatures) {
+//        delete (creature);
+//    }
+}
+
+void World::addCreature(Creature* creature) {
+    creature->setPos(rand() % 800, rand() % 800);
+    creature->rotate(rand() % 359);
+    creature->setSpeed((0.3 + (rand() % 6)*0.05));
+    creature->setRotationSpeed(0.1 + (0.01*(rand() % 20)));
+    creatures.push_back(creature);
+}
+
+void World::updateAndDraw(long timeDelta, SDL_Surface* surface) {
+//    std::cout << "Time: " << timeDelta << std::endl;
     for (auto creature : creatures) {
-            delete(&creature);
-        }
-}
-
-void World::addPlayer(Creature* player) {
-    creatures.push_back(*player);
-
-}
-
-void World::draw(SDL_Surface* surface) {
-    for (auto &player : creatures) {
-        player.draw(surface);
+        creature->update(timeDelta);
+        creature->draw(surface);
     }
 
 }
