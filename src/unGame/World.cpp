@@ -5,11 +5,11 @@
  *      Author: Kamil
  */
 
-#include "World.h"
+#include <World.h>
 #include <iostream>
 
 World::World() {
-	srand(time(nullptr));
+	std::srand(time(nullptr));
 	for (int i = 0; i < 99; i++) {
 		addCreature(new Creature());
 	}

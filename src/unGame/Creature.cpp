@@ -5,13 +5,11 @@
  *      Author: Kamil
  */
 
-#include "Creature.h"
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <cmath>
 #include <iostream>
-
-#include "../rotozoom/SDL2_rotozoom.h"
+#include "Creature.h"
 
 Creature::Creature() {
     surface = SDL_LoadBMP("res/arrow.bmp");

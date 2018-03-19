@@ -7,7 +7,7 @@
 
 #ifndef UNGAME_H_
 #define UNGAME_H_
-#include "../unGame/World.h"
+#include "World.h"
 
 World * world;
 SDL_Surface* screenSurface = nullptr;
