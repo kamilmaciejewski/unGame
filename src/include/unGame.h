@@ -9,7 +9,7 @@
 #define UNGAME_H_
 #include "../unGame/World.h"
 
-World world;
+World * world;
 SDL_Surface* screenSurface = nullptr;
 SDL_Surface* imageSurface = nullptr;
 

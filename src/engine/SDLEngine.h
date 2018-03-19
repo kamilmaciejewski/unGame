@@ -34,7 +34,7 @@ class SDLEngine {
 public:
     bool init();
     void close();
-    void run(World);
+    void run(World *);
 };
 
 #endif /* SDLENGINE_H_ */

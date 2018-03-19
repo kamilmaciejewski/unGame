@@ -11,7 +11,6 @@
 #include "SDLEngine.h"
 
 bool SDLEngine::init() {
-
     bool success = true;
     if (SDL_Init( SDL_INIT_VIDEO) < 0) {
         printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -32,12 +31,12 @@ bool SDLEngine::init() {
             system_clock::now().time_since_epoch());
     return (success);
 }
-void SDLEngine::run(World world) {
+void SDLEngine::run(World * world) {
     while (isRunning) {
         SdlEventHandler.handleEvents(&isRunning);
 
         SDL_FillRect(screenSurface, nullptr, 0);
-        world.updateAndDraw(countFrameTimeDelta(), screenSurface);
+        world->updateAndDraw(countFrameTimeDelta(), screenSurface);
         SDL_UpdateWindowSurface(window);
         countFPS();
     }
