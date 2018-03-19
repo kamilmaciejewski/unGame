@@ -2,9 +2,8 @@
 #include <stdio.h>
 #include <iostream>
 
-#include "rotozoom/SDL2_rotozoom.h"
-#include "include/unGame.h"
-#include "engine/SDLEngine.h"
+#include "unGame.h"
+#include "SDLEngine.h"
 
 int main(int argc, char* args[]) {
     SDLEngine engine;

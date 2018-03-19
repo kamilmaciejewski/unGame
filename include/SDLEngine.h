@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <chrono>
 #include "../rotozoom/SDL2_rotozoom.h"
-#include "../unGame/World.h"
+#include "World.h"
 #include "SDLEventHandler.h"
 
 class SDLEngine {

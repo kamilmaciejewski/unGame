@@ -9,6 +9,7 @@
 #define CREATURE_H_
 
 #include <SDL2/SDL.h>
+#include "SDL2_rotozoom.h"
 
 #include <string>
 
