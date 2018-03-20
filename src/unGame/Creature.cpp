@@ -5,6 +5,10 @@
  *      Author: Kamil
  */
 
+#include <stdio.h>
+#include <SDL2/SDL.h>
+#include <cmath>
+#include <iostream>
 #include "Creature.h"
 
 Creature::Creature() {
@@ -21,7 +25,7 @@ Creature::Creature() {
     rotate(0);
     pos_x = 0;
     pos_y = 0;
-    buffered_angle = 2;
+    buffered_angle = 1;
 }
 
 Creature::~Creature() {
@@ -34,7 +38,16 @@ Creature::~Creature() {
 }
 
 void Creature::draw(SDL_Surface* destSurface) {
-    SDL_BlitSurface(rotated_Surface, nullptr, destSurface, &rect_pos);
+    if (isCreatureOnScreen()) {
+        SDL_BlitSurface(rotated_Surface, nullptr, destSurface, &rect_pos);
+    }
+}
+
+bool Creature::isCreatureOnScreen() {
+    //TODO: pass screen size here
+    return (rect_pos.x >= (-rect_pos.w) && rect_pos.y >= (-rect_pos.h)
+            && rect_pos.x <= (800 + rect_pos.w)
+            && rect_pos.y <= (600 + rect_pos.h));
 }
 
 void Creature::update(uint32_t & timeDelta) {
@@ -59,7 +72,9 @@ void Creature::rotate(float rotationAngle) {
         rot_angle += 360;
     }
 
-    if (buffered_angle >= rotation_step || buffered_angle <= -rotation_step) {
+    if (isCreatureOnScreen()
+            && (buffered_angle >= rotation_step
+                    || buffered_angle <= -rotation_step)) {
         SDL_FreeSurface(rotated_Surface);
         rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
         buffered_angle = 0;

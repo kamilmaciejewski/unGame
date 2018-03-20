@@ -7,12 +7,12 @@
 
 #ifndef UNGAME_H_
 #define UNGAME_H_
-
-#include "SDLEngine.h"
 #include "World.h"
+#include "WorldGenerator.h"
 
-World * world;
+WorldGenerator * worldGenerator;
 SDL_Surface* screenSurface = nullptr;
 SDL_Surface* imageSurface = nullptr;
+
 
 #endif /* UNGAME_H_ */
