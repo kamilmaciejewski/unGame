@@ -25,7 +25,7 @@ Creature::Creature() {
     rotate(0);
     pos_x = 0;
     pos_y = 0;
-    buffered_angle = 2;
+    buffered_angle = 1;
 }
 
 Creature::~Creature() {
@@ -65,7 +65,7 @@ void Creature::rotate(float rotationAngle) {
 
     if (buffered_angle >= rotation_step || buffered_angle <= -rotation_step) {
         SDL_FreeSurface(rotated_Surface);
-        rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
+        rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 1);
         buffered_angle = 0;
     }
     rect_pos.x = pos_x - rotated_Surface->w / 2 - optimized_surface->w / 2;
