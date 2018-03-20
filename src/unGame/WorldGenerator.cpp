@@ -14,7 +14,7 @@ WorldGenerator::WorldGenerator() {
 WorldGenerator::~WorldGenerator() {
 }
 
-World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
+World* WorldGenerator::generateWorld(TestConfigurations testConfiguration, int creaturesCount) {
     World * tmpWorld = new World();
 
     switch (testConfiguration) {

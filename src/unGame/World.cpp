@@ -43,7 +43,7 @@ void World::addCreature(Creature* creature) {
     creatures->push_back(creature);
 }
 
-void World::updateAndDraw(long timeDelta, SDL_Surface* surface) {
+void World::updateAndDraw(uint32_t timeDelta, SDL_Surface* surface) {
 //    std::cout << "Time: " << timeDelta << std::endl;
     for (auto creature : *creatures) {
         creature->update(timeDelta);

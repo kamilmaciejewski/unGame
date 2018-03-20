@@ -23,7 +23,7 @@ public:
     World();
     virtual ~World();
     void addCreature(Creature *);
-    void updateAndDraw(long, SDL_Surface*);
+    void updateAndDraw(uint32_t, SDL_Surface*);
     std::vector<Creature*> * creatures;
 };
 
