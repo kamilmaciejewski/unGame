@@ -5,10 +5,6 @@
  *      Author: Kamil
  */
 
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <cmath>
-#include <iostream>
 #include "Creature.h"
 
 Creature::Creature() {
@@ -25,7 +21,7 @@ Creature::Creature() {
     rotate(0);
     pos_x = 0;
     pos_y = 0;
-    buffered_angle = 1;
+    buffered_angle = 2;
 }
 
 Creature::~Creature() {
@@ -41,7 +37,7 @@ void Creature::draw(SDL_Surface* destSurface) {
     SDL_BlitSurface(rotated_Surface, nullptr, destSurface, &rect_pos);
 }
 
-void Creature::update(long & timeDelta) {
+void Creature::update(uint32_t & timeDelta) {
     rotate(rotation_speed * timeDelta);
     move(timeDelta);
 }
@@ -65,7 +61,7 @@ void Creature::rotate(float rotationAngle) {
 
     if (buffered_angle >= rotation_step || buffered_angle <= -rotation_step) {
         SDL_FreeSurface(rotated_Surface);
-        rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 1);
+        rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
         buffered_angle = 0;
     }
     rect_pos.x = pos_x - rotated_Surface->w / 2 - optimized_surface->w / 2;
