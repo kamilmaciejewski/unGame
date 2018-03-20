@@ -17,7 +17,7 @@ public:
 
     WorldGenerator();
     virtual ~WorldGenerator();
-    World* generateWorld(TestConfigurations);
+    World* generateWorld(TestConfigurations, int);
 };
 
 #endif /* UNGAME_WORLDGENERATOR_H_ */
