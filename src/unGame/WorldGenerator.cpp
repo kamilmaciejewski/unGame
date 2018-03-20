@@ -14,18 +14,18 @@ WorldGenerator::WorldGenerator() {
 WorldGenerator::~WorldGenerator() {
 }
 
-World* WorldGenerator::generateWorld(TestConfigurations testConfiguration){
-	World * tmpWorld =  new World();
+World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
+    World * tmpWorld = new World();
 
-	switch(testConfiguration) {
-	case conf1Creature:
-		break;
-	case conf99Creatures:
-		break;
-	case conf1000Creatures:
-		break;
-	}
+    switch (testConfiguration) {
+    case conf1Creature:
+        break;
+    case conf99Creatures:
+        break;
+    case conf1000Creatures:
+        break;
+    }
 
-	return tmpWorld;
+    return (tmpWorld);
 }
 

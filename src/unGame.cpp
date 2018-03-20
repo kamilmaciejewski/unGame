@@ -3,14 +3,13 @@
 #include <iostream>
 
 #include "unGame.h"
-#include "SDLEngine.h"
 
 int main(int argc, char* args[]) {
     SDLEngine engine;
     engine.init();
-	world = new World();
+    world = new World();
     engine.run(world);
     engine.close();
-    delete(world);
+    delete (world);
     return (0);
 }

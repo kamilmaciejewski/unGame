@@ -8,10 +8,11 @@
 #ifndef WORLD_H_
 #define WORLD_H_
 
+#include <iostream>
 #include <SDL2/SDL.h>
-#include <vector>
 #include <stdlib.h>
 #include <time.h>
+#include <vector>
 
 #include "Creature.h"
 
