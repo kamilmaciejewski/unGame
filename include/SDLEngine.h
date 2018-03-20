@@ -8,19 +8,16 @@
 #ifndef SDLENGINE_H_
 #define SDLENGINE_H_
 
-#include <chrono>
-#include <iostream>
 #include <SDL2/SDL.h>
 #include <stdio.h>
-
-#include "SDL2_rotozoom.h"
+#include "../rotozoom/SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
 
 class SDLEngine {
     SDLEventHandler SdlEventHandler;
     bool isRunning = true;
-    bool isFPSLimitEnabled = true;
+    bool isFPSLimitEnabled = false;
     int fpsLimit = 200;
     const int SCREEN_WIDTH = 800;
     const int SCREEN_HEIGHT = 600;
@@ -30,7 +27,6 @@ class SDLEngine {
     SDL_Surface* screenSurface = nullptr;
     uint32_t frameTimeDelta, frameTimeDeltaTemp, msStart,
             msEnd;
-
     void countFPS();
     uint32_t countFrameTimeDelta();
 

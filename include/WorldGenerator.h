@@ -11,13 +11,16 @@
 #include "world.h"
 class WorldGenerator {
 public:
-    enum TestConfigurations {
-        conf1Creature = 0, conf99Creatures = 1, conf1000Creatures = 2,
-    };
+	enum TestConfigurations{
+		conf1Creature = 1,
+		conf99RandomCreatures = 99,
+		conf1000RandomCreatures = 1000,
+	};
 
-    WorldGenerator();
-    virtual ~WorldGenerator();
-    World* generateWorld(TestConfigurations, int);
+	WorldGenerator();
+	virtual ~WorldGenerator();
+	World* generateWorld(TestConfigurations);
+	Creature * generateCreature(TestConfigurations &);
 };
 
 #endif /* UNGAME_WORLDGENERATOR_H_ */

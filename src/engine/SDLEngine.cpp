@@ -1,9 +1,4 @@
-/*
- * Engine.cpp
- *
- *  Created on: 11 mar 2018
- *      Author: Kamil
- */
+#include <iostream>
 
 #include "SDLEngine.h"
 
@@ -23,12 +18,10 @@ bool SDLEngine::init() {
             screenSurface = SDL_GetWindowSurface(window);
         }
     }
-    using namespace std::chrono;
     frameTimeDelta = SDL_GetTicks();
     return (success);
 }
 void SDLEngine::run(World * world) {
-    using namespace std::chrono;
     while (isRunning) {
         SdlEventHandler.handleEvents(&isRunning);
 
@@ -56,7 +49,6 @@ void SDLEngine::countFPS() {
 }
 
 uint32_t SDLEngine::countFrameTimeDelta() {
-
     frameTimeDeltaTemp = SDL_GetTicks() - frameTimeDelta;
     if (isFPSLimitEnabled && frameTimeDeltaTemp < (1000.0 / fpsLimit)) {
         SDL_Delay(1);

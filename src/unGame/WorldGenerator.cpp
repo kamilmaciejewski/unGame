@@ -14,18 +14,35 @@ WorldGenerator::WorldGenerator() {
 WorldGenerator::~WorldGenerator() {
 }
 
-World* WorldGenerator::generateWorld(TestConfigurations testConfiguration, int creaturesCount) {
+World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
     World * tmpWorld = new World();
+
+    for (int i = 0; i < testConfiguration; ++i) {
+        tmpWorld->addCreature(generateCreature(testConfiguration));
+    }
+    return (tmpWorld);
+}
+
+Creature * WorldGenerator::generateCreature(
+        TestConfigurations & testConfiguration) {
+    Creature * tmpCreature = new Creature();
 
     switch (testConfiguration) {
     case conf1Creature:
+        tmpCreature->setPos(320, 320);
+        tmpCreature->rotate(0);
+        tmpCreature->setSpeed(0.06);
+        tmpCreature->setRotationSpeed(0.01);
         break;
-    case conf99Creatures:
+    case conf99RandomCreatures:
+        tmpCreature->setPos(rand() % 800, rand() % 800);
+        tmpCreature->rotate(rand() % 359);
+        tmpCreature->setSpeed((0.3 + (rand() % 6) * 0.05));
+        tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
         break;
-    case conf1000Creatures:
+    case conf1000RandomCreatures:
         break;
     }
-
-    return (tmpWorld);
+    return (tmpCreature);
 }
 

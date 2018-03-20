@@ -8,12 +8,9 @@
 #ifndef CREATURE_H_
 #define CREATURE_H_
 
-#include <cmath>
-#include <iostream>
-#include <SDL2/SDL.h>
 #include <SDL2/SDL.h>
 #include "SDL2_rotozoom.h"
-#include <stdio.h>
+
 #include <string>
 
 class Creature {
@@ -26,6 +23,7 @@ class Creature {
     float pos_x, pos_y;
     float speed, rotation_speed;
     int rotation_step = 2;
+    bool isCreatureOnScreen();
 
 public:
     Creature();
