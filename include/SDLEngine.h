@@ -3,11 +3,9 @@
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
-
 #include "SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
-#include "Constants.h"
 
 class SDLEngine {
   SDLEventHandler SdlEventHandler;
