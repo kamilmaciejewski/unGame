@@ -2,14 +2,15 @@
 #define WORLDGENERATOR_H_
 
 #include "World.h"
-#include "Constants.h"
 
 class WorldGenerator {
+  int SCREEN_WIDTH =  1920;
+  int SCREEN_HEIGHT =  1080;
 public:
   enum TestConfigurations {
     conf1Creature = 1,
     conf99RandomCreatures = 99,
-    conf1000RandomCreatures = 1000,
+    conf10000RandomCreatures = 30000,
   };
 
   WorldGenerator();

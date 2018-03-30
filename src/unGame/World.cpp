@@ -23,11 +23,11 @@ void World::addCreature(Creature* creature) {
 
   creatures->push_back(creature);
 }
-
-void World::updateAndDraw(uint32_t timeDelta, SDL_Surface* surface) {
+//TODO: Last two parameters should be a rectangle for zooming the screen.
+void World::updateAndDraw(uint32_t timeDelta, SDL_Renderer* renderer, int& screenWidht, int& screenHeight) {
   for (auto creature : *creatures) {
     creature->update(timeDelta);
-    creature->draw(surface);
+    creature->draw(renderer, screenWidht, screenHeight);
   }
 
 }
