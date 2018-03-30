@@ -1,7 +1,10 @@
 #include "WorldGenerator.h"
+#include <cstdlib>
+#include <ctime>
+#include "SDLEngine.h"
 
 WorldGenerator::WorldGenerator() {
-
+  std::srand(time(nullptr));
 }
 
 WorldGenerator::~WorldGenerator() {
@@ -28,12 +31,20 @@ Creature * WorldGenerator::generateCreature(
     tmpCreature->setRotationSpeed(0.01);
     break;
   case conf99RandomCreatures:
-    tmpCreature->setPos(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT);
+    tmpCreature->setPos(std::rand() % SCREEN_WIDTH,
+        std::rand() % SCREEN_HEIGHT);
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed((0.3 + (rand() % 6) * 0.05));
     tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
     break;
-  case conf1000RandomCreatures:
+  case conf10000RandomCreatures:
+    tmpCreature->setPos((rand() % (SCREEN_WIDTH + 100)),
+        (rand() % (SCREEN_HEIGHT + 100)));
+    tmpCreature->setPos(SCREEN_WIDTH/2,SCREEN_HEIGHT/2);
+    tmpCreature->rotate(rand() % 359);
+    tmpCreature->setSpeed((0.3 + (rand() % 10) * 0.05));
+    tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
+    break;
     break;
   }
   return (tmpCreature);

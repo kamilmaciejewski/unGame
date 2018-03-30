@@ -16,11 +16,14 @@ class SDLEngine {
 
   SDL_Window* window = nullptr;
   SDL_Surface* screenSurface = nullptr;
+  SDL_Renderer* renderer = nullptr;
   uint32_t frameTimeDelta, frameTimeDeltaTemp, msStart, msEnd;
   void countFPS();
   uint32_t countFrameTimeDelta();
-
+  void setEngineParameters();
+  void setWindowSize();
 public:
+ int SCREEN_WIDTH = 0; int SCREEN_HEIGHT = 0;
   bool init();
   void close();
   void run(World *);
