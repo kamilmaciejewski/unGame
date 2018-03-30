@@ -22,8 +22,8 @@ class SDLEngine {
   uint32_t countFrameTimeDelta();
   void setEngineParameters();
   void setWindowSize();
+ int screenWidth = 0; int screenHeight = 0;
 public:
- int SCREEN_WIDTH = 0; int SCREEN_HEIGHT = 0;
   bool init();
   void close();
   void run(World *);

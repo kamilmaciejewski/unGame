@@ -9,9 +9,8 @@ bool SDLEngine::init() {
     return (false);
   } else {
     setWindowSize();
-    setEngineParameters();
     window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
-    SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT,
+    SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
         SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     if (window == nullptr) {
@@ -21,7 +20,8 @@ bool SDLEngine::init() {
       screenSurface = SDL_GetWindowSurface(window);
     }
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
+    setEngineParameters();
     if (renderer == nullptr) {
       return (false);
 
@@ -34,7 +34,7 @@ void SDLEngine::run(World * world) {
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning);
     SDL_RenderClear(renderer);
-    world->updateAndDraw(countFrameTimeDelta(), renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    world->updateAndDraw(countFrameTimeDelta(), renderer, screenWidth, screenHeight);
     SDL_RenderPresent(renderer);
     countFPS();
   }
@@ -76,12 +76,9 @@ void SDLEngine::setEngineParameters() {
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-
   SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
-
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
-
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 }
@@ -89,6 +86,6 @@ void SDLEngine::setEngineParameters() {
 void SDLEngine::setWindowSize() {
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
-  SCREEN_WIDTH = DM.w;
-  SCREEN_HEIGHT = DM.h;
+  screenWidth = DM.w;
+  screenHeight = DM.h;
 }
