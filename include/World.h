@@ -15,7 +15,7 @@ public:
   World();
   virtual ~World();
   void addCreature(Creature *);
-  void updateAndDraw(uint32_t, SDL_Renderer*, int&, int&);
+  void updateAndDraw(uint32_t*, SDL_Renderer*, int*, int*);
   std::vector<Creature*> * creatures;
 };
 

@@ -8,7 +8,8 @@
 int main(int argc, char* args[]) {
   engine.init();
   worldGenerator = new WorldGenerator();
-  world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
+    world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
 //    world = worldGenerator->generateWorld(WorldGenerator::conf10000RandomCreatures);
   engine.run(world);
   engine.close();
