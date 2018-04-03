@@ -14,9 +14,9 @@ class Creature : public BasicObject {
 public:
   Creature();
   virtual ~Creature();
-  void draw(SDL_Renderer* , const int &, const int &);
-  void update(const uint32_t &);
-  void move(const long &);
+  void draw(SDL_Renderer* , const int*, const int*);
+  void update(const uint32_t*);
+  void move(const uint32_t*);
   void rotate(float);
   void setRotationSpeed(float);
   void setSpeed(float);

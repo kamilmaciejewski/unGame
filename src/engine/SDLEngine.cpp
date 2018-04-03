@@ -34,7 +34,7 @@ void SDLEngine::run(World* world) {
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning);
     SDL_RenderClear(renderer);
-    world->updateAndDraw(countFrameTimeDelta(), renderer, screenWidth, screenHeight);
+    world->updateAndDraw(countFrameTimeDelta(), renderer, &screenWidth, &screenHeight);
     SDL_RenderPresent(renderer);
     countFPS();
   }
@@ -59,14 +59,14 @@ void SDLEngine::countFPS() {
   }
 }
 
-uint32_t SDLEngine::countFrameTimeDelta() {
+uint32_t* SDLEngine::countFrameTimeDelta() {
   frameTimeDeltaTemp = SDL_GetTicks() - frameTimeDelta;
   if (isFPSLimitEnabled && frameTimeDeltaTemp < (1000.0 / fpsLimit)) {
     SDL_Delay(1);
     return (countFrameTimeDelta());
   } else {
     frameTimeDelta = SDL_GetTicks();
-    return (frameTimeDeltaTemp);
+    return (&frameTimeDeltaTemp);
   }
 }
 

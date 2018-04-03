@@ -19,7 +19,7 @@ class SDLEngine {
   SDL_Renderer* renderer = nullptr;
   uint32_t frameTimeDelta, frameTimeDeltaTemp, msStart, msEnd;
   void countFPS();
-  uint32_t countFrameTimeDelta();
+  uint32_t* countFrameTimeDelta();
   void setEngineParameters();
   void setWindowSize();
  int screenWidth = 0; int screenHeight = 0;
