@@ -30,7 +30,7 @@ bool SDLEngine::init() {
     return (true);
   }
 }
-void SDLEngine::run(World * world) {
+void SDLEngine::run(World* world) {
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning);
     SDL_RenderClear(renderer);
@@ -50,7 +50,7 @@ void SDLEngine::close() {
 
 void SDLEngine::countFPS() {
   msEnd = SDL_GetTicks();
-  if ((msEnd - msStart) > 1000) {
+  if (msEnd - msStart > 1000) {
     msStart = SDL_GetTicks();
     std::cout << "FPS: " << frame_counter << std::endl;
     frame_counter = 0;
