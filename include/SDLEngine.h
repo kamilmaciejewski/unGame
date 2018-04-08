@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include "mingw.thread.h"
+
 #include "SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
@@ -22,7 +24,10 @@ class SDLEngine {
   uint32_t* countFrameTimeDelta();
   void setEngineParameters();
   void setWindowSize();
- int screenWidth = 0; int screenHeight = 0;
+  int screenWidth = 0;
+  int screenHeight = 0;
+  void runThread(World* world);
+  std::thread thread2;
 public:
   bool init();
   void close();

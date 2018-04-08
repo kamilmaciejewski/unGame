@@ -2,6 +2,12 @@
 
 #include "SDLEngine.h"
 
+void SDLEngine::runThread(World* world) {
+  while (isRunning) {
+    world->update(countFrameTimeDelta());
+  }
+}
+
 bool SDLEngine::init() {
 
   if (SDL_Init( SDL_INIT_VIDEO) < 0) {
@@ -19,9 +25,9 @@ bool SDLEngine::init() {
     } else {
       screenSurface = SDL_GetWindowSurface(window);
     }
+    setEngineParameters();
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
-    setEngineParameters();
     if (renderer == nullptr) {
       return (false);
 
@@ -31,13 +37,18 @@ bool SDLEngine::init() {
   }
 }
 void SDLEngine::run(World* world) {
+  std::thread thread2(&SDLEngine::runThread, this, world);
+
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning);
     SDL_RenderClear(renderer);
-    world->updateAndDraw(countFrameTimeDelta(), renderer, &screenWidth, &screenHeight);
+    world->checkPos(SdlEventHandler.mousePos);
+    world->draw(renderer, &screenWidth,
+                &screenHeight);
     SDL_RenderPresent(renderer);
     countFPS();
   }
+  thread2.join();
 }
 
 void SDLEngine::close() {
@@ -71,7 +82,7 @@ uint32_t* SDLEngine::countFrameTimeDelta() {
 }
 
 void SDLEngine::setEngineParameters() {
-  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1"); //smoothing
+  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, ""); //smoothing
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
