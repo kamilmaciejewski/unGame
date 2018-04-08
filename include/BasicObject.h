@@ -11,11 +11,11 @@ protected:
   SDL_Surface* optimized_surface = nullptr;
   SDL_Surface* rotated_Surface = nullptr;
   SDL_Texture* texture = nullptr;
-  SDL_Rect rect_pos {0, 0, 0, 0 };
   float pos_x = 0, pos_y = 0;
   bool isObjectOnScreen(const int*, const int*) const;
 public:
-
+//TODO: function getPos
+  SDL_Rect rect_pos {0, 0, 0, 0 };
   BasicObject();
   virtual ~BasicObject();
   void setPos(const int&, const int&) ;

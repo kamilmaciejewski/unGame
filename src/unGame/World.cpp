@@ -1,5 +1,6 @@
 #include <World.h>
 #include <iostream>
+#include <stdio.h>
 
 World::World() {
   creatures = new std::vector<Creature*>();
@@ -24,11 +25,24 @@ void World::addCreature(Creature* creature) {
   creatures->push_back(creature);
 }
 //TODO: Last two parameters should be a rectangle for zooming the screen.
-void World::updateAndDraw(uint32_t* timeDelta, SDL_Renderer* renderer, int* screenWidht, int* screenHeight) {
+void World::draw(SDL_Renderer* renderer, int* screenWidht, int* screenHeight) {
   for (auto creature : *creatures) {
-    creature->update(timeDelta);
     creature->draw(renderer, screenWidht, screenHeight);
   }
-
 }
+void World::update(uint32_t* timeDelta) {
+  for (auto creature : *creatures) {
+    creature->update(timeDelta);
+  }
+}
+
+SDL_bool World::checkPos(SDL_Point mousePos) {
+  for (auto creature : *creatures) {
+  if (SDL_PointInRect(&mousePos, &creature->rect_pos)) {
+        std::cout << "Cont";
+        return (SDL_TRUE);
+      }
+    }
+    return (SDL_FALSE);
+  }
 
