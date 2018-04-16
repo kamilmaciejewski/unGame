@@ -37,21 +37,21 @@ bool SDLEngine::init() {
   }
 }
 void SDLEngine::run(World* world) {
-  std::thread thread2(&SDLEngine::runThread, this, world);
-
+  thread2 = std::thread(&SDLEngine::runThread, this, world);
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning);
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     world->checkPos(SdlEventHandler.mousePos);
-    world->draw(renderer, &screenWidth,
-                &screenHeight);
+    world->draw(renderer, &screenWidth, &screenHeight);
     SDL_RenderPresent(renderer);
     countFPS();
   }
-  thread2.join();
 }
 
 void SDLEngine::close() {
+  thread2.join();
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   window = nullptr;

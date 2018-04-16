@@ -12,6 +12,7 @@ class Creature : public BasicObject {
 
 
 public:
+  bool isActive = false;
   Creature();
   virtual ~Creature();
   void draw(SDL_Renderer* , const int*, const int*);

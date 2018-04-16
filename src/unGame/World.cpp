@@ -38,11 +38,13 @@ void World::update(uint32_t* timeDelta) {
 
 SDL_bool World::checkPos(SDL_Point mousePos) {
   for (auto creature : *creatures) {
-  if (SDL_PointInRect(&mousePos, &creature->rect_pos)) {
-        std::cout << "Cont";
-        return (SDL_TRUE);
-      }
+    if (SDL_PointInRect(&mousePos, &creature->rect_pos)) {
+      creature->isActive = true;
+      return (SDL_TRUE);
+    } else {
+      creature->isActive = false;
     }
-    return (SDL_FALSE);
   }
+  return (SDL_FALSE);
+}
 
