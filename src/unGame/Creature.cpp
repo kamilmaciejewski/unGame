@@ -38,6 +38,9 @@ void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
   if (isObjectOnScreen(screenWidht, screenHeight)) {
     SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle, nullptr,
         SDL_FLIP_NONE);
+    if (isActive) {
+    SDL_RenderDrawRect(renderer, &rect_pos);
+    }
   }
 }
 
