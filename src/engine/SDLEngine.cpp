@@ -26,13 +26,15 @@ bool SDLEngine::init() {
       screenSurface = SDL_GetWindowSurface(window);
     }
     setEngineParameters();
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED
+//        | SDL_RENDERER_PRESENTVSYNC
+        );
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
     if (renderer == nullptr) {
       return (false);
 
     }
-    frameTimeDelta = SDL_GetTicks();
+    initTextEngine();//    frameTimeDelta = SDL_GetTicks();
     return (true);
   }
 }
@@ -45,6 +47,11 @@ void SDLEngine::run(World* world) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     world->checkPos(SdlEventHandler.mousePos);
     world->draw(renderer, &screenWidth, &screenHeight);
+    SDL_Surface * surface = TTF_RenderText_Solid(font,fps_res.c_str(), color);
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
+    SDL_Rect dstrect = { 10, 10, texW, texH };
+    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
     SDL_RenderPresent(renderer);
     countFPS();
   }
@@ -56,6 +63,8 @@ void SDLEngine::close() {
   SDL_DestroyRenderer(renderer);
   window = nullptr;
   renderer = nullptr;
+  TTF_CloseFont(font);
+  TTF_Quit();
   SDL_Quit();
 }
 
@@ -63,7 +72,7 @@ void SDLEngine::countFPS() {
   msEnd = SDL_GetTicks();
   if (msEnd - msStart > 1000) {
     msStart = SDL_GetTicks();
-    std::cout << "FPS: " << frame_counter << std::endl;
+    fps_res = "FPS: " +std::to_string(frame_counter);
     frame_counter = 0;
   } else {
     ++frame_counter;
@@ -82,6 +91,7 @@ uint32_t* SDLEngine::countFrameTimeDelta() {
 }
 
 void SDLEngine::setEngineParameters() {
+  SDL_GL_SetSwapInterval(1);
   SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, ""); //smoothing
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
@@ -91,6 +101,15 @@ void SDLEngine::setEngineParameters() {
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
   SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
   SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+
+}
+
+void SDLEngine::initTextEngine(){
+  if (TTF_Init() != 0){
+    printf("TTF_Init failed");
+    SDL_Quit();
+  }
+  font = TTF_OpenFont("res/Pixel.ttf", 15);
 
 }
 

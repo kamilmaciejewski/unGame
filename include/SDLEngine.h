@@ -2,9 +2,11 @@
 #define SDLENGINE_H_
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdio.h>
-#include "mingw.thread.h"
+#include <string>
 
+#include "mingw.thread.h"
 #include "SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
@@ -28,6 +30,14 @@ class SDLEngine {
   int screenHeight = 0;
   void runThread(World* world);
   std::thread thread2;
+  TTF_Font * font;
+  void initTextEngine();
+  SDL_Color color = { 255, 255, 255 };
+  int texW = 500;
+  int texH = 500;
+  std::string fps_res;
+
+
 public:
   bool init();
   void close();

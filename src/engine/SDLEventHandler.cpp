@@ -7,6 +7,10 @@ void SDLEventHandler::handleEvents(bool* result) {
       *result = false;
       break;
     }
+    case SDL_KEYDOWN: {
+      *result = false;
+      break;
+    }
     case SDL_MOUSEMOTION: {
       mousePos.x = ev.motion.x;
       mousePos.y = ev.motion.y;
