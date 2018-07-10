@@ -47,11 +47,7 @@ void SDLEngine::run(World* world) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     world->checkPos(SdlEventHandler.mousePos);
     world->draw(renderer, &screenWidth, &screenHeight);
-    SDL_Surface * surface = TTF_RenderText_Solid(font,fps_res.c_str(), color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_QueryTexture(texture, NULL, NULL, &texW, &texH);
-    SDL_Rect dstrect = { 10, 10, texW, texH };
-    SDL_RenderCopy(renderer, texture, NULL, &dstrect);
+    SDL_RenderCopy(renderer, fps_texture, NULL, &fps_dstrect);
     SDL_RenderPresent(renderer);
     countFPS();
   }
@@ -73,6 +69,11 @@ void SDLEngine::countFPS() {
   if (msEnd - msStart > 1000) {
     msStart = SDL_GetTicks();
     fps_res = "FPS: " +std::to_string(frame_counter);
+    fps_surface = TTF_RenderText_Solid(font,fps_res.c_str(), color);
+    fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
+    SDL_QueryTexture(fps_texture, NULL, NULL, &texW, &texH);
+    fps_dstrect = { 10, 10, texW, texH };
+;
     frame_counter = 0;
   } else {
     ++frame_counter;

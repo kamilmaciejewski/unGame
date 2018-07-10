@@ -33,9 +33,12 @@ class SDLEngine {
   TTF_Font * font;
   void initTextEngine();
   SDL_Color color = { 255, 255, 255 };
-  int texW = 500;
-  int texH = 500;
+  int texW = 0;
+  int texH = 0;
   std::string fps_res;
+  SDL_Surface * fps_surface;
+  SDL_Texture * fps_texture;
+  SDL_Rect fps_dstrect;
 
 
 public:
