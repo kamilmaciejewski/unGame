@@ -4,7 +4,8 @@
 
 void SDLEngine::runThread(World* world) {
   while (isRunning) {
-    world->update(countFrameTimeDelta());
+    countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
+    world->update(countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
   }
 }
 
@@ -49,7 +50,8 @@ void SDLEngine::run(World* world) {
     world->draw(renderer, &screenWidth, &screenHeight);
     SDL_RenderCopy(renderer, fps_texture, NULL, &fps_dstrect);
     SDL_RenderPresent(renderer);
-    countFPS();
+    countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
+    countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
   }
 }
 
@@ -64,29 +66,28 @@ void SDLEngine::close() {
   SDL_Quit();
 }
 
-void SDLEngine::countFPS() {
-  msEnd = SDL_GetTicks();
-  if (msEnd - msStart > 1000) {
-    msStart = SDL_GetTicks();
-    fps_res = "FPS: " +std::to_string(frame_counter);
+void SDLEngine::countFPS(std::string* res_string, uint32_t* msStart, uint32_t* msEnd, int* frame_counter) {
+  *msEnd = SDL_GetTicks();
+  if (*msEnd - *msStart > 1000) {
+    *msStart = SDL_GetTicks();
+    *res_string = "FPS: " +std::to_string(*frame_counter);
     fps_surface = TTF_RenderText_Solid(font,fps_res.c_str(), color);
     fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
     SDL_QueryTexture(fps_texture, NULL, NULL, &texW, &texH);
     fps_dstrect = { 10, 10, texW, texH };
-;
-    frame_counter = 0;
+    *frame_counter = 0;
   } else {
-    ++frame_counter;
+    ++*frame_counter;
   }
 }
 
-uint32_t* SDLEngine::countFrameTimeDelta() {
-  frameTimeDeltaTemp = SDL_GetTicks() - frameTimeDelta;
-  if (isFPSLimitEnabled && frameTimeDeltaTemp < (1000.0 / fpsLimit)) {
+uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp, uint32_t* fTimeDelta) {
+  *fTimeDeltaTemp = SDL_GetTicks() - *fTimeDelta;
+  if (isFPSLimitEnabled && *fTimeDeltaTemp < (1000.0 / fpsLimit)) {
     SDL_Delay(1);
-    return (countFrameTimeDelta());
+    return (countFrameTimeDelta(fTimeDeltaTemp,fTimeDelta));
   } else {
-    frameTimeDelta = SDL_GetTicks();
+    *fTimeDelta = SDL_GetTicks();
     return (&frameTimeDeltaTemp);
   }
 }

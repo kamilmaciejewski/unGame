@@ -14,16 +14,17 @@
 class SDLEngine {
   SDLEventHandler SdlEventHandler;
   bool isRunning = true;
-  bool isFPSLimitEnabled = false;
-  int fpsLimit = 200;
+  bool isFPSLimitEnabled = true;
+  int fpsLimit = 99;
   int frame_counter = 0;
+  int fps_counter = 0;
 
   SDL_Window* window = nullptr;
   SDL_Surface* screenSurface = nullptr;
   SDL_Renderer* renderer = nullptr;
-  uint32_t frameTimeDelta, frameTimeDeltaTemp, msStart, msEnd;
-  void countFPS();
-  uint32_t* countFrameTimeDelta();
+  uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,msFrameStart, msFrameEnd, msStart, msEnd;
+  void countFPS(std::string*, uint32_t*, uint32_t*, int*);
+  uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
   void setEngineParameters();
   void setWindowSize();
   int screenWidth = 0;
@@ -35,7 +36,7 @@ class SDLEngine {
   SDL_Color color = { 255, 255, 255 };
   int texW = 0;
   int texH = 0;
-  std::string fps_res;
+  std::string fps_res, frame_res;
   SDL_Surface * fps_surface;
   SDL_Texture * fps_texture;
   SDL_Rect fps_dstrect;
