@@ -35,7 +35,7 @@ bool SDLEngine::init() {
       return (false);
 
     }
-    initTextEngine();//    frameTimeDelta = SDL_GetTicks();
+    initTextEngine();
     return (true);
   }
 }
@@ -48,6 +48,7 @@ void SDLEngine::run(World* world) {
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
     world->checkPos(SdlEventHandler.mousePos);
     world->draw(renderer, &screenWidth, &screenHeight);
+    updateFPSInfo();
     SDL_RenderCopy(renderer, fps_texture, NULL, &fps_dstrect);
     SDL_RenderPresent(renderer);
     countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
@@ -66,26 +67,32 @@ void SDLEngine::close() {
   SDL_Quit();
 }
 
-void SDLEngine::countFPS(std::string* res_string, uint32_t* msStart, uint32_t* msEnd, int* frame_counter) {
+void SDLEngine::countFPS(std::string* res_string, uint32_t* msStart,
+    uint32_t* msEnd, int* frame_counter) {
   *msEnd = SDL_GetTicks();
   if (*msEnd - *msStart > 1000) {
     *msStart = SDL_GetTicks();
-    *res_string = "FPS: " +std::to_string(*frame_counter);
-    fps_surface = TTF_RenderText_Solid(font,fps_res.c_str(), color);
-    fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
-    SDL_QueryTexture(fps_texture, NULL, NULL, &texW, &texH);
-    fps_dstrect = { 10, 10, texW, texH };
+    *res_string = std::to_string(*frame_counter);
     *frame_counter = 0;
   } else {
     ++*frame_counter;
   }
 }
 
-uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp, uint32_t* fTimeDelta) {
+void SDLEngine::updateFPSInfo() {
+  std::string asd = "Draw FPS: " + fps_res+ " Engine FPS: " + frame_res;
+  fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
+  fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
+  SDL_QueryTexture(fps_texture, NULL, NULL, &texW, &texH);
+  fps_dstrect = {10, 10, texW, texH};
+}
+
+uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp,
+    uint32_t* fTimeDelta) {
   *fTimeDeltaTemp = SDL_GetTicks() - *fTimeDelta;
   if (isFPSLimitEnabled && *fTimeDeltaTemp < (1000.0 / fpsLimit)) {
     SDL_Delay(1);
-    return (countFrameTimeDelta(fTimeDeltaTemp,fTimeDelta));
+    return (countFrameTimeDelta(fTimeDeltaTemp, fTimeDelta));
   } else {
     *fTimeDelta = SDL_GetTicks();
     return (&frameTimeDeltaTemp);
@@ -106,8 +113,8 @@ void SDLEngine::setEngineParameters() {
 
 }
 
-void SDLEngine::initTextEngine(){
-  if (TTF_Init() != 0){
+void SDLEngine::initTextEngine() {
+  if (TTF_Init() != 0) {
     printf("TTF_Init failed");
     SDL_Quit();
   }
