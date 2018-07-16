@@ -15,7 +15,7 @@ public:
   bool isActive = false;
   Creature();
   virtual ~Creature();
-  void draw(SDL_Renderer* , const int*, const int*);
+  void draw(SDL_Renderer* , const int*, const int*, Settings*);
   void update(const uint32_t*);
   void move(const uint32_t*);
   void rotate(float);

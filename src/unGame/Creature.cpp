@@ -11,7 +11,6 @@ Creature::Creature() {
       SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
   optimized_surface = SDL_ConvertSurface(surface, surface->format, 0);
   rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
-//  vector = new Vector();
 
   SDL_FreeSurface(surface);
 
@@ -30,19 +29,25 @@ Creature::~Creature() {
 }
 
 void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
-    const int* screenHeight) {
+    const int* screenHeight, Settings* settings) {
 //TODO: Reuse preloaded texture.
   if (texture == nullptr) {
     texture = SDL_CreateTextureFromSurface(renderer, optimized_surface);
     SDL_QueryTexture(texture, nullptr, nullptr, &rect_pos.w, &rect_pos.h);
   }
+
   if (isObjectOnScreen(screenWidht, screenHeight)) {
-    SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle, nullptr,
-        SDL_FLIP_NONE);
-//    vector.draw(renderer);
-    if (isActive) {
-    SDL_RenderDrawRect(renderer, &rect_pos);
+    if (settings->draw_textures) {
+      SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle,
+          nullptr, SDL_FLIP_NONE);
+      if (isActive) {
+        SDL_RenderDrawRect(renderer, &rect_pos);
+      }
     }
+    if (settings->draw_vectors) {
+      vector.draw(renderer);
+    }
+
   }
 }
 

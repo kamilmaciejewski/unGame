@@ -11,14 +11,17 @@
 class World {
 
   SDL_Surface* backgroundTexture = nullptr;
+  Settings* settings;
+  std::vector<Creature*> * creatures;
 public:
+
+  SDL_bool checkPos(SDL_Point);
+  void draw(SDL_Renderer*, int*, int*);
   World();
   virtual ~World();
   void addCreature(Creature *);
-  void draw(SDL_Renderer*, int*, int*);
-  SDL_bool checkPos(SDL_Point);
   void update(uint32_t*);
-  std::vector<Creature*> * creatures;
+  void setSettings(Settings*);
 };
 
 #endif /* WORLD_H_ */
