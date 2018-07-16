@@ -22,6 +22,8 @@ public:
   void addCreature(Creature *);
   void update(uint32_t*);
   void setSettings(Settings*);
+  std::vector<Creature*> * creatures;
+  SDL_Surface* surface;
 };
 
 #endif /* WORLD_H_ */

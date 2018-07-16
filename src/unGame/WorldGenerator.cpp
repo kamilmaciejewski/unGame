@@ -14,14 +14,14 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
   World * tmpWorld = new World();
 
   for (int i = 0; i < testConfiguration; ++i) {
-    tmpWorld->addCreature(generateCreature(testConfiguration));
+    tmpWorld->addCreature(generateCreature(testConfiguration, tmpWorld->surface));
   }
   return (tmpWorld);
 }
 
 Creature * WorldGenerator::generateCreature(
-    TestConfigurations & testConfiguration) {
-  Creature * tmpCreature = new Creature();
+    TestConfigurations & testConfiguration, SDL_Surface* surface) {
+  Creature * tmpCreature = new Creature(surface);
 
   switch (testConfiguration) {
   case conf1Creature:

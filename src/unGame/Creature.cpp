@@ -5,34 +5,19 @@
 
 #include "Creature.h"
 
-Creature::Creature() {
-  surface = SDL_LoadBMP("res/arrow.bmp");
-  SDL_SetColorKey(surface, SDL_TRUE,
-      SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
-  optimized_surface = SDL_ConvertSurface(surface, surface->format, 0);
-  rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
-
-  SDL_FreeSurface(surface);
-
-  if (surface == nullptr) {
-    printf("Unable to load image: %s\n", SDL_GetError());
-  }
+Creature::Creature(SDL_Surface* surfaceptr) {
+  surface = surfaceptr;
 }
 
 Creature::~Creature() {
-  if (optimized_surface != nullptr) {
-    SDL_FreeSurface(optimized_surface);
-  }
-  if (rotated_Surface != nullptr) {
-    SDL_FreeSurface(rotated_Surface);
-  }
 }
 
 void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     const int* screenHeight, Settings* settings) {
 //TODO: Reuse preloaded texture.
+    const int* screenHeight) {
   if (texture == nullptr) {
-    texture = SDL_CreateTextureFromSurface(renderer, optimized_surface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, nullptr, nullptr, &rect_pos.w, &rect_pos.h);
   }
 
@@ -46,7 +31,6 @@ void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     }
     if (settings->draw_vectors) {
       vector.draw(renderer);
-    }
 
   }
 }
