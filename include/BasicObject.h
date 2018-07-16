@@ -2,6 +2,7 @@
 #define UNGAME_BASICOBJECT_H_
 
 #include <SDL2/SDL.h>
+#include "Vector.h"
 
 class BasicObject {
 
@@ -12,6 +13,7 @@ protected:
   SDL_Surface* rotated_Surface = nullptr;
   SDL_Texture* texture = nullptr;
   float pos_x = 0, pos_y = 0;
+  Vector vector;
   bool isObjectOnScreen(const int*, const int*) const;
 public:
 //TODO: function getPos

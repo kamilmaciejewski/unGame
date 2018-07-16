@@ -11,6 +11,7 @@ Creature::Creature() {
       SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
   optimized_surface = SDL_ConvertSurface(surface, surface->format, 0);
   rotated_Surface = rotozoomSurface(optimized_surface, rot_angle, 1, 0);
+//  vector = new Vector();
 
   SDL_FreeSurface(surface);
 
@@ -38,6 +39,7 @@ void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
   if (isObjectOnScreen(screenWidht, screenHeight)) {
     SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle, nullptr,
         SDL_FLIP_NONE);
+//    vector.draw(renderer);
     if (isActive) {
     SDL_RenderDrawRect(renderer, &rect_pos);
     }
@@ -65,6 +67,7 @@ void Creature::rotate(float rotationAngle) {
 void Creature::move(const uint32_t* time_delta) {
   pos_x += sin(rot_angle * M_PI / 180) * speed * *time_delta;
   pos_y += cos(rot_angle * M_PI / 180) * speed * *time_delta;
+  vector.setPos(&pos_x, &pos_y);
 }
 
 void Creature::setSpeed(float speed) {
