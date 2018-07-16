@@ -11,6 +11,7 @@ World::World() {
   }
   creatures = new std::vector<Creature*>();
   std::srand(time(nullptr));
+  settings = nullptr;
 }
 
 World::~World() {
@@ -19,8 +20,6 @@ World::~World() {
   for (auto creature : *creatures) {
     if (creature != nullptr) {
       delete (creature);
-    } else {
-      std::cout << "Null, skip." << std::endl;
     }
   }
   creatures->clear();
@@ -34,13 +33,17 @@ void World::addCreature(Creature* creature) {
 //TODO: Last two parameters should be a rectangle for zooming the screen.
 void World::draw(SDL_Renderer* renderer, int* screenWidht, int* screenHeight) {
   for (auto creature : *creatures) {
-    creature->draw(renderer, screenWidht, screenHeight);
+    creature->draw(renderer, screenWidht, screenHeight, settings);
   }
 }
 void World::update(uint32_t* timeDelta) {
   for (auto creature : *creatures) {
     creature->update(timeDelta);
   }
+}
+
+void World::setSettings(Settings* _settings){
+  settings = _settings;
 }
 
 SDL_bool World::checkPos(SDL_Point mousePos) {

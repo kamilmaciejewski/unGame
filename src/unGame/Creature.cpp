@@ -13,17 +13,25 @@ Creature::~Creature() {
 }
 
 void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
+    const int* screenHeight, Settings* settings) {
+//TODO: Reuse preloaded texture.
     const int* screenHeight) {
   if (texture == nullptr) {
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, nullptr, nullptr, &rect_pos.w, &rect_pos.h);
   }
+
   if (isObjectOnScreen(screenWidht, screenHeight)) {
-    SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle, nullptr,
-        SDL_FLIP_NONE);
-    if (isActive) {
-      SDL_RenderDrawRect(renderer, &rect_pos);
+    if (settings->draw_textures) {
+      SDL_RenderCopyEx(renderer, texture, nullptr, &rect_pos, -rot_angle,
+          nullptr, SDL_FLIP_NONE);
+      if (isActive) {
+        SDL_RenderDrawRect(renderer, &rect_pos);
+      }
     }
+    if (settings->draw_vectors) {
+      vector.draw(renderer);
+
   }
 }
 
@@ -48,6 +56,7 @@ void Creature::rotate(float rotationAngle) {
 void Creature::move(const uint32_t* time_delta) {
   pos_x += sin(rot_angle * M_PI / 180) * speed * *time_delta;
   pos_y += cos(rot_angle * M_PI / 180) * speed * *time_delta;
+  vector.setPos(&pos_x, &pos_y);
 }
 
 void Creature::setSpeed(float speed) {

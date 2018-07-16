@@ -9,8 +9,8 @@ void SDLEngine::runThread(World* world) {
   }
 }
 
-bool SDLEngine::init() {
-
+bool SDLEngine::init(Settings* settings) {
+  this->settings = settings;
   if (SDL_Init( SDL_INIT_VIDEO) < 0) {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
     return (false);
@@ -42,7 +42,7 @@ bool SDLEngine::init() {
 void SDLEngine::run(World* world) {
   thread2 = std::thread(&SDLEngine::runThread, this, world);
   while (isRunning) {
-    SdlEventHandler.handleEvents(&isRunning);
+    SdlEventHandler.handleEvents(&isRunning, settings);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
