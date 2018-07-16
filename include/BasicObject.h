@@ -8,8 +8,6 @@ class BasicObject {
 protected:
 
   SDL_Surface* surface = nullptr;
-  SDL_Surface* optimized_surface = nullptr;
-  SDL_Surface* rotated_Surface = nullptr;
   SDL_Texture* texture = nullptr;
   float pos_x = 0, pos_y = 0;
   bool isObjectOnScreen(const int*, const int*) const;

@@ -16,7 +16,7 @@ public:
   WorldGenerator();
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
-  Creature * generateCreature(TestConfigurations &);
+  Creature * generateCreature(TestConfigurations &, SDL_Surface*);
 };
 
 #endif /* WORLDGENERATOR_H_ */

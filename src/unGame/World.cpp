@@ -3,12 +3,19 @@
 #include <stdio.h>
 
 World::World() {
+  surface = SDL_LoadBMP("res/arrow.bmp");
+  SDL_SetColorKey(surface, SDL_TRUE,
+      SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
+  if (surface == nullptr) {
+    printf("Unable to load image: %s\n", SDL_GetError());
+  }
   creatures = new std::vector<Creature*>();
   std::srand(time(nullptr));
 }
 
 World::~World() {
   SDL_FreeSurface(backgroundTexture);
+  SDL_FreeSurface(surface);
   for (auto creature : *creatures) {
     if (creature != nullptr) {
       delete (creature);

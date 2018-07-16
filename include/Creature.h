@@ -13,7 +13,7 @@ class Creature : public BasicObject {
 
 public:
   bool isActive = false;
-  Creature();
+  Creature(SDL_Surface*);
   virtual ~Creature();
   void draw(SDL_Renderer* , const int*, const int*);
   void update(const uint32_t*);

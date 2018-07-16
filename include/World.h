@@ -19,6 +19,7 @@ public:
   SDL_bool checkPos(SDL_Point);
   void update(uint32_t*);
   std::vector<Creature*> * creatures;
+  SDL_Surface* surface;
 };
 
 #endif /* WORLD_H_ */
