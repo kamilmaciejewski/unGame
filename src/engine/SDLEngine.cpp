@@ -49,7 +49,7 @@ void SDLEngine::run(World* world) {
     world->checkPos(SdlEventHandler.mousePos);
     world->draw(renderer, &screenWidth, &screenHeight);
     updateFPSInfo();
-    SDL_RenderCopy(renderer, fps_texture, NULL, &fps_dstrect);
+    SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
     SDL_RenderPresent(renderer);
     countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
     countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
@@ -83,8 +83,7 @@ void SDLEngine::updateFPSInfo() {
   std::string asd = "Draw FPS: " + fps_res+ " Engine FPS: " + frame_res;
   fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
   fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
-  SDL_QueryTexture(fps_texture, NULL, NULL, &texW, &texH);
-  fps_dstrect = {10, 10, texW, texH};
+  SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w, &fps_dstrect.h);
 }
 
 uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp,
