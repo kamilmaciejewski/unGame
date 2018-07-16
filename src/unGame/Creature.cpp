@@ -15,7 +15,7 @@ Creature::~Creature() {
 void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     const int* screenHeight) {
   if (texture == nullptr) {
-    texture = SDL_CreateTextureFromSurface(renderer, optimized_surface);
+    texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, nullptr, nullptr, &rect_pos.w, &rect_pos.h);
   }
   if (isObjectOnScreen(screenWidht, screenHeight)) {
