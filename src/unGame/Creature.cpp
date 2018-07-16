@@ -14,8 +14,6 @@ Creature::~Creature() {
 
 void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     const int* screenHeight, Settings* settings) {
-//TODO: Reuse preloaded texture.
-    const int* screenHeight) {
   if (texture == nullptr) {
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_QueryTexture(texture, nullptr, nullptr, &rect_pos.w, &rect_pos.h);
@@ -32,6 +30,7 @@ void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     if (settings->draw_vectors) {
       vector.draw(renderer);
 
+    }
   }
 }
 
