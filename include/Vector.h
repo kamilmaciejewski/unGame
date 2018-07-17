@@ -11,5 +11,4 @@ public:
   float posX, posY, value, angle;
 };
 
-
 #endif /* UNGAME_VECTOR_H_ */

@@ -28,7 +28,8 @@ class SDLEngine {
   int fps_counter = 0;
   int screenWidth = 0;
   int screenHeight = 0;
-  uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,msFrameStart, msFrameEnd, msStart, msEnd;
+  uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
+      msFrameStart, msFrameEnd, msStart, msEnd;
   uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
   std::thread thread2;
@@ -43,7 +44,7 @@ class SDLEngine {
   SDL_Renderer* renderer = nullptr;
   SDL_Texture * fps_texture;
   SDL_Color color = { 255, 255, 255 };
-  SDL_Rect fps_dstrect = {10, 10, 0, 0};
+  SDL_Rect fps_dstrect = { 10, 10, 0, 0 };
 
 public:
   bool init(Settings*);

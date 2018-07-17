@@ -16,13 +16,14 @@ void Creature::draw(SDL_Renderer* renderer, const int* screenWidht,
     const int* screenHeight, Settings* settings) {
   if (drawable_->texture == nullptr) {
     drawable_->texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_QueryTexture(drawable_->texture, nullptr, nullptr, &drawable_->rect_pos.w, &drawable_->rect_pos.h);
+    SDL_QueryTexture(drawable_->texture, nullptr, nullptr,
+        &drawable_->rect_pos.w, &drawable_->rect_pos.h);
   }
 
   if (isObjectOnScreen(screenWidht, screenHeight)) {
     if (settings->draw_textures) {
-      SDL_RenderCopyEx(renderer, drawable_->texture, nullptr, &drawable_->rect_pos, -drawable_->rot_angle,
-          nullptr, SDL_FLIP_NONE);
+      SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
+          &drawable_->rect_pos, -drawable_->rot_angle, nullptr, SDL_FLIP_NONE);
       if (isActive) {
         SDL_RenderDrawRect(renderer, &drawable_->rect_pos);
       }

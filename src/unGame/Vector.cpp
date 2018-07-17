@@ -20,7 +20,7 @@ void Vector::draw(SDL_Renderer* renderer) {
   SDL_RenderDrawLine(renderer, posX, posY, posX + 10, posY + 10);
 }
 
-void Vector::setPos(const float* posX_, const float* posY_){
+void Vector::setPos(const float* posX_, const float* posY_) {
   posX = *posX_;
   posY = *posY_;
 }

@@ -80,10 +80,11 @@ void SDLEngine::countFPS(std::string* res_string, uint32_t* msStart,
 }
 
 void SDLEngine::updateFPSInfo() {
-  std::string asd = "Draw FPS: " + fps_res+ " Engine FPS: " + frame_res;
+  std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res;
   fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
   fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
-  SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w, &fps_dstrect.h);
+  SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w,
+      &fps_dstrect.h);
 }
 
 uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp,

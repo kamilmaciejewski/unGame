@@ -20,7 +20,7 @@ public:
 //TODO: function getPos
   BasicObject();
   virtual ~BasicObject();
-  void setPos(const int&, const int&) ;
+  void setPos(const int&, const int&);
   drawable* getDrawable();
 };
 
