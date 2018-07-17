@@ -5,7 +5,6 @@
 #include "BasicObject.h"
 
 class Creature : public BasicObject {
-  float rot_angle = 0;
 
   float speed = 0, rotation_speed = 0;
   const int rotation_step = 2;
@@ -16,7 +15,7 @@ public:
   Creature(SDL_Surface*);
   virtual ~Creature();
   void draw(SDL_Renderer* , const int*, const int*, Settings*);
-  void update(const uint32_t*);
+  void update(const uint32_t*, Settings*);
   void move(const uint32_t*);
   void rotate(float);
   void setRotationSpeed(float);
