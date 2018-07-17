@@ -4,22 +4,24 @@
 #include <SDL2/SDL.h>
 #include "Vector.h"
 #include "Settings.h"
+#include "Drawable.h"
 
 class BasicObject {
 
 protected:
 
+  drawable drawable_data;
+  drawable* drawable_ = &drawable_data;
   SDL_Surface* surface = nullptr;
-  SDL_Texture* texture = nullptr;
+
   float pos_x = 0, pos_y = 0;
-  Vector vector;
   bool isObjectOnScreen(const int*, const int*) const;
 public:
 //TODO: function getPos
-  SDL_Rect rect_pos {0, 0, 0, 0 };
   BasicObject();
   virtual ~BasicObject();
   void setPos(const int&, const int&) ;
+  drawable* getDrawable();
 };
 
 #endif /* UNGAME_BASICOBJECT_H_ */

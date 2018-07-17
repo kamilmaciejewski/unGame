@@ -15,6 +15,8 @@ public:
 
   bool draw_vectors = true;
   bool draw_textures = true;
+  bool rotate = true;
+  bool move = true;
 };
 
 #endif /* UNGAME_SETTINGS_H_ */

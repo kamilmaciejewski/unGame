@@ -38,7 +38,7 @@ void World::draw(SDL_Renderer* renderer, int* screenWidht, int* screenHeight) {
 }
 void World::update(uint32_t* timeDelta) {
   for (auto creature : *creatures) {
-    creature->update(timeDelta);
+    creature->update(timeDelta, settings);
   }
 }
 
@@ -48,7 +48,7 @@ void World::setSettings(Settings* _settings){
 
 SDL_bool World::checkPos(SDL_Point mousePos) {
   for (auto creature : *creatures) {
-    if (SDL_PointInRect(&mousePos, &creature->rect_pos)) {
+    if (SDL_PointInRect(&mousePos, &creature->getDrawable()->rect_pos)) {
       creature->isActive = true;
       return (SDL_TRUE);
     } else {
