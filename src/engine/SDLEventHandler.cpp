@@ -16,11 +16,11 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
         settings->draw_textures = !settings->draw_textures;
         break;
       case SDL_SCANCODE_R:
-             settings->rotate = !settings->rotate;
-             break;
+        settings->rotate = !settings->rotate;
+        break;
       case SDL_SCANCODE_M:
-                   settings->move = !settings->move;
-                   break;
+        settings->move = !settings->move;
+        break;
       case SDL_SCANCODE_ESCAPE:
         *result = false;
         break;

@@ -4,8 +4,8 @@
 #include "World.h"
 
 class WorldGenerator {
-  int SCREEN_WIDTH =  1920;
-  int SCREEN_HEIGHT =  1080;
+  int SCREEN_WIDTH = 1920;
+  int SCREEN_HEIGHT = 1080;
 public:
   enum TestConfigurations {
     conf1Creature = 1,

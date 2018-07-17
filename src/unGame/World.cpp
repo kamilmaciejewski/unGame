@@ -42,7 +42,7 @@ void World::update(uint32_t* timeDelta) {
   }
 }
 
-void World::setSettings(Settings* _settings){
+void World::setSettings(Settings* _settings) {
   settings = _settings;
 }
 

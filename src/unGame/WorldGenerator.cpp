@@ -14,7 +14,8 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
   World * tmpWorld = new World();
 
   for (int i = 0; i < testConfiguration; ++i) {
-    tmpWorld->addCreature(generateCreature(testConfiguration, tmpWorld->surface));
+    tmpWorld->addCreature(
+        generateCreature(testConfiguration, tmpWorld->surface));
   }
   return (tmpWorld);
 }
