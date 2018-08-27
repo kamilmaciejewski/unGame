@@ -6,13 +6,21 @@
 #include "SDLEngine.h"
 
 int main(int argc, char* args[]) {
-  engine.init();
+  settings = new Settings();
+  engine.init(settings);
   worldGenerator = new WorldGenerator();
+
 //  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
-    world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-//    world = worldGenerator->generateWorld(WorldGenerator::conf10000RandomCreatures);
+  world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
+
+  world->setSettings(settings);
   engine.run(world);
   engine.close();
+
   delete (world);
+  delete (worldGenerator);
+  delete (settings);
+
   return (0);
 }

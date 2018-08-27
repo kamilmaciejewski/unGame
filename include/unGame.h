@@ -5,6 +5,7 @@
 #include "SDLEngine.h"
 
 WorldGenerator * worldGenerator;
+Settings* settings;
 SDL_Surface* screenSurface = nullptr;
 SDL_Surface* imageSurface = nullptr;
 
