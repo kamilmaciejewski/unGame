@@ -2,9 +2,9 @@
 #define CREATURE_H_
 
 #include "SDL2_rotozoom.h"
-#include "BasicObject.h"
+#include "Object.h"
 
-class Creature: public BasicObject {
+class Creature: public Object {
 
   float speed = 0, rotation_speed = 0;
   const int rotation_step = 2;

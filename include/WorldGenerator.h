@@ -10,7 +10,7 @@ public:
   enum TestConfigurations {
     conf1Creature = 1,
     conf99RandomCreatures = 99,
-    conf10000RandomCreatures = 10000,
+    conf10KRandomCreatures = 10000,
   };
 
   WorldGenerator();

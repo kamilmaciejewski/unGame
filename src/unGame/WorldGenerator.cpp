@@ -38,7 +38,7 @@ Creature * WorldGenerator::generateCreature(
     tmpCreature->setSpeed((0.1 + (rand() % 6) * 0.05));
     tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
     break;
-  case conf10000RandomCreatures:
+  case conf10KRandomCreatures:
     tmpCreature->setPos((rand() % SCREEN_WIDTH), (rand() % SCREEN_HEIGHT));
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed((0.3 + (rand() % 10000) * 0.00005));

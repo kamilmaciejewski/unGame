@@ -6,7 +6,7 @@
 #include "Settings.h"
 #include "Drawable.h"
 
-class BasicObject {
+class Object {
 
 protected:
 
@@ -18,8 +18,8 @@ protected:
   bool isObjectOnScreen(const int*, const int*) const;
 public:
 //TODO: function getPos
-  BasicObject();
-  virtual ~BasicObject();
+  Object();
+  virtual ~Object();
   void setPos(const int&, const int&);
   drawable* getDrawable();
 };
