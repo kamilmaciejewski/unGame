@@ -13,7 +13,7 @@ public:
   Settings();
   virtual ~Settings();
 
-  bool draw_vectors = true;
+  bool draw_vectors = false;
   bool draw_textures = true;
   bool rotate = true;
   bool move = true;

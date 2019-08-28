@@ -46,7 +46,7 @@ void World::setSettings(Settings* _settings) {
   settings = _settings;
 }
 
-SDL_bool World::checkPos(SDL_Point mousePos) {
+SDL_bool World::markActiveObjectByMousePos(SDL_Point mousePos) {
   for (auto creature : *creatures) {
     if (SDL_PointInRect(&mousePos, &creature->getDrawable()->rect_pos)) {
       creature->isActive = true;

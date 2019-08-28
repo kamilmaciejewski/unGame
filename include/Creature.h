@@ -16,9 +16,9 @@ public:
   void draw(SDL_Renderer*, const int*, const int*, Settings*);
   void update(const uint32_t*, Settings*);
   void move(const uint32_t*);
-  void rotate(float);
+  void rotate(const float&);
   void setRotationSpeed(float);
-  void setSpeed(float);
+  void setSpeed(float&);
 };
 
 #endif /* CREATURE_H_ */
