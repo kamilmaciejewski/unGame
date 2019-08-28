@@ -9,9 +9,12 @@ public:
   virtual ~Vector() = default;
   void draw(SDL_Renderer*);
   void setPos(const float*, const float*);
-  void setAngle(const int*);
-  int posX, posY, value, angleDeg;
-  float angleRad;
+  void setAngle(float*);
+  void add(Vector*);
+  void add(float*);
+private:
+  int posX, posY, value;
+  float angleRad, angleDeg;
 };
 
 #endif /* UNGAME_VECTOR_H_ */

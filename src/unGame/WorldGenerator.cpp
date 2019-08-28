@@ -24,27 +24,37 @@ Creature * WorldGenerator::generateCreature(
     TestConfigurations & testConfiguration, SDL_Surface* surface) {
   Creature * tmpCreature = new Creature(surface);
 
-  switch (testConfiguration) {
+    float speed = 0.05;
+    float speed0 = (0.1 + (rand() % 6) * 0.05);
+    float speed1 = (0.3 + (rand() % 10000) * 0.00005);
+      float speed2 = (0.3 + (rand() % 10000) * 0.00005);
+
+    switch (testConfiguration) {
   case conf1Creature:
-    tmpCreature->setPos(320, 320);
+    tmpCreature->setPos(100, 100);
     tmpCreature->rotate(0);
-    tmpCreature->setSpeed(0.06);
-    tmpCreature->setRotationSpeed(0.01);
+    tmpCreature->setSpeed(speed);
+    tmpCreature->setRotationSpeed(0.05);
     break;
   case conf99RandomCreatures:
     tmpCreature->setPos(std::rand() % SCREEN_WIDTH,
         std::rand() % SCREEN_HEIGHT);
     tmpCreature->rotate(rand() % 359);
-    tmpCreature->setSpeed((0.1 + (rand() % 6) * 0.05));
+    tmpCreature->setSpeed(speed0);
     tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
     break;
-  case conf10KRandomCreatures:
+  case conf1KRandomCreatures:
     tmpCreature->setPos((rand() % SCREEN_WIDTH), (rand() % SCREEN_HEIGHT));
     tmpCreature->rotate(rand() % 359);
-    tmpCreature->setSpeed((0.3 + (rand() % 10000) * 0.00005));
+    tmpCreature->setSpeed(speed1);
     tmpCreature->setRotationSpeed(0.1 + (0.00001 * (rand() % 20000)));
     break;
-    break;
+  case conf10KRandomCreatures:
+      tmpCreature->setPos((rand() % SCREEN_WIDTH), (rand() % SCREEN_HEIGHT));
+      tmpCreature->rotate(rand() % 359);
+      tmpCreature->setSpeed(speed2);
+      tmpCreature->setRotationSpeed(0.1 + (0.00001 * (rand() % 20000)));
+      break;
   }
   return (tmpCreature);
 }

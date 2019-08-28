@@ -44,7 +44,7 @@ void Creature::update(const uint32_t* timeDelta, Settings* settings) {
   }
 }
 
-void Creature::rotate(float rotationAngle) {
+void Creature::rotate(const float& rotationAngle) {
   drawable_->rot_angle += rotationAngle;
   if (drawable_->rot_angle > 360) {
     drawable_->rot_angle -= 360;
@@ -52,7 +52,8 @@ void Creature::rotate(float rotationAngle) {
   if (drawable_->rot_angle < -360) {
     drawable_->rot_angle += 360;
   }
-
+  drawable_->vect.setAngle(&drawable_->rot_angle);
+//  drawable_->vect.add(&drawable_->rot_angle);
   drawable_->rect_pos.x = pos_x; // - rotated_Surface->w / 2 - optimized_surface->w / 2;
   drawable_->rect_pos.y = pos_y; // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 }
@@ -63,7 +64,7 @@ void Creature::move(const uint32_t* time_delta) {
   drawable_->vect.setPos(&pos_x, &pos_y);
 }
 
-void Creature::setSpeed(float speed) {
+void Creature::setSpeed(float& speed) {
   this->speed = speed;
 }
 void Creature::setRotationSpeed(float speed) {

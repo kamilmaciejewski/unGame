@@ -28,7 +28,7 @@ bool SDLEngine::init(Settings* settings) {
     }
     setEngineParameters();
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED
-//        | SDL_RENDERER_PRESENTVSYNC
+//        | SDL_RENDERER_PRESENTVSYNC //vsync - don't draw more than screen refresh
         );
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
     if (renderer == nullptr) {
@@ -45,8 +45,8 @@ void SDLEngine::run(World* world) {
     SdlEventHandler.handleEvents(&isRunning, settings);
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_RenderClear(renderer);
+    world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
-    world->checkPos(SdlEventHandler.mousePos);
     world->draw(renderer, &screenWidth, &screenHeight);
     updateFPSInfo();
     SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
