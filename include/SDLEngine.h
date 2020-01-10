@@ -5,8 +5,9 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
 #include <string>
+#include <thread>
 
-#include "mingw.thread.h"
+
 #include "SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
@@ -15,6 +16,7 @@
 class SDLEngine {
   void countFPS(std::string*, uint32_t*, uint32_t*, int*);
   void updateFPSInfo();
+  void drawActiveCreatureInfo(std::string);
   void setEngineParameters();
   void setWindowSize();
   void runThread(World* world);
@@ -32,7 +34,7 @@ class SDLEngine {
       msFrameStart, msFrameEnd, msStart, msEnd;
   uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
-  std::thread thread2;
+  std::thread threadWorld;
   std::string fps_res, frame_res;
 
   TTF_Font * font;
@@ -41,14 +43,19 @@ class SDLEngine {
   SDL_Window* window = nullptr;
   SDL_Surface* screenSurface = nullptr;
   SDL_Surface * fps_surface;
+  SDL_Surface * info_surface;
   SDL_Renderer* renderer = nullptr;
   SDL_Texture * fps_texture;
+  SDL_Texture * info_texture;
   SDL_Color color = { 255, 255, 255 };
   SDL_Rect fps_dstrect = { 10, 10, 0, 0 };
+  SDL_Rect info_dstrect = { 10, 30, 0, 0 };
 
 public:
   bool init(Settings*);
   void close();
+  void clearScreen();
+  void draw();
   void run(World *);
 };
 

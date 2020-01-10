@@ -15,8 +15,9 @@ class World {
   std::vector<Creature*> * creatures;
 public:
 
-  SDL_bool markActiveObjectByMousePos(SDL_Point);
-  void draw(SDL_Renderer*, int*, int*);
+  std::string infoStr;
+  void markActiveObjectByMousePos(SDL_Point);
+  void draw(SDL_Renderer*);
   World();
   virtual ~World();
   void addCreature(Creature *);

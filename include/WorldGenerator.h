@@ -18,6 +18,8 @@ public:
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
   Creature * generateCreature(TestConfigurations &, SDL_Surface*);
+  int getRandomPosH();
+  int getRandomPosW();
 };
 
 #endif /* WORLDGENERATOR_H_ */
