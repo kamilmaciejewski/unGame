@@ -18,7 +18,7 @@ bool SDLEngine::init(Settings* settings) {
     setWindowSize();
     window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
     SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
-        SDL_WINDOW_FULLSCREEN_DESKTOP);
+	SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     if (window == nullptr) {
       printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -33,31 +33,38 @@ bool SDLEngine::init(Settings* settings) {
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
     if (renderer == nullptr) {
       return (false);
-
     }
     initTextEngine();
     return (true);
   }
 }
 void SDLEngine::run(World* world) {
-  thread2 = std::thread(&SDLEngine::runThread, this, world);
+  threadWorld = std::thread(&SDLEngine::runThread, this, world);
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning, settings);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-    SDL_RenderClear(renderer);
     world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
-    world->draw(renderer, &screenWidth, &screenHeight);
+    clearScreen();
+	world->draw(renderer);
     updateFPSInfo();
-    SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
-    SDL_RenderPresent(renderer);
+//    drawActiveCreatureInfo(world->infoStr);
+    draw();
     countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
     countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
-  }
+	}
+}
+void SDLEngine::clearScreen() {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_RenderClear(renderer);
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, SDL_ALPHA_OPAQUE);
+}
+void SDLEngine::draw() {
+	SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
+	SDL_RenderCopy(renderer, info_texture, nullptr, &info_dstrect);
+	SDL_RenderPresent(renderer);
 }
 
 void SDLEngine::close() {
-  thread2.join();
+  threadWorld.join();
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   window = nullptr;
@@ -86,6 +93,12 @@ void SDLEngine::updateFPSInfo() {
   SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w,
       &fps_dstrect.h);
 }
+void SDLEngine::drawActiveCreatureInfo(std::string infoStr) {
+	info_surface = TTF_RenderText_Solid(font, infoStr.c_str(), color);
+	info_texture = SDL_CreateTextureFromSurface(renderer, info_surface);
+	  SDL_QueryTexture(info_texture, nullptr, nullptr, &info_dstrect.w,
+	      &info_dstrect.h);
+}
 
 uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp,
     uint32_t* fTimeDelta) {
@@ -101,15 +114,15 @@ uint32_t* SDLEngine::countFrameTimeDelta(uint32_t* fTimeDeltaTemp,
 
 void SDLEngine::setEngineParameters() {
   SDL_GL_SetSwapInterval(1);
-  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, ""); //smoothing
+//  SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, ""); //smoothing
   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
   SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
-  SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
-  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-  SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
-  SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+//    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+//    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+//    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
+    //SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 }
 

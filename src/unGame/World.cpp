@@ -23,7 +23,7 @@ World::~World() {
     }
   }
   creatures->clear();
-  delete (&creatures);
+  delete (creatures);
 }
 
 void World::addCreature(Creature* creature) {
@@ -31,9 +31,9 @@ void World::addCreature(Creature* creature) {
   creatures->push_back(creature);
 }
 //TODO: Last two parameters should be a rectangle for zooming the screen.
-void World::draw(SDL_Renderer* renderer, int* screenWidht, int* screenHeight) {
+void World::draw(SDL_Renderer* renderer) {
   for (auto creature : *creatures) {
-    creature->draw(renderer, screenWidht, screenHeight, settings);
+    creature->draw(renderer, settings);
   }
 }
 void World::update(uint32_t* timeDelta) {
@@ -46,15 +46,16 @@ void World::setSettings(Settings* _settings) {
   settings = _settings;
 }
 
-SDL_bool World::markActiveObjectByMousePos(SDL_Point mousePos) {
+void World::markActiveObjectByMousePos(SDL_Point mousePos) {
   for (auto creature : *creatures) {
     if (SDL_PointInRect(&mousePos, &creature->getDrawable()->rect_pos)) {
       creature->isActive = true;
-      return (SDL_TRUE);
+      infoStr = creature->getInfo();
+      return;
     } else {
       creature->isActive = false;
     }
   }
-  return (SDL_FALSE);
+  infoStr = "none";
 }
 

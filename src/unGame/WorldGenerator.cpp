@@ -26,36 +26,45 @@ Creature * WorldGenerator::generateCreature(
 
     float speed = 0.05;
     float speed0 = (0.1 + (rand() % 6) * 0.05);
-    float speed1 = (0.3 + (rand() % 10000) * 0.00005);
-      float speed2 = (0.3 + (rand() % 10000) * 0.00005);
+    float speed1 = (0.1 + (rand() % 1000) * 0.0003);
+
+    float rotSpeed1 = (0.1 + (0.01 * (rand() % 20)));
+    float rotSpeed2 = (0.1 + (0.00001 * (rand() % 20000)));
 
     switch (testConfiguration) {
   case conf1Creature:
     tmpCreature->setPos(100, 100);
     tmpCreature->rotate(0);
     tmpCreature->setSpeed(speed);
-    tmpCreature->setRotationSpeed(0.05);
+    tmpCreature->setRotationSpeed(speed);
     break;
   case conf99RandomCreatures:
     tmpCreature->setPos(std::rand() % SCREEN_WIDTH,
         std::rand() % SCREEN_HEIGHT);
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed(speed0);
-    tmpCreature->setRotationSpeed(0.1 + (0.01 * (rand() % 20)));
+    tmpCreature->setRotationSpeed(rotSpeed1);
     break;
   case conf1KRandomCreatures:
-    tmpCreature->setPos((rand() % SCREEN_WIDTH), (rand() % SCREEN_HEIGHT));
+    tmpCreature->setPos(getRandomPosW(),getRandomPosH());
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed(speed1);
-    tmpCreature->setRotationSpeed(0.1 + (0.00001 * (rand() % 20000)));
+    tmpCreature->setRotationSpeed(rotSpeed2);
     break;
   case conf10KRandomCreatures:
-      tmpCreature->setPos((rand() % SCREEN_WIDTH), (rand() % SCREEN_HEIGHT));
+      tmpCreature->setPos(getRandomPosW(),getRandomPosH());
       tmpCreature->rotate(rand() % 359);
-      tmpCreature->setSpeed(speed2);
-      tmpCreature->setRotationSpeed(0.1 + (0.00001 * (rand() % 20000)));
+      tmpCreature->setSpeed(speed1);
+      tmpCreature->setRotationSpeed(rotSpeed2);
       break;
   }
   return (tmpCreature);
 }
 
+int WorldGenerator::getRandomPosH(){
+	return SCREEN_HEIGHT/2 + rand() % SCREEN_HEIGHT/10;
+}
+
+int WorldGenerator::getRandomPosW(){
+	return SCREEN_WIDTH/2 + rand() % SCREEN_WIDTH/10;
+}
