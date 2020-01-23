@@ -9,11 +9,11 @@ void SDLEngine::runThread(World* world) {
   }
 }
 
-bool SDLEngine::init(Settings* settings) {
+SDL_bool SDLEngine::init(Settings* settings) {
   this->settings = settings;
   if (SDL_Init( SDL_INIT_VIDEO) < 0) {
     printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-    return (false);
+    return SDL_FALSE;
   } else {
     setWindowSize();
     window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
@@ -22,9 +22,9 @@ bool SDLEngine::init(Settings* settings) {
 
     if (window == nullptr) {
       printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-      return (false);
+      return SDL_FALSE;
     } else {
-      screenSurface = SDL_GetWindowSurface(window);
+//      screenSurface = SDL_GetWindowSurface(window); is it needed?
     }
     setEngineParameters();
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED
@@ -32,10 +32,9 @@ bool SDLEngine::init(Settings* settings) {
         );
     SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
     if (renderer == nullptr) {
-      return (false);
+      return SDL_FALSE;
     }
-    initTextEngine();
-    return (true);
+    return initTextEngine();
   }
 }
 void SDLEngine::run(World* world) {
@@ -126,13 +125,19 @@ void SDLEngine::setEngineParameters() {
 
 }
 
-void SDLEngine::initTextEngine() {
-  if (TTF_Init() != 0) {
-    printf("TTF_Init failed");
-    SDL_Quit();
-  }
-  font = TTF_OpenFont("res/Pixel.ttf", 15);
-
+SDL_bool SDLEngine::initTextEngine() {
+	if (TTF_Init() != 0) {
+		std::cout<<"TTF_Init failed"<<std::endl;
+		SDL_Quit();
+		return SDL_FALSE;
+	}
+	font = TTF_OpenFont("res/Pixel.ttf", 15);
+	if (font == nullptr) {
+		std::cout<<"Font load failed"<<std::endl;
+		SDL_Quit();
+		return SDL_FALSE;
+	}
+	return SDL_TRUE;
 }
 
 void SDLEngine::setWindowSize() {

@@ -7,12 +7,15 @@
 
 int main(int argc, char* args[]) {
   settings = new Settings();
-  engine.init(settings);
+  if(!engine.init(settings)){
+	  std::cout<<"Init failed"<<std::endl;
+	  return 1;
+  };
   worldGenerator = new WorldGenerator();
 
-  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-  //world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
+  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
 
   world->setSettings(settings);
