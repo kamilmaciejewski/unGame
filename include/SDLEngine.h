@@ -20,7 +20,7 @@ class SDLEngine {
   void setEngineParameters();
   void setWindowSize();
   void runThread(World* world);
-  void initTextEngine();
+  SDL_bool initTextEngine();
 
   Settings* settings;
   bool isRunning = true;
@@ -41,7 +41,7 @@ class SDLEngine {
 
   SDLEventHandler SdlEventHandler;
   SDL_Window* window = nullptr;
-  SDL_Surface* screenSurface = nullptr;
+//  SDL_Surface* screenSurface = nullptr;
   SDL_Surface * fps_surface;
   SDL_Surface * info_surface;
   SDL_Renderer* renderer = nullptr;
@@ -52,7 +52,7 @@ class SDLEngine {
   SDL_Rect info_dstrect = { 10, 30, 0, 0 };
 
 public:
-  bool init(Settings*);
+  SDL_bool init(Settings*);
   void close();
   void clearScreen();
   void draw();
