@@ -15,18 +15,19 @@ Creature::~Creature() {
 
 void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	if (BOOST_UNLIKELY(drawable_->texture == nullptr)) {
+
 		drawable_->texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_QueryTexture(drawable_->texture, nullptr, nullptr,
 				&drawable_->rect_pos.w, &drawable_->rect_pos.h);
+		SDL_SetTextureAlphaMod(drawable_->texture, alpha);
 	}
-
 	if (BOOST_LIKELY(settings->draw_textures)) {
-		SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
-				&drawable_->rect_pos, -drawable_->rot_angle, nullptr,
-				SDL_FLIP_NONE);
 		if (BOOST_UNLIKELY(isActive)) {
 			SDL_RenderDrawRect(renderer, &drawable_->rect_pos);
 		}
+		SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
+				&drawable_->rect_pos, -drawable_->rot_angle, nullptr,
+				SDL_FLIP_NONE);
 	}
 	if (BOOST_LIKELY(settings->draw_vectors)) {
 		drawable_->vect.draw(renderer);
@@ -65,6 +66,24 @@ void Creature::setSpeed(float &speed) {
 void Creature::setRotationSpeed(float &speed) {
 	this->rotation_speed = speed;
 }
+void Creature::setAlpha(int alpha) {
+	std::cout<<"Alpha:" << alpha<<std::endl;
+	this->alpha = alpha;
+}
+void Creature::setActive() {
+	if (!isActive) {
+		SDL_SetTextureAlphaMod(drawable_->texture, 255);
+	isActive = true;
+	}
+}
+void Creature::setInActive() {
+	if (isActive) {
+		SDL_SetTextureAlphaMod(drawable_->texture, alpha);
+	isActive = false;
+	}
+}
+
+
 std::string Creature::getInfo() {
 	return "speed: " + std::to_string(speed) + ", rotation_val: ";
 }
