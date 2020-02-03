@@ -37,6 +37,7 @@ Creature * WorldGenerator::generateCreature(
     tmpCreature->rotate(0);
     tmpCreature->setSpeed(speed);
     tmpCreature->setRotationSpeed(speed);
+    tmpCreature->setAlpha(50);
     break;
   case conf99RandomCreatures:
     tmpCreature->setPos(std::rand() % SCREEN_WIDTH,
@@ -44,18 +45,21 @@ Creature * WorldGenerator::generateCreature(
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed(speed0);
     tmpCreature->setRotationSpeed(rotSpeed1);
+    tmpCreature->setAlpha(rand()%150);
     break;
   case conf1KRandomCreatures:
     tmpCreature->setPos(getRandomPosW(),getRandomPosH());
     tmpCreature->rotate(rand() % 359);
     tmpCreature->setSpeed(speed1);
     tmpCreature->setRotationSpeed(rotSpeed2);
+    tmpCreature->setAlpha(rand()%150);
     break;
   case conf10KRandomCreatures:
       tmpCreature->setPos(getRandomPosW(),getRandomPosH());
       tmpCreature->rotate(rand() % 359);
       tmpCreature->setSpeed(speed1);
       tmpCreature->setRotationSpeed(rotSpeed2);
+      tmpCreature->setAlpha(rand()%150);
       break;
   }
   return (tmpCreature);

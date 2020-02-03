@@ -9,10 +9,10 @@
 class Creature: public Object {
 
   float speed = 0, rotation_speed = 0, f360 = 360, f180 = 180;
+  int alpha = 0;
   const int rotation_step = 3;
 
 public:
-  bool isActive = false;
   Creature(SDL_Surface*);
   virtual ~Creature();
   void draw(SDL_Renderer*, Settings*);
@@ -21,7 +21,13 @@ public:
   void rotate(const float&);
   void setRotationSpeed(float&);
   void setSpeed(float&);
+  void setAlpha(int);
+  void setActive();
+  void setInActive();
+
   std::string getInfo();
+private:
+  bool isActive = false;
 };
 
 #endif /* CREATURE_H_ */

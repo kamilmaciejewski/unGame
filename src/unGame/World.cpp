@@ -6,6 +6,7 @@ World::World() {
   surface = SDL_LoadBMP("res/arrow.bmp");
   SDL_SetColorKey(surface, SDL_TRUE,
       SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
+  SDL_SetSurfaceAlphaMod(surface, 100);
   if (surface == nullptr) {
     printf("Unable to load image: %s\n", SDL_GetError());
   }
@@ -49,11 +50,11 @@ void World::setSettings(Settings* _settings) {
 void World::markActiveObjectByMousePos(SDL_Point mousePos) {
   for (auto creature : *creatures) {
     if (SDL_PointInRect(&mousePos, &creature->getDrawable()->rect_pos)) {
-      creature->isActive = true;
+      creature->setActive();
       infoStr = creature->getInfo();
       return;
     } else {
-      creature->isActive = false;
+      creature->setInActive();
     }
   }
   infoStr = "none";
