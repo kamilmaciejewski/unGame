@@ -25,6 +25,7 @@ Creature * WorldGenerator::generateCreature(
   Creature * tmpCreature = new Creature(surface);
 
     float speed = 0.05;
+    float speedZero = 0;
     float speed0 = (0.1 + (rand() % 6) * 0.05);
     float speed1 = (0.1 + (rand() % 1000) * 0.0003);
 
@@ -35,9 +36,9 @@ Creature * WorldGenerator::generateCreature(
   case conf1Creature:
     tmpCreature->setPos(100, 100);
     tmpCreature->rotate(0);
-    tmpCreature->setSpeed(speed);
+    tmpCreature->setSpeed(speedZero);
     tmpCreature->setRotationSpeed(speed);
-    tmpCreature->setAlpha(50);
+    tmpCreature->setAlpha(255);
     break;
   case conf99RandomCreatures:
     tmpCreature->setPos(std::rand() % SCREEN_WIDTH,

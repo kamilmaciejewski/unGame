@@ -8,7 +8,8 @@
 
 class Creature: public Object {
 
-  float speed = 0, rotation_speed = 0, f360 = 360, f180 = 180;
+  float speed = 0, rotation_speed = 0;
+  const float f360 = 360, f180 = 180;
   int alpha = 0;
   const int rotation_step = 3;
 

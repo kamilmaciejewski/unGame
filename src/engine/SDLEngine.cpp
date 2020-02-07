@@ -45,7 +45,7 @@ void SDLEngine::run(World* world) {
     clearScreen();
 	world->draw(renderer);
     updateFPSInfo();
-//    drawActiveCreatureInfo(world->infoStr);
+    drawActiveCreatureInfo(world->infoStr);
     draw();
     countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
     countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
