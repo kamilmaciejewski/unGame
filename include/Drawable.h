@@ -3,7 +3,8 @@
 
 struct drawable {
   SDL_Texture* texture;
-  SDL_Rect rect_pos;
+  SDL_Point pos;
+  SDL_Rect rect_draw;
   float rot_angle;
   Vector vect;
 };
