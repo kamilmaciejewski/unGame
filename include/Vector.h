@@ -9,12 +9,13 @@ public:
   virtual ~Vector() = default;
   void draw(SDL_Renderer*);
   void setPos(const float*, const float*);
-  void setAngle(float*);
+//  void setPos(const SDL_Point&);
+  void setAngle(double*);
   void add(Vector*);
-  void add(float*);
+  void add(double*);
+  double angleRad, angleDeg;
 private:
   int posX, posY, value;
-  float angleRad, angleDeg;
 };
 
 #endif /* UNGAME_VECTOR_H_ */

@@ -43,6 +43,14 @@ void World::update(uint32_t* timeDelta) {
   }
 }
 
+void World::updateViewSense() {
+	for (auto creature : *creatures) {
+		for (auto otherCreature : *creatures) {
+			creature->lookAt(otherCreature->getDrawable()->pos);
+		}
+	}
+}
+
 void World::setSettings(Settings* _settings) {
   settings = _settings;
 }
