@@ -29,7 +29,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 				SDL_FLIP_NONE);
 	}
 	if (BOOST_LIKELY(settings->draw_vectors)) {
-		drawable_->vect.draw(renderer);
+//		drawable_->vect.draw(renderer);
 		if (abs(drawable_->vect.angleDeg-drawable_->view_vect.angleDeg) < 90){
 		drawable_->view_vect.draw(renderer);
 		}

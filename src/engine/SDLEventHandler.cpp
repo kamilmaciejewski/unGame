@@ -21,6 +21,9 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
       case SDL_SCANCODE_M:
         settings->move = !settings->move;
         break;
+      case SDL_SCANCODE_L:
+        settings->look = !settings->look;
+        break;
       case SDL_SCANCODE_ESCAPE:
         *result = false;
         break;
