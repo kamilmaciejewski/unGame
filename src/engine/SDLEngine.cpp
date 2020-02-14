@@ -10,7 +10,7 @@ void SDLEngine::runThread(World* world) {
 }
 void SDLEngine::runViewSense(World* world) {
   while (isRunning) {
-    //countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
+    countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
     world->updateViewSense();
   }
 }
@@ -95,7 +95,7 @@ void SDLEngine::countFPS(std::string* res_string, uint32_t* msStart,
 }
 
 void SDLEngine::updateFPSInfo() {
-  std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res;
+  std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res + " Sense FPS: " + sense_res;
   fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
   fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
   SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w,

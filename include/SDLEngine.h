@@ -27,17 +27,17 @@ class SDLEngine {
   bool isRunning = true;
   bool isFPSLimitEnabled = false;
   int fpsLimit = 99;
-  int frame_counter = 0;
+  int frame_counter = 0, frame_counter0 = 0;
   int fps_counter = 0;
   int screenWidth = 0;
   int screenHeight = 0;
   uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
-      msFrameStart, msFrameEnd, msStart, msEnd;
+      msFrameStart, msFrameStart0, msFrameEnd, msFrameEnd0, msStart, msEnd;
   uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
   std::thread threadWorld;
   std::thread threadViewSense;
-  std::string fps_res, frame_res;
+  std::string fps_res, frame_res, sense_res;
 
   TTF_Font * font;
 
