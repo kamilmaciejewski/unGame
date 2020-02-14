@@ -12,10 +12,31 @@ WorldGenerator::~WorldGenerator() {
 
 World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
   World * tmpWorld = new World();
+	if (testConfiguration == conf2CreatureSightTest) {
+		Creature *observer = new Creature(tmpWorld->surface);
+		float speedZero = 0.2;
+		observer->setPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+		observer->rotate(0);
+		observer->setSpeed(speedZero);
+		observer->setRotationSpeed(speedZero);
+		observer->setAlpha(255);
+		tmpWorld->addCreature(observer);
 
-  for (int i = 0; i < testConfiguration; ++i) {
+		Creature *traveller = new Creature(tmpWorld->surface);
+		float speed = 0.4;
+		traveller->setPos(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+		traveller->rotate(0);
+		traveller->setSpeed(speed);
+		traveller->setRotationSpeed(speed);
+		traveller->setAlpha(255);
+		tmpWorld->addCreature(traveller);
+
+	} else {
+
+		for (int i = 0; i < testConfiguration; ++i) {
     tmpWorld->addCreature(
         generateCreature(testConfiguration, tmpWorld->surface));
+  }
   }
   return (tmpWorld);
 }

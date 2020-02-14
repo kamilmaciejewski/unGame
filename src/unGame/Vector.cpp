@@ -27,8 +27,12 @@ void Vector::setPos(const float* posX_, const float* posY_) {
   posX = *posX_;
   posY = *posY_;
 }
+//void Vector::setPos(const SDL_Point& pos_) {
+//  posX = pos_.x;
+//  posY = pos_.y;
+//}
 
-void Vector::setAngle(float * angle_) {
+void Vector::setAngle(double * angle_) {
   angleDeg = *angle_;
   angleRad = angleDeg * M_PI / 180;
 }
@@ -39,7 +43,7 @@ this->angleRad =  (this->angleRad + vector->angleRad) /2;
 }
 
 //TODO: FIX
-void Vector::add(float* angle){
+void Vector::add(double* angle){
 this->angleRad += cos(this->angleRad + *angle);
 }
 

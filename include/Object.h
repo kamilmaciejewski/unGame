@@ -14,6 +14,7 @@ protected:
   drawable* drawable_ = &drawable_data;
   SDL_Surface* surface = nullptr;
 
+//  SDL_Point pos_{0,0};
   float pos_x = 0, pos_y = 0;
   bool isObjectOnScreen(const int*, const int*) const;
 public:
@@ -21,6 +22,7 @@ public:
   Object();
   virtual ~Object();
   void setPos(const int&, const int&);
+//void setPos(const SDL_Point&);
   drawable* getDrawable();
 };
 

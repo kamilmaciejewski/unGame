@@ -22,6 +22,7 @@ public:
   virtual ~World();
   void addCreature(Creature *);
   void update(uint32_t*);
+  void updateViewSense();
   void setSettings(Settings*);
   SDL_Surface* surface;
 };

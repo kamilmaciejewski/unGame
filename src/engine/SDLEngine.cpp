@@ -8,6 +8,13 @@ void SDLEngine::runThread(World* world) {
     world->update(countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
   }
 }
+void SDLEngine::runViewSense(World* world) {
+  while (isRunning) {
+    //countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
+    world->updateViewSense();
+  }
+}
+
 
 SDL_bool SDLEngine::init(Settings* settings) {
   this->settings = settings;
@@ -39,6 +46,7 @@ SDL_bool SDLEngine::init(Settings* settings) {
 }
 void SDLEngine::run(World* world) {
   threadWorld = std::thread(&SDLEngine::runThread, this, world);
+  threadViewSense = std::thread(&SDLEngine::runViewSense, this, world);
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning, settings);
     world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
@@ -64,6 +72,7 @@ void SDLEngine::draw() {
 
 void SDLEngine::close() {
   threadWorld.join();
+  threadViewSense.join();
   SDL_DestroyWindow(window);
   SDL_DestroyRenderer(renderer);
   window = nullptr;

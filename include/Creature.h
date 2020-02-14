@@ -25,10 +25,12 @@ public:
   void setAlpha(int);
   void setActive();
   void setInActive();
+  bool isActive();
+  void lookAt(const SDL_Point&);
 
   std::string getInfo();
 private:
-  bool isActive = false;
+  bool activeState = false;
 };
 
 #endif /* CREATURE_H_ */

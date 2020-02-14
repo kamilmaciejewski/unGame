@@ -23,6 +23,12 @@ void Object::setPos(const int& pos_x, const int& pos_y) {
   drawable_->pos.x = pos_x;
   drawable_->pos.y = pos_y;
 }
+//void Object::setPos(const SDL_Point& pos) {
+//  this->pos_.x = pos.x;
+//  this->pos_.y = pos.y;
+//  drawable_->pos.x = pos.x;
+//  drawable_->pos.y = pos.y;
+//}
 
 drawable* Object::getDrawable() {
   return (drawable_);

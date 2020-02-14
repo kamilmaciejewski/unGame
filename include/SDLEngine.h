@@ -20,6 +20,7 @@ class SDLEngine {
   void setEngineParameters();
   void setWindowSize();
   void runThread(World* world);
+  void runViewSense(World* world);
   SDL_bool initTextEngine();
 
   Settings* settings;
@@ -35,6 +36,7 @@ class SDLEngine {
   uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
   std::thread threadWorld;
+  std::thread threadViewSense;
   std::string fps_res, frame_res;
 
   TTF_Font * font;
