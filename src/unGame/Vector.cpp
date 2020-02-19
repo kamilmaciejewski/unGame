@@ -8,42 +8,46 @@
 #include "Vector.h"
 #include <iostream>
 
-Vector::Vector() {
-  value = 40;
-  angleDeg = 0;
-  angleRad = angleDeg * M_PI / 180;
-  posX = 0;
-  posY = 0;
+UNG_Vector::UNG_Vector(SDL_FPoint *pos_) {
+	value = 40;
+	angle = 0.0;
+	pos = pos_;
 
 }
 
-void Vector::draw(SDL_Renderer* renderer) {
-  SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-  SDL_RenderDrawLine(renderer, posX, posY, posX + (value * sin(angleRad)),
-      posY + (value * cos(angleRad)));
+void UNG_Vector::draw(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderDrawLine(renderer, pos->x, pos->y,
+			pos->x + (value * sin(degToRad(angle))),
+			pos->y + (value * cos(degToRad(angle))));
 }
 
-void Vector::setPos(const float* posX_, const float* posY_) {
-  posX = *posX_;
-  posY = *posY_;
-}
-//void Vector::setPos(const SDL_Point& pos_) {
-//  posX = pos_.x;
-//  posY = pos_.y;
-//}
-
-void Vector::setAngle(double * angle_) {
-  angleDeg = *angle_;
-  angleRad = angleDeg * M_PI / 180;
+void UNG_Vector::setVal(float &val) {
+	value = val;
 }
 
-void Vector::add(Vector* vector){
-this->value = (this->value+ vector->angleRad) * cos(this->angleRad + vector->angleRad);
-this->angleRad =  (this->angleRad + vector->angleRad) /2;
+void UNG_Vector::setAngleDeg(float &angle_) {
+	angle = angle_;
+}
+void UNG_Vector::setAngleRad(float &angle_) {
+	angle = radToDeg(angle_);
+}
+
+void UNG_Vector::add(UNG_Vector *vector) {
+	this->value = (this->value + vector->angle)
+			* cos(this->angle + vector->angle);
+	this->angle = (this->angle + vector->angle) / 2;
 }
 
 //TODO: FIX
-void Vector::add(double* angle){
-this->angleRad += cos(this->angleRad + *angle);
+void UNG_Vector::add(float *angle) {
+	this->angle += cos(this->angle + *angle);
 }
 
+float UNG_Vector::getAngleDeg() {
+	return angle;
+}
+
+float UNG_Vector::getAngleRad() {
+	return degToRad(angle);
+}

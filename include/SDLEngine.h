@@ -7,58 +7,58 @@
 #include <string>
 #include <thread>
 
-
 #include "SDL2_rotozoom.h"
 #include "World.h"
 #include "SDLEventHandler.h"
 #include "Settings.h"
 
 class SDLEngine {
-  void countFPS(std::string*, uint32_t*, uint32_t*, int*);
-  void updateFPSInfo();
-  void drawActiveCreatureInfo(std::string);
-  void setEngineParameters();
-  void setWindowSize();
-  void runThread(World* world);
-  void runViewSense(World* world);
-  SDL_bool initTextEngine();
+	void countFPS(std::string*, uint32_t*, uint32_t*, int*);
+	void updateFPSInfo();
+	void drawActiveCreatureInfo(std::string);
+	void setEngineParameters();
+	void setWindowSize();
+	void runThread(World *world);
+	void runViewSense(World *world);
+	SDL_bool initTextEngine();
 
-  Settings* settings;
-  bool isRunning = true;
-  bool isFPSLimitEnabled = false;
-  int fpsLimit = 99;
-  int frame_counter = 0, frame_counter0 = 0;
-  int fps_counter = 0;
-  int screenWidth = 0;
-  int screenHeight = 0;
-  uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
-      msFrameStart, msFrameStart0, msFrameEnd, msFrameEnd0, msStart, msEnd;
-  uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
+	Settings *settings;
+	bool isRunning = true;
+	bool isFPSLimitEnabled = false;
+	int fpsLimit = 99;
+	int frame_counter = 0, frame_counter0 = 0;
+	int fps_counter = 0;
+	int screenWidth = 0;
+	int screenHeight = 0;
+	uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
+			msFrameStart, msFrameStart0, msFrameEnd, msFrameEnd0, msStart,
+			msEnd;
+	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
-  std::thread threadWorld;
-  std::thread threadViewSense;
-  std::string fps_res, frame_res, sense_res;
+	std::thread threadWorld;
+	std::thread threadViewSense;
+	std::string fps_res, frame_res, sense_res;
 
-  TTF_Font * font;
+	TTF_Font *font;
 
-  SDLEventHandler SdlEventHandler;
-  SDL_Window* window = nullptr;
+	SDLEventHandler SdlEventHandler;
+	SDL_Window *window = nullptr;
 //  SDL_Surface* screenSurface = nullptr;
-  SDL_Surface * fps_surface;
-  SDL_Surface * info_surface;
-  SDL_Renderer* renderer = nullptr;
-  SDL_Texture * fps_texture;
-  SDL_Texture * info_texture;
-  SDL_Color color = { 255, 255, 255 };
-  SDL_Rect fps_dstrect = { 10, 10, 0, 0 };
-  SDL_Rect info_dstrect = { 10, 30, 0, 0 };
+	SDL_Surface *fps_surface;
+	SDL_Surface *info_surface;
+	SDL_Renderer *renderer = nullptr;
+	SDL_Texture *fps_texture;
+	SDL_Texture *info_texture;
+	SDL_Color color = { 255, 255, 255 };
+	SDL_Rect fps_dstrect = { 10, 10, 0, 0 };
+	SDL_Rect info_dstrect = { 10, 30, 0, 0 };
 
 public:
-  SDL_bool init(Settings*);
-  void close();
-  void clearScreen();
-  void draw();
-  void run(World *);
+	SDL_bool init(Settings*);
+	void close();
+	void clearScreen();
+	void draw();
+	void run(World*);
 };
 
 #endif /* SDLENGINE_H_ */

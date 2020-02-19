@@ -19,8 +19,9 @@ public:
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
   Creature * generateCreature(TestConfigurations &, SDL_Surface*);
-  int getRandomPosH();
-  int getRandomPosW();
+  float getRandomPosH();
+  float getRandomPosW();
+  SDL_FPoint getRandomPos();
 };
 
 #endif /* WORLDGENERATOR_H_ */

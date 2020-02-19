@@ -3,19 +3,23 @@
 
 #include <SDL2/SDL.h>
 #include <math.h>
-class Vector {
+#include "Geometry.hpp"
+class UNG_Vector {
 public:
-  Vector();
-  virtual ~Vector() = default;
-  void draw(SDL_Renderer*);
-  void setPos(const float*, const float*);
-//  void setPos(const SDL_Point&);
-  void setAngle(double*);
-  void add(Vector*);
-  void add(double*);
-  double angleRad, angleDeg;
+	UNG_Vector(SDL_FPoint*);
+	virtual ~UNG_Vector() = default;
+	void draw(SDL_Renderer*);
+	void setVal(float&);
+	void setAngleDeg(float&);
+	void setAngleRad(float&);
+	void add(UNG_Vector*);
+	void add(float*);
+	float getAngleDeg();
+	float getAngleRad();
 private:
-  int posX, posY, value;
+	float angle;
+	SDL_FPoint *pos;
+	float value;
 };
 
 #endif /* UNGAME_VECTOR_H_ */

@@ -8,29 +8,32 @@
 
 class Creature: public Object {
 
-  float speed = 0, rotation_speed = 0;
-  const float f360 = 360, f180 = 180;
-  int alpha = 0;
-  const int rotation_step = 3;
+	const float fov = 90.0;
+	const int rotation_step = 3;
 
 public:
-  Creature(SDL_Surface*);
-  virtual ~Creature();
-  void draw(SDL_Renderer*, Settings*);
-  void update(const uint32_t*, Settings*);
-  void move(const uint32_t*);
-  void rotate(const float&);
-  void setRotationSpeed(float&);
-  void setSpeed(float&);
-  void setAlpha(int);
-  void setActive();
-  void setInActive();
-  bool isActive();
-  void lookAt(const SDL_Point&);
+	Creature(SDL_Surface*);
+	virtual ~Creature();
 
-  std::string getInfo();
+	void setRotationSpeed(float&);
+	void setSpeed(float&);
+	void setAlpha(int);
+	void setActive();
+	void setInactive();
+
+	void draw(SDL_Renderer*, Settings*);
+	void update(const uint32_t*, Settings*);
+	void move(const uint32_t*);
+	void rotate(const float&);
+	bool lookAt(const SDL_FPoint*);
+
+	bool isActive();
+	std::string getInfo();
+
 private:
-  bool activeState = false;
+	bool activeState = false;
+	float speed = 0, rotation_speed = 0;
+	int alpha = 0;
 };
 
 #endif /* CREATURE_H_ */
