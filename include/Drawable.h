@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <vector>
 #include "Vector.h"
 #include "Geometry.hpp"
 
@@ -9,5 +10,5 @@ struct drawable {
 	float rot_angle;
 	float view_angle;
 	UNG_Vector *vect = new UNG_Vector { pos };
-	UNG_Vector *view_vect = new UNG_Vector(pos);
+	std::vector<UNG_Vector*> *multiview = new std::vector<UNG_Vector*>();
 };

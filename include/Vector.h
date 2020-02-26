@@ -7,6 +7,7 @@
 class UNG_Vector {
 public:
 	UNG_Vector(SDL_FPoint*);
+	UNG_Vector(SDL_FPoint*, float, float);
 	virtual ~UNG_Vector() = default;
 	void draw(SDL_Renderer*);
 	void setVal(float&);

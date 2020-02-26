@@ -22,6 +22,9 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	}
 	if (BOOST_LIKELY(settings->draw_textures)) {
 		if (BOOST_UNLIKELY(activeState)) {
+			for (auto vect : *drawable_->multiview) {
+				vect->draw(renderer);
+			}
 			SDL_RenderDrawRect(renderer, &drawable_->rect_draw);
 		}
 		SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
@@ -30,8 +33,19 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	}
 	if (BOOST_LIKELY(settings->draw_vectors)) {
 //		drawable_->vect.draw(renderer); //draw direction vector
-		drawable_->view_vect->draw(renderer);
-	}
+		//FOV presentation
+//		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_TRANSPARENT);
+//			for (int dx = -20; dx < 20; dx++) {
+//				double dxrad = degToRad(dx);
+//
+//				for (int x = 0; x < 100; x++) {
+//					SDL_RenderDrawPoint(renderer,
+//							pos.x + (x * sin(drawable_->vect->getAngleRad() + dxrad)),
+//							pos.y + (x * cos(drawable_->vect->getAngleRad() + dxrad)));
+//				}
+//			}
+
+ 	}
 }
 
 void Creature::update(const uint32_t *timeDelta, Settings *settings) {
@@ -88,24 +102,18 @@ bool Creature::isActive() {
 }
 
 bool Creature::lookAt(const SDL_FPoint *point) {
-	float dist = sqrt(
-			(pow(drawable_->pos->x - point->x, 2)
-					+ pow(drawable_->pos->y - point->y, 2)));
-	if (dist != 0 && abs(dist) < 100) {
+	float dist = distance(drawable_->pos, point);
+	if (dist != 0 && abs(dist) < view_dist) {
 		float angle = radToDeg(atan2(point->x - pos.x, point->y - pos.y));
-		if (abs(drawable_->vect->getAngleDeg() - angle) < fov) {
-			drawable_->view_vect->setAngleDeg(angle);
-			drawable_->view_vect->setVal(dist);
+		if (getDifference(drawable_->vect->getAngleDeg(), angle) < fov) {
+			drawable_->multiview->push_back(new UNG_Vector(drawable_->pos, angle, dist));
 			return true;
 		}
 	}
 	dist = 0;
-	drawable_->view_vect->setVal(dist);
 	return false;
 }
 
 std::string Creature::getInfo() {
-	return "angle: " + std::to_string(round(drawable_->vect->getAngleDeg()))
-			+ "view angle:"
-			+ std::to_string(round(drawable_->view_vect->getAngleDeg()));
+	return "sight: " + std::to_string(round(drawable_->multiview->size()));
 }

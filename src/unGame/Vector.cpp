@@ -14,9 +14,16 @@ UNG_Vector::UNG_Vector(SDL_FPoint *pos_) {
 	pos = pos_;
 
 }
+UNG_Vector::UNG_Vector(SDL_FPoint *pos_, float _angle , float _value) {
+	value = _value;
+	angle = _angle;
+	pos = pos_;
+
+}
+
 
 void UNG_Vector::draw(SDL_Renderer *renderer) {
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+//	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	SDL_RenderDrawLine(renderer, pos->x, pos->y,
 			pos->x + (value * sin(degToRad(angle))),
 			pos->y + (value * cos(degToRad(angle))));

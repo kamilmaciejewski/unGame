@@ -8,7 +8,8 @@
 
 class Creature: public Object {
 
-	const float fov = 90.0;
+	const float fov = 45.0;
+	const int view_dist = 100;
 	const int rotation_step = 3;
 
 public:
