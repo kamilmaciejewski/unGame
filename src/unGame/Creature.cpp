@@ -22,7 +22,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	}
 	if (BOOST_LIKELY(settings->draw_textures)) {
 		if (BOOST_UNLIKELY(activeState)) {
-			for (auto vect : *drawable_->multiview) {
+			for (auto vect : *multiview) {
 				vect->draw(renderer);
 			}
 			SDL_RenderDrawRect(renderer, &drawable_->rect_draw);
@@ -54,8 +54,6 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
 		}
-		drawable_->pos->x = pos.x; // - rotated_Surface->w / 2 - optimized_surface->w / 2;
-		drawable_->pos->y = pos.y; // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 	}
@@ -66,7 +64,7 @@ void Creature::rotate(const float &rotationAngle) {
 	if (BOOST_UNLIKELY(std::abs(drawable_->rot_angle) > f360)) {
 		drawable_->rot_angle = fmod(drawable_->rot_angle, f360);
 	}
-	drawable_->vect->setAngleDeg(drawable_->rot_angle);
+	vect->setAngleDeg(drawable_->rot_angle);
 }
 
 void Creature::move(const uint32_t *time_delta) {
@@ -101,19 +99,25 @@ bool Creature::isActive() {
 	return activeState;
 }
 
-bool Creature::lookAt(const SDL_FPoint *point) {
-	float dist = distance(drawable_->pos, point);
+bool Creature::lookAt(const Creature* otherCreature) {
+	auto vect = lookAt(otherCreature->pos);
+	if (vect !=nullptr) {
+		multiview->push_back(vect);
+		return true;
+	}
+	return false;
+}
+UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
+	float dist = distance(pos, point);
 	if (dist != 0 && abs(dist) < view_dist) {
-		float angle = radToDeg(atan2(point->x - pos.x, point->y - pos.y));
-		if (getDifference(drawable_->vect->getAngleDeg(), angle) < fov) {
-			drawable_->multiview->push_back(new UNG_Vector(drawable_->pos, angle, dist));
-			return true;
+		float angle = radToDeg(atan2(point.x - pos.x, point.y - pos.y));
+		if (getDifference(vect->getAngleDeg(), angle) < fov) {
+			return new UNG_Vector(&pos, angle, dist);
 		}
 	}
-	dist = 0;
-	return false;
+	return nullptr;
 }
 
 std::string Creature::getInfo() {
-	return "sight: " + std::to_string(round(drawable_->multiview->size()));
+	return "sight: " + std::to_string(round(multiview->size()));
 }

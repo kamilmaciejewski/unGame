@@ -13,6 +13,7 @@ class Creature: public Object {
 	const int rotation_step = 3;
 
 public:
+	std::vector<UNG_Vector*> *multiview = new std::vector<UNG_Vector*>();
 	Creature(SDL_Surface*);
 	virtual ~Creature();
 
@@ -26,12 +27,13 @@ public:
 	void update(const uint32_t*, Settings*);
 	void move(const uint32_t*);
 	void rotate(const float&);
-	bool lookAt(const SDL_FPoint*);
 
 	bool isActive();
 	std::string getInfo();
+	bool lookAt(const Creature*);
 
 private:
+	UNG_Vector* lookAt(const SDL_FPoint point);
 	bool activeState = false;
 	float speed = 0, rotation_speed = 0;
 	int alpha = 0;

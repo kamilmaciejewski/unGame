@@ -2,7 +2,7 @@
 #include "SDLEngine.h"
 
 Object::Object() {
-	drawable_data.texture = nullptr;
+	drawable_->texture = nullptr;
 }
 
 Object::~Object() {
