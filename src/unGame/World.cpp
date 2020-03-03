@@ -67,7 +67,7 @@ void World::draw(SDL_Renderer *renderer) {
 void World::update(uint32_t *timeDelta) {
 	for (auto creature : *creatures) {
 		creature->update(timeDelta, settings);
-		if(creature->isActive()){
+		if (creature->isActive()) {
 			infoStr = creature->getInfo();
 		}
 	}
@@ -76,20 +76,21 @@ void World::update(uint32_t *timeDelta) {
 void World::updateViewSense() {
 	if (settings->look) {
 		for (auto creature : *creatures) {
-			for (auto vect : *creature->getDrawable()->multiview) {
+			for (auto vect : *creature->multiview) {
 				delete (vect);
 			}
-			creature->getDrawable()->multiview->clear();
+			creature->multiview->clear();
 			for (auto zone : *zones) {
 				zone->update(creature);
-				if (distance(creature->getDrawable()->pos, &zone->pos) <= zone->size)
+				if (distance(creature->pos, zone->pos) <= zone->size) {
 //					for (auto otherCreature : * creatures){
-					for (auto otherCreature : *zone->creatures)
+					for (auto otherCreature : *zone->creatures) {
 //						if (
-						creature->lookAt(otherCreature->getDrawable()->pos);
+							creature->lookAt(otherCreature);
 //								) {
 //							break;
-//						}
+					}
+				}
 			}
 		}
 	}

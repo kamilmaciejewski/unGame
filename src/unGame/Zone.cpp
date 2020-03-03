@@ -12,7 +12,7 @@ Zone::Zone(int& x, int& y) {
 	pos.y = y;
 }
 void Zone::update(Creature *creature) {
-	if (distance(&pos, creature->getDrawable()->pos) <= size) {
+	if (distance(pos, creature->pos) <= size) {
 		if (std::find(creatures->begin(), creatures->end(), creature)
 				== creatures->end()) {
 			creatures->push_back(creature);

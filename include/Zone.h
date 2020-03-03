@@ -8,9 +8,9 @@
 class Zone {
 public:
 	int size = 100;
-//	std::mutex mutex;
 	std::vector<Creature*> *creatures;
 	SDL_FPoint pos;
+
 	Zone(int&, int&);
 	virtual ~Zone();
 	void update(Creature*);
