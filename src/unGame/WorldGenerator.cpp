@@ -15,11 +15,12 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 	World *tmpWorld = new World();
 	if (testConfiguration == conf2CreatureSightTest) {
 		Creature *observer = new Creature(tmpWorld->surface);
-		float speedZero = 0.2;
+		float speedZero2 = 0.2;
+		float speedZero = 0.0;
 		observer->setPos(
 				SDL_FPoint { (float) SCREEN_WIDTH / 2, (float) SCREEN_HEIGHT / 2 });
-		observer->rotate(0);
-		observer->setSpeed(speedZero);
+		observer->rotate(270);
+		observer->setSpeed(speedZero2);
 		observer->setRotationSpeed(speedZero);
 		observer->setAlpha(255);
 		observer->setActive();
@@ -72,21 +73,22 @@ Creature* WorldGenerator::generateCreature(
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed0);
-		tmpCreature->setRotationSpeed(rotSpeed1);
+		tmpCreature->setRotationSpeed(speedZero);
 		tmpCreature->setAlpha(rand() % 150);
 		break;
 	case conf1KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed1);
-		tmpCreature->setRotationSpeed(rotSpeed2);
+		speedZero = getRandomSpeed();
+		tmpCreature->setRotationSpeed(speedZero);
 		tmpCreature->setAlpha(rand() % 150);
 		break;
 	case conf10KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed1);
-		tmpCreature->setRotationSpeed(rotSpeed2);
+		tmpCreature->setRotationSpeed(speedZero);
 		tmpCreature->setAlpha(rand() % 150);
 		break;
 	}
@@ -103,4 +105,7 @@ float WorldGenerator::getRandomPosW() {
 
 SDL_FPoint WorldGenerator::getRandomPos() {
 	return SDL_FPoint { (float) getRandomPosW(), (float) getRandomPosH() };
+}
+float WorldGenerator::getRandomSpeed(){
+	return ((0.0001 * (rand() % 2000)));
 }

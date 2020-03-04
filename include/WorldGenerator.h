@@ -23,6 +23,8 @@ public:
   float getRandomPosH();
   float getRandomPosW();
   SDL_FPoint getRandomPos();
+  float getRandomSpeed();
+
 };
 
 #endif /* WORLDGENERATOR_H_ */

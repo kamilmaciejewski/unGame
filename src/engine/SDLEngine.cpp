@@ -2,13 +2,13 @@
 
 #include "SDLEngine.h"
 
-void SDLEngine::runThread(World* world) {
+void SDLEngine::runMainThread(World* world) {
   while (isRunning) {
     countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
     world->update(countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
   }
 }
-void SDLEngine::runViewSense(World* world) {
+void SDLEngine::runSensesThread(World* world) {
   while (isRunning) {
     countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
     world->updateViewSense();
@@ -45,8 +45,8 @@ SDL_bool SDLEngine::init(Settings* settings) {
   }
 }
 void SDLEngine::run(World* world) {
-  threadWorld = std::thread(&SDLEngine::runThread, this, world);
-  threadViewSense = std::thread(&SDLEngine::runViewSense, this, world);
+  threadWorld = std::thread(&SDLEngine::runMainThread, this, world);
+  threadViewSense = std::thread(&SDLEngine::runSensesThread, this, world);
   while (isRunning) {
     SdlEventHandler.handleEvents(&isRunning, settings);
     world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
