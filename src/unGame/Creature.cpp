@@ -45,7 +45,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 //				}
 //			}
 
- 	}
+	}
 }
 
 void Creature::update(const uint32_t *timeDelta, Settings *settings) {
@@ -53,6 +53,16 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		rotate(rotation_speed * *timeDelta);
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
+			if (pos.x < 0) {
+				pos.x = settings->SCREEN_WIDTH + pos.x;
+			} else if (pos.x > settings->SCREEN_WIDTH) {
+				pos.x = pos.x - settings->SCREEN_WIDTH;
+			}
+			if (pos.y < 0) {
+				pos.y = settings->SCREEN_HEIGHT + pos.y;
+			} else if (pos.y > settings->SCREEN_HEIGHT) {
+				pos.y = pos.y - settings->SCREEN_HEIGHT;
+			}
 		}
 		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
@@ -70,7 +80,6 @@ void Creature::rotate(const float &rotationAngle) {
 void Creature::move(const uint32_t *time_delta) {
 	pos.x += sin(degToRad(drawable_->rot_angle)) * speed * *time_delta;
 	pos.y += cos(degToRad(drawable_->rot_angle)) * speed * *time_delta;
-
 }
 
 void Creature::setSpeed(float &speed) {
@@ -99,9 +108,9 @@ bool Creature::isActive() {
 	return activeState;
 }
 
-bool Creature::lookAt(const Creature* otherCreature) {
+bool Creature::lookAt(const Creature *otherCreature) {
 	auto vect = lookAt(otherCreature->pos);
-	if (vect !=nullptr) {
+	if (vect != nullptr) {
 		multiview->push_back(vect);
 		return true;
 	}
@@ -119,5 +128,5 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 std::string Creature::getInfo() {
-	return "sight: " + std::to_string(round(multiview->size()));
+	return "x: " + std::to_string(pos.x) + "y: " + std::to_string(pos.y);
 }
