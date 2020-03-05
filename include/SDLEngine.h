@@ -11,6 +11,7 @@
 #include "World.h"
 #include "SDLEventHandler.h"
 #include "Settings.h"
+#include "Globals.h"
 
 class SDLEngine {
 
@@ -20,9 +21,7 @@ class SDLEngine {
 		int fpsLimit = 99;
 		int frame_counter = 0, frame_counter0 = 0;
 		int fps_counter = 0;
-		int screenWidth = 0;
-		int screenHeight = 0;
-		uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
+ 		uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
 				msFrameStart, msFrameStart0, msFrameEnd, msFrameEnd0, msStart,
 				msEnd;
 
