@@ -6,6 +6,8 @@
 
 #include "Creature.h"
 
+#include "Globals.h"
+
 Creature::Creature(SDL_Surface *surfaceptr) {
 	surface = surfaceptr;
 }
@@ -27,6 +29,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 			}
 			SDL_RenderDrawRect(renderer, &drawable_->rect_draw);
 		}
+
 		SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
 				&drawable_->rect_draw, -drawable_->rot_angle, nullptr,
 				SDL_FLIP_NONE);
@@ -53,19 +56,22 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		rotate(rotation_speed * *timeDelta);
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
-			if (pos.x < 0) {
-				pos.x = settings->SCREEN_WIDTH + pos.x;
-			} else if (pos.x > settings->SCREEN_WIDTH) {
-				pos.x = pos.x - settings->SCREEN_WIDTH;
-			}
-			if (pos.y < 0) {
-				pos.y = settings->SCREEN_HEIGHT + pos.y;
-			} else if (pos.y > settings->SCREEN_HEIGHT) {
-				pos.y = pos.y - settings->SCREEN_HEIGHT;
-			}
+			wrapScreenPos();
 		}
 		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
+	}
+}
+void Creature::wrapScreenPos() {
+	if (pos.x < 0) {
+		pos.x = UNG_Globals::SCREEN_W + pos.x;
+	} else if (pos.x > UNG_Globals::SCREEN_W) {
+		pos.x = pos.x - UNG_Globals::SCREEN_W;
+	}
+	if (pos.y < 0) {
+		pos.y = UNG_Globals::SCREEN_H + pos.y;
+	} else if (pos.y > UNG_Globals::SCREEN_H) {
+		pos.y = pos.y - UNG_Globals::SCREEN_H;
 	}
 }
 
@@ -128,5 +134,6 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 std::string Creature::getInfo() {
-	return "x: " + std::to_string(pos.x) + "y: " + std::to_string(pos.y);
+	return "x: " + std::to_string(UNG_Globals::SCREEN_H) + "y: "
+			+ std::to_string(drawable_->rect_draw.h);
 }

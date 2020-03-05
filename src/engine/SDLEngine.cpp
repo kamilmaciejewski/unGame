@@ -24,7 +24,7 @@ SDL_bool SDLEngine::init(Settings* settings) {
   } else {
     setWindowSize();
     window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
-    SDL_WINDOWPOS_UNDEFINED, screenWidth, screenHeight,
+    SDL_WINDOWPOS_UNDEFINED, UNG_Globals::SCREEN_W, UNG_Globals::SCREEN_H,
 	SDL_WINDOW_FULLSCREEN_DESKTOP);
 
     if (window == nullptr) {
@@ -35,9 +35,9 @@ SDL_bool SDLEngine::init(Settings* settings) {
     }
     setEngineParameters();
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED
-//        | SDL_RENDERER_PRESENTVSYNC //vsync - don't draw more than screen refresh
+        | SDL_RENDERER_PRESENTVSYNC //vsync - don't draw more than screen refresh
         );
-    SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
+    SDL_RenderSetLogicalSize(renderer, UNG_Globals::SCREEN_W, UNG_Globals::SCREEN_H);
     if (renderer == nullptr) {
       return SDL_FALSE;
     }
@@ -130,7 +130,7 @@ void SDLEngine::setEngineParameters() {
 //    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
 //    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 //    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
-    //SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
+    SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 
 }
 
@@ -152,6 +152,6 @@ SDL_bool SDLEngine::initTextEngine() {
 void SDLEngine::setWindowSize() {
   SDL_DisplayMode DM;
   SDL_GetCurrentDisplayMode(0, &DM);
-  screenWidth = DM.w;
-  screenHeight = DM.h;
+  UNG_Globals::SCREEN_W = DM.w;
+  UNG_Globals::SCREEN_H = DM.h;
 }
