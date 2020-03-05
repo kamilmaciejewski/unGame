@@ -1,18 +1,9 @@
-/*
- * Settings.h
- *
- *  Created on: 16 lip 2018
- *      Author: Kamil
- */
-
 #ifndef UNGAME_SETTINGS_H_
 #define UNGAME_SETTINGS_H_
 
 class Settings {
 public:
 
-	static const int SCREEN_WIDTH = 1920;
-	static const int SCREEN_HEIGHT = 1080;
   Settings();
   virtual ~Settings();
 

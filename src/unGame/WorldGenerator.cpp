@@ -18,7 +18,7 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 		float speedZero2 = 0.2;
 		float speedZero = 0.0;
 		observer->setPos(
-				SDL_FPoint { (float) SCREEN_WIDTH / 2, (float) SCREEN_HEIGHT / 2 });
+				SDL_FPoint { (float) UNG_Globals::SCREEN_W / 2, (float) UNG_Globals::SCREEN_H / 2 });
 		observer->rotate(270);
 		observer->setSpeed(speedZero2);
 		observer->setRotationSpeed(speedZero);
@@ -29,7 +29,7 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 		Creature *traveller = new Creature(tmpWorld->surface);
 		float speed = 0.4;
 		traveller->setPos(
-				SDL_FPoint { (float) SCREEN_WIDTH / 2, (float) SCREEN_HEIGHT / 2 });
+				SDL_FPoint { (float) UNG_Globals::SCREEN_W / 2, (float) UNG_Globals::SCREEN_H / 2 });
 		traveller->rotate(0);
 		traveller->setSpeed(speed);
 		traveller->setRotationSpeed(speed);
@@ -56,8 +56,8 @@ Creature* WorldGenerator::generateCreature(
 	float speed0 = (0.1 + (rand() % 6) * 0.09);
 	float speed1 = (0.1 + (rand() % 1000) * 0.0003);
 
-	float rotSpeed1 = (0.1 + (0.01 * (rand() % 20)));
-	float rotSpeed2 = (0.1 + (0.00001 * (rand() % 20000)));
+//	float rotSpeed1 = (0.1 + (0.01 * (rand() % 20)));
+//	float rotSpeed2 = (0.1 + (0.00001 * (rand() % 20000)));
 
 	switch (testConfiguration) {
 	case conf1Creature:
@@ -82,25 +82,25 @@ Creature* WorldGenerator::generateCreature(
 		tmpCreature->setSpeed(speed1);
 		speedZero = getRandomSpeed();
 		tmpCreature->setRotationSpeed(speedZero);
-		tmpCreature->setAlpha(rand() % 150);
+		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	case conf10KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed1);
 		tmpCreature->setRotationSpeed(speedZero);
-		tmpCreature->setAlpha(rand() % 150);
+		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	}
 	return (tmpCreature);
 }
 
 float WorldGenerator::getRandomPosH() {
-	return (float) (SCREEN_HEIGHT / 2 + rand() % SCREEN_HEIGHT / 10);
+	return (float) (UNG_Globals::SCREEN_H / 2 + rand() % UNG_Globals::SCREEN_H / 10);
 }
 
 float WorldGenerator::getRandomPosW() {
-	return (float) (SCREEN_WIDTH / 2 + rand() % SCREEN_WIDTH / 10);
+	return (float) (UNG_Globals::SCREEN_W / 2 + rand() % UNG_Globals::SCREEN_W / 10);
 }
 
 SDL_FPoint WorldGenerator::getRandomPos() {
@@ -109,3 +109,7 @@ SDL_FPoint WorldGenerator::getRandomPos() {
 float WorldGenerator::getRandomSpeed(){
 	return ((0.0001 * (rand() % 2000)));
 }
+float WorldGenerator::getRandomAlpha(){
+	return (10 + (rand() % 150));
+}
+
