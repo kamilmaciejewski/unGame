@@ -6,7 +6,7 @@
 
 #include "Zone.h"
 
-Zone::Zone(int& x, int& y) {
+Zone::Zone(int &x, int &y) {
 	creatures = new std::vector<Creature*>();
 	pos.x = x;
 	pos.y = y;
@@ -17,14 +17,19 @@ void Zone::update(Creature *creature) {
 				== creatures->end()) {
 			creatures->push_back(creature);
 		}
-	}
-	else {
+	} else {
 		auto index = std::find(creatures->begin(), creatures->end(), creature);
 		if (index != creatures->end()) {
 			creatures->erase(index);
 		}
 	}
 
+}
+void Zone::kickOut(Creature *creature) {
+	auto index = std::find(creatures->begin(), creatures->end(), creature);
+	if (index != creatures->end()) {
+		creatures->erase(index);
+	}
 }
 void Zone::draw(SDL_Renderer *renderer) {
 	if (creatures->size() > 0) {

@@ -5,7 +5,6 @@
 #include <boost/config/compiler/gcc.hpp>
 
 #include "Creature.h"
-
 #include "Globals.h"
 
 Creature::Creature(SDL_Surface *surfaceptr) {
@@ -13,16 +12,19 @@ Creature::Creature(SDL_Surface *surfaceptr) {
 }
 
 Creature::~Creature() {
+//	cleanupView();
+//	delete multiview;
 }
 
 void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
+	if(!isAlive()) {return;}
 	if (BOOST_UNLIKELY(drawable_->texture == nullptr)) {
 		drawable_->texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_QueryTexture(drawable_->texture, nullptr, nullptr,
 				&drawable_->rect_draw.w, &drawable_->rect_draw.h);
-		SDL_SetTextureAlphaMod(drawable_->texture, alpha);
 	}
 	if (BOOST_LIKELY(settings->draw_textures)) {
+		SDL_SetTextureAlphaMod(drawable_->texture, energy);
 		if (BOOST_UNLIKELY(activeState)) {
 			for (auto vect : *multiview) {
 				vect->draw(renderer);
@@ -34,7 +36,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 				&drawable_->rect_draw, -drawable_->rot_angle, nullptr,
 				SDL_FLIP_NONE);
 	}
-	if (BOOST_LIKELY(settings->draw_vectors)) {
+//	if (BOOST_LIKELY(settings->draw_vectors)) {
 //		drawable_->vect.draw(renderer); //draw direction vector
 		//FOV presentation
 //		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_TRANSPARENT);
@@ -48,10 +50,13 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 //				}
 //			}
 
-	}
+//	}
 }
 
 void Creature::update(const uint32_t *timeDelta, Settings *settings) {
+	if (!isAlive()) {
+		return;
+	}
 	if (BOOST_LIKELY(settings->rotate)) {
 		rotate(rotation_speed * *timeDelta);
 		if (BOOST_LIKELY(settings->move)) {
@@ -86,6 +91,7 @@ void Creature::rotate(const float &rotationAngle) {
 void Creature::move(const uint32_t *time_delta) {
 	pos.x += sin(degToRad(drawable_->rot_angle)) * speed * *time_delta;
 	pos.y += cos(degToRad(drawable_->rot_angle)) * speed * *time_delta;
+	energy -= metabolism_factor * (speed * *time_delta);
 }
 
 void Creature::setSpeed(float &speed) {
@@ -94,9 +100,9 @@ void Creature::setSpeed(float &speed) {
 void Creature::setRotationSpeed(float &speed) {
 	this->rotation_speed = speed;
 }
-void Creature::setAlpha(int alpha) {
-	this->alpha = alpha;
-}
+//void Creature::setAlpha(int alpha) {
+//	this->alpha = alpha;
+//}
 void Creature::setActive() {
 	if (!activeState) {
 		SDL_SetTextureAlphaMod(drawable_->texture, 255);
@@ -105,13 +111,24 @@ void Creature::setActive() {
 }
 void Creature::setInactive() {
 	if (activeState) {
-		SDL_SetTextureAlphaMod(drawable_->texture, alpha);
+		SDL_SetTextureAlphaMod(drawable_->texture, energy);
 		activeState = false;
 	}
 }
 
 bool Creature::isActive() {
 	return activeState;
+}
+
+bool Creature::isAlive() {
+	return energy > 0;
+}
+
+void Creature::cleanupView() {
+	for (auto vect : *multiview) {
+		delete (vect);
+	}
+	multiview->clear();
 }
 
 bool Creature::lookAt(const Creature *otherCreature) {
@@ -134,6 +151,5 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 std::string Creature::getInfo() {
-	return "x: " + std::to_string(UNG_Globals::SCREEN_H) + "y: "
-			+ std::to_string(drawable_->rect_draw.h);
+	return "energy: " + std::to_string(energy);
 }

@@ -14,6 +14,7 @@ public:
 	Zone(int&, int&);
 	virtual ~Zone();
 	void update(Creature*);
+	void kickOut(Creature*);
 	void draw (SDL_Renderer*);
 
 private:

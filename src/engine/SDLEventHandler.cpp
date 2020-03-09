@@ -8,13 +8,17 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
       break;
     }
     case SDL_MOUSEBUTTONDOWN:{
-    	if(ev.button.button == SDL_BUTTON_LEFT){
+    	if(ev.button.button == SDL_BUTTON_LEFT
+//    			&& !settings->btn_down
+				){
+//    		settings->btn_down = true;
     		settings->mark_active = true;
     	  }
     	break;
     }
     case SDL_MOUSEBUTTONUP:{
         if(ev.button.button == SDL_BUTTON_LEFT){
+//        	settings->btn_down = false;
         	settings->mark_active = false;
           }
         break;

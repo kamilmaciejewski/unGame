@@ -15,8 +15,8 @@ int main(int argc, char *args[]) {
 
 //  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
-//	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
+	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
 
 	world->setSettings(settings);

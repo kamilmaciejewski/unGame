@@ -7,6 +7,7 @@ public:
   Settings();
   virtual ~Settings();
 
+  bool btn_down = false;
   bool draw_vectors = false;
   bool mark_active = false;
   bool draw_textures = true;

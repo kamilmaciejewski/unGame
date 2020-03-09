@@ -11,6 +11,7 @@ World::World() {
 		printf("Unable to load image: %s\n", SDL_GetError());
 	}
 	creatures = new std::vector<Creature*>();
+	creatures->reserve(maxCreatures);
 	zones = new std::vector<Zone*>();
 
 	std::srand(time(nullptr));
@@ -39,31 +40,78 @@ World::~World() {
 }
 
 void World::initZones() {
-	//TODO: Globalize values
-	int SCREEN_WIDTH = 1920;
-	int SCREEN_HEIGHT = 1080;
-	int zonesizeX = SCREEN_WIDTH / zoneRes;
-	int zonesizeY = SCREEN_HEIGHT / zoneRes;
-	for (int x = 0; x <= SCREEN_WIDTH; x += zonesizeX) {
-		for (int y = 0; y <= SCREEN_HEIGHT; y += zonesizeY) {
+
+	for (int x = 0; x <= UNG_Globals::SCREEN_W;
+			x += UNG_Globals::SCREEN_W / zoneRes) {
+		for (int y = 0; y <= UNG_Globals::SCREEN_H;
+				y += UNG_Globals::SCREEN_H / zoneRes) {
 			zones->push_back(new Zone(x, y));
 		}
 	}
 
 }
-
 void World::addCreature(Creature *creature) {
+	infoStr = "Add new" + std::to_string(creatures->size());
 	creatures->push_back(creature);
 }
+
+void World::addCreatureReuse(Creature *creature_) {
+
+//	for (ptr = creatures->begin(); ptr < creatures->end(); ptr++) {
+//		if (!(*ptr)->isAlive()) {
+//
+//			reused = true;
+//		}
+//	}
+
+		for (auto creature : *creatures) {
+			if (!creature->isAlive()) {
+				infoStr = "Reuse" + std::to_string(creatures->size());
+				creature->setPos(creature_->pos);
+//			creature->rotate(270);
+				//creature->setSpeed();
+				//creature->setRotationSpeed(speedZero);
+//			creature->setAlpha(255);
+				creature->setInactive();
+				creature->energy = 255;
+				delete creature_;
+				return;
+			}
+		}
+		if (creatures->size() < maxCreatures) {
+			addCreature(creature_);
+		} else {
+			infoStr = "Slot not found" + std::to_string(creatures->size());
+		}
+	}
 //TODO: Last two parameters should be a rectangle for zooming the screen.
 void World::draw(SDL_Renderer *renderer) {
+
+	//vector cleanup
+	//	*creatures->erase(std::remove(begin(*creatures), end(*creatures), nullptr),
+	//			end(*creatures));
+
 	for (auto creature : *creatures) {
 		creature->draw(renderer, settings);
+//		if (creature->isActive()) {
+//			infoStr = creature->getInfo();
+//		}
 	}
-	for (auto zone : *zones) {
-		zone->draw(renderer);
-	}
+//	for (auto zone : *zones) {
+//		zone->draw(renderer);
+//	}
 }
+//remove ptr to dead
+//for (ptr = creatures->begin(); ptr < creatures->end(); ptr++) {
+//		if (*ptr != nullptr) {
+//			if (!(*ptr)->isAlive()) {
+//				for (auto zone : *zones) {
+//					zone->kickOut(*ptr);
+//				}
+//				*ptr = nullptr;
+//			}
+//		}
+//	}
 void World::update(uint32_t *timeDelta) {
 	for (auto creature : *creatures) {
 		creature->update(timeDelta, settings);
@@ -71,25 +119,31 @@ void World::update(uint32_t *timeDelta) {
 			infoStr = creature->getInfo();
 		}
 	}
+//	infoStr = "size: " + std::to_string(creatures->size());
 }
 
 void World::updateViewSense() {
 	if (settings->look) {
 		for (auto creature : *creatures) {
-			for (auto vect : *creature->multiview) {
-				delete (vect);
-			}
-			creature->multiview->clear();
-			for (auto zone : *zones) {
-				zone->update(creature);
-				if (distance(creature->pos, zone->pos) <= zone->size) {
+			if (creature->isAlive()) {
+				creature->cleanupView();
+				for (auto zone : *zones) {
+					zone->update(creature);
+					if (distance(creature->pos, zone->pos) <= zone->size) {
 //					for (auto otherCreature : * creatures){
-					for (auto otherCreature : *zone->creatures) {
+						for (auto otherCreature : *zone->creatures) {
 //						if (
-							creature->lookAt(otherCreature);
+							if (otherCreature != nullptr) {
+								creature->lookAt(otherCreature);
+							}
 //								) {
 //							break;
+						}
 					}
+				}
+			} else {
+				for (auto zone : *zones) {
+					zone->kickOut(creature);
 				}
 			}
 		}
@@ -101,16 +155,28 @@ void World::setSettings(Settings *_settings) {
 }
 
 void World::markActiveObjectByMousePos(SDL_Point mousePos) {
+
 	if (settings->mark_active == true) {
-		for (auto creature : *creatures) {
-			if (SDL_PointInRect(&mousePos,
-					&creature->getDrawable()->rect_draw)) {
-				creature->setActive();
-				return;
-			} else {
-				creature->setInactive();
-			}
-		}
+		float speed = 0.05;
+		Creature *tmpCreature = new Creature(surface);
+		tmpCreature->setPos(
+				SDL_FPoint { (float) mousePos.x, (float) mousePos.y });
+		tmpCreature->rotate(0);
+		tmpCreature->setSpeed(speed);
+		tmpCreature->setRotationSpeed(speed);
+//		tmpCreature->setAlpha(255);
+		tmpCreature->setInactive();
+		addCreatureReuse(tmpCreature);
+
+//		for (auto creature : *creatures) {
+//			if (SDL_PointInRect(&mousePos,
+//					&creature->getDrawable()->rect_draw)) {
+//				creature->setActive();
+//				return;
+//			} else {
+//				creature->setInactive();
+//			}
+//		}
 	}
 }
 
