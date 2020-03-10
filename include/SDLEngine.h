@@ -50,6 +50,7 @@ class SDLEngine {
 	SDL_Surface *fps_surface;
 	SDL_Surface *info_surface;
 	SDL_Renderer *renderer = nullptr;
+	SDL_Texture *tex = nullptr;
 	SDL_Texture *fps_texture;
 	SDL_Texture *info_texture;
 	SDL_Color color = { 255, 255, 255 };
@@ -61,6 +62,9 @@ public:
 	void close();
 	void draw();
 	void run(World*);
+	void run();
+	//simple mode
+	void init();
 };
 
 #endif /* SDLENGINE_H_ */

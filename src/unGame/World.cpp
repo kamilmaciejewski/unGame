@@ -64,26 +64,26 @@ void World::addCreatureReuse(Creature *creature_) {
 //		}
 //	}
 
-		for (auto creature : *creatures) {
-			if (!creature->isAlive()) {
-				infoStr = "Reuse" + std::to_string(creatures->size());
-				creature->setPos(creature_->pos);
-//			creature->rotate(270);
-				//creature->setSpeed();
-				//creature->setRotationSpeed(speedZero);
+	for (auto creature : *creatures) {
+		if (!creature->isAlive()) {
+			infoStr = "Reuse" + std::to_string(creatures->size());
+			creature->setPos(creature_->pos);
+//			creature->rotate(creature_->getDrawable()->rot_angle);
+			//creature->setSpeed();
+			//creature->setRotationSpeed(speedZero);
 //			creature->setAlpha(255);
-				creature->setInactive();
-				creature->energy = 255;
-				delete creature_;
-				return;
-			}
-		}
-		if (creatures->size() < maxCreatures) {
-			addCreature(creature_);
-		} else {
-			infoStr = "Slot not found" + std::to_string(creatures->size());
+			creature->setInactive();
+			creature->energy = 255;
+			delete creature_;
+			return;
 		}
 	}
+	if (creatures->size() < maxCreatures) {
+		addCreature(creature_);
+	} else {
+		infoStr = "Slot not found" + std::to_string(creatures->size());
+	}
+}
 //TODO: Last two parameters should be a rectangle for zooming the screen.
 void World::draw(SDL_Renderer *renderer) {
 
@@ -156,7 +156,7 @@ void World::setSettings(Settings *_settings) {
 
 void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 
-	if (settings->mark_active == true) {
+	if (settings->btn_down_right == true) {
 		float speed = 0.05;
 		Creature *tmpCreature = new Creature(surface);
 		tmpCreature->setPos(
@@ -164,19 +164,22 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 		tmpCreature->rotate(0);
 		tmpCreature->setSpeed(speed);
 		tmpCreature->setRotationSpeed(speed);
-//		tmpCreature->setAlpha(255);
 		tmpCreature->setInactive();
 		addCreatureReuse(tmpCreature);
-
-//		for (auto creature : *creatures) {
-//			if (SDL_PointInRect(&mousePos,
-//					&creature->getDrawable()->rect_draw)) {
-//				creature->setActive();
-//				return;
-//			} else {
-//				creature->setInactive();
-//			}
-//		}
 	}
+
+	if (settings->mark_active == true) {
+		settings->mark_active = false;
+		for (auto creature : *creatures) {
+			if (SDL_PointInRect(&mousePos,
+					&creature->getDrawable()->rect_draw)) {
+				creature->setActive();
+				return;
+			} else {
+				creature->setInactive();
+			}
+		}
+	}
+
 }
 
