@@ -18,32 +18,6 @@ void SDLEngine::runSensesThread(World *world) {
 	std::cout<<"Senses thread stopping"<<std::endl;
 }
 
-void SDLEngine::init() {
-	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-	}
-	setWindowSize();
-	window = SDL_CreateWindow("unGame", SDL_WINDOWPOS_UNDEFINED,
-	SDL_WINDOWPOS_UNDEFINED, UNG_Globals::SCREEN_W, UNG_Globals::SCREEN_H,
-			SDL_WINDOW_SHOWN);
-	if (window == nullptr) {
-		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-	}
-
-	renderer = SDL_CreateRenderer(window, -1,
-			SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC //vsync - don't draw more than screen refresh
-					);
-	SDL_RenderSetLogicalSize(renderer, UNG_Globals::SCREEN_W,
-			UNG_Globals::SCREEN_H);
-
-	if (renderer == nullptr) {
-		SDL_DestroyWindow(window);
-		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError()
-				<< std::endl;
-		SDL_Quit();
-	}
-}
 SDL_bool SDLEngine::init(Settings *settings) {
 	this->settings = settings;
 	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
@@ -75,31 +49,7 @@ SDL_bool SDLEngine::init(Settings *settings) {
 		return initTextEngine();
 	}
 }
-void SDLEngine::run() {
-	std::string imagePath = "res/hello.bmp";
-	SDL_Surface *bmp = SDL_LoadBMP(imagePath.c_str());
-	if (bmp == nullptr) {
-		SDL_DestroyRenderer(renderer);
-		SDL_DestroyWindow(window);
-		std::cout << "SDL_LoadBMP Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-	}
-	tex = SDL_CreateTextureFromSurface(renderer, bmp);
-	SDL_FreeSurface(bmp);
-	if (tex == nullptr) {
-		SDL_DestroyRenderer(renderer);
-		SDL_DestroyWindow(window);
-		std::cout << "SDL_CreateTextureFromSurface Error: " << SDL_GetError()
-				<< std::endl;
-		SDL_Quit();
-	}
-	while (isRunning) {
-		SdlEventHandler.handleEvents(&isRunning, settings);
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, tex, NULL, NULL);
-		SDL_RenderPresent(renderer);
-	}
-}
+
 void SDLEngine::run(World *world) {
 	threadWorld = std::thread(&SDLEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&SDLEngine::runSensesThread, this, world);
@@ -114,11 +64,6 @@ void SDLEngine::run(World *world) {
 		countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
 		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
-	std::cout<<"Run stopped, wait for threads close"<<std::endl;
-	threadWorld.join();
-	std::cout<<"World thread stopped"<<std::endl;
-	threadViewSense.join();
-	std::cout<<"Sense thread stopped"<<std::endl;
 }
 void SDLEngine::clearScreen() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -131,8 +76,12 @@ void SDLEngine::draw() {
 }
 
 void SDLEngine::close() {
+
+	std::cout<<"Run stopped, wait for threads close"<<std::endl;
 	threadWorld.join();
+	std::cout<<"World thread stopped"<<std::endl;
 	threadViewSense.join();
+	std::cout<<"Sense thread stopped"<<std::endl;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	window = nullptr;
