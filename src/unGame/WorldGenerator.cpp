@@ -22,8 +22,8 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 		observer->rotate(270);
 		observer->setSpeed(speedZero2);
 		observer->setRotationSpeed(speedZero);
-		observer->setAlpha(255);
-		observer->setActive();
+//		observer->setAlpha(255);
+		observer->setInactive();
 		tmpWorld->addCreature(observer);
 
 		Creature *traveller = new Creature(tmpWorld->surface);
@@ -33,7 +33,7 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 		traveller->rotate(0);
 		traveller->setSpeed(speed);
 		traveller->setRotationSpeed(speed);
-		traveller->setAlpha(255);
+//		traveller->setAlpha(255);
 		traveller->setInactive();
 		tmpWorld->addCreature(traveller);
 
@@ -61,11 +61,11 @@ Creature* WorldGenerator::generateCreature(
 
 	switch (testConfiguration) {
 	case conf1Creature:
-		tmpCreature->setPos(SDL_FPoint { 100.0, 100.0 });
+		tmpCreature->setPos(SDL_FPoint { 500.0, 500.0 });
 		tmpCreature->rotate(0);
-		tmpCreature->setSpeed(speedZero);
+		tmpCreature->setSpeed(speed);
 		tmpCreature->setRotationSpeed(speed);
-		tmpCreature->setAlpha(255);
+//		tmpCreature->setAlpha(255);
 		break;
 	case conf2CreatureSightTest:
 		break;
@@ -74,7 +74,7 @@ Creature* WorldGenerator::generateCreature(
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed0);
 		tmpCreature->setRotationSpeed(speedZero);
-		tmpCreature->setAlpha(rand() % 150);
+//		tmpCreature->setAlpha(rand() % 150);
 		break;
 	case conf1KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
@@ -82,14 +82,14 @@ Creature* WorldGenerator::generateCreature(
 		tmpCreature->setSpeed(speed1);
 		speedZero = getRandomSpeed();
 		tmpCreature->setRotationSpeed(speedZero);
-		tmpCreature->setAlpha(getRandomAlpha());
+//		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	case conf10KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
 		tmpCreature->setSpeed(speed1);
 		tmpCreature->setRotationSpeed(speedZero);
-		tmpCreature->setAlpha(getRandomAlpha());
+//		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	}
 	return (tmpCreature);

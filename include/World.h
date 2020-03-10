@@ -8,13 +8,16 @@
 
 #include "Creature.h"
 #include "Zone.h"
+#include "Globals.h"
 
 class World {
-	int zoneRes = 10;
+	const int zoneRes = 10;
+	const long unsigned int maxCreatures = 100000;
 	SDL_Surface *backgroundTexture = nullptr;
 	Settings *settings;
 	std::vector<Creature*> *creatures;
 	std::vector<Zone*> *zones;
+	std::vector<Creature*>::iterator ptr;
 public:
 
 	std::string infoStr;
@@ -23,6 +26,7 @@ public:
 	World();
 	virtual ~World();
 	void addCreature(Creature*);
+	void addCreatureReuse(Creature*);
 	void initZones();
 	void update(uint32_t*);
 	void updateViewSense();

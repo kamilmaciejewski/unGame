@@ -7,18 +7,32 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
       *result = false;
       break;
     }
-    case SDL_MOUSEBUTTONDOWN:{
-    	if(ev.button.button == SDL_BUTTON_LEFT){
-    		settings->mark_active = true;
-    	  }
-    	break;
-    }
-    case SDL_MOUSEBUTTONUP:{
-        if(ev.button.button == SDL_BUTTON_LEFT){
-        	settings->mark_active = false;
-          }
-        break;
-    }
+	case SDL_MOUSEBUTTONDOWN: {
+		if (ev.button.button == SDL_BUTTON_LEFT) {
+			if (!settings->btn_down_left) {
+				settings->btn_down_left = true;
+				settings->mark_active = true;
+			}
+			break;
+		} else if (ev.button.button == SDL_BUTTON_RIGHT) {
+			if (!settings->btn_down_right) {
+				settings->btn_down_right = true;
+			}
+			break;
+		}
+		break;
+	}
+	case SDL_MOUSEBUTTONUP: {
+		if (ev.button.button == SDL_BUTTON_LEFT) {
+			settings->btn_down_left = false;
+			settings->mark_active = false;
+			break;
+		} else if (ev.button.button == SDL_BUTTON_RIGHT) {
+			settings->btn_down_right = false;
+			break;
+		}
+		break;
+	}
     case SDL_KEYDOWN: {
       switch (ev.key.keysym.scancode) {
       case SDL_SCANCODE_V:
