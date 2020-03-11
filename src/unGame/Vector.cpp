@@ -11,22 +11,24 @@
 UNG_Vector::UNG_Vector(SDL_FPoint *pos_) {
 	value = 40;
 	angle = 0.0;
-	pos = pos_;
+	pos.x = pos_->x;
+	pos.y = pos_->y;
 
 }
 UNG_Vector::UNG_Vector(SDL_FPoint *pos_, float _angle , float _value) {
 	value = _value;
 	angle = _angle;
-	pos = pos_;
+	pos.x = pos_->x;
+	pos.y = pos_->y;
 
 }
 
 
 void UNG_Vector::draw(SDL_Renderer *renderer) {
-//	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderDrawLine(renderer, pos->x, pos->y,
-			pos->x + (value * sin(degToRad(angle))),
-			pos->y + (value * cos(degToRad(angle))));
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_RenderDrawLine(renderer, pos.x, pos.y,
+			pos.x + (value * sin(degToRad(angle))),
+			pos.y + (value * cos(degToRad(angle))));
 }
 
 void UNG_Vector::setVal(float &val) {

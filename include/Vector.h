@@ -19,7 +19,7 @@ public:
 	float getAngleRad();
 private:
 	float angle;
-	SDL_FPoint *pos;
+	SDL_FPoint pos;
 	float value;
 };
 

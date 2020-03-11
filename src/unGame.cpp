@@ -13,11 +13,11 @@ int main(int argc, char *args[]) {
 	}
 	worldGenerator = new WorldGenerator();
 //
-////  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
-////  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
-	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-////  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
-////  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
+  world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
+//	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
 //
 	world->setSettings(settings);
 	std::cout<<"Starting"<<std::endl;

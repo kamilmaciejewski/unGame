@@ -12,8 +12,8 @@ Creature::Creature(SDL_Surface *surfaceptr) {
 }
 
 Creature::~Creature() {
-//	cleanupView();
-//	delete multiview;
+	cleanupView();
+	delete multiview;
 }
 
 void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
@@ -91,6 +91,7 @@ void Creature::rotate(const float &rotationAngle) {
 void Creature::move(const uint32_t *time_delta) {
 	pos.x += sin(degToRad(drawable_->rot_angle)) * speed * *time_delta;
 	pos.y += cos(degToRad(drawable_->rot_angle)) * speed * *time_delta;
+//	energy = (energy - metabolism_factor * (speed * *time_delta));
 	energy -= metabolism_factor * (speed * *time_delta);
 }
 
@@ -126,7 +127,7 @@ bool Creature::isAlive() {
 
 void Creature::cleanupView() {
 	for (auto vect : *multiview) {
-		delete (vect);
+		delete vect;
 	}
 	multiview->clear();
 }

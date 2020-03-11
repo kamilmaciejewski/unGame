@@ -34,6 +34,7 @@ class SDLEngine {
 	void runSensesThread(World *world);
 	void clearScreen();
 	SDL_bool initTextEngine();
+	void draw();
 
 
 	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
@@ -59,7 +60,6 @@ class SDLEngine {
 public:
 	SDL_bool init(Settings*);
 	void close();
-	void draw();
 	void run(World*);
 };
 
