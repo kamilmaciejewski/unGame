@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<results version="2">
+    <cppcheck version="1.88"/>
+    <errors>
+        <error id="noConstructor" severity="style" msg="The class &amp;#039;SDLEngine&amp;#039; does not have a constructor although it has private member variables." verbose="The class &amp;#039;SDLEngine&amp;#039; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." sinceDate="14.03.2020">
+            <location file="include/SDLEngine.h" line="16"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &amp;#039;UNG_Vector&amp;#039; has a constructor with 1 argument that is not explicit." verbose="Class &amp;#039;UNG_Vector&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." sinceDate="14.03.2020">
+            <location file="include/Vector.h" line="9"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &amp;#039;Creature&amp;#039; has a constructor with 1 argument that is not explicit." verbose="Class &amp;#039;Creature&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." sinceDate="14.03.2020">
+            <location file="include/Creature.h" line="21"/>
+        </error>
+        <error id="noCopyConstructor" severity="warning" msg="Class &amp;#039;Creature&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;Creature&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/Creature.cpp" line="11"/>
+        </error>
+        <error id="noOperatorEq" severity="warning" msg="Class &amp;#039;Creature&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;Creature&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/Creature.cpp" line="11"/>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &amp;#039;Plant&amp;#039; has a constructor with 1 argument that is not explicit." verbose="Class &amp;#039;Plant&amp;#039; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." sinceDate="14.03.2020">
+            <location file="include/Plant.h" line="17"/>
+        </error>
+        <error id="noCopyConstructor" severity="warning" msg="Class &amp;#039;World&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;World&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/World.cpp" line="14"/>
+        </error>
+        <error id="noOperatorEq" severity="warning" msg="Class &amp;#039;World&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;World&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/World.cpp" line="14"/>
+        </error>
+        <error id="noCopyConstructor" severity="warning" msg="Class &amp;#039;Zone&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;Zone&amp;#039; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/Zone.cpp" line="10"/>
+        </error>
+        <error id="noOperatorEq" severity="warning" msg="Class &amp;#039;Zone&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &amp;#039;Zone&amp;#039; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." sinceDate="14.03.2020">
+            <location file="src/unGame/Zone.cpp" line="10"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;add&amp;#039; is never used." verbose="The function &amp;#039;add&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/Vector.cpp" line="52"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;getAngleRad&amp;#039; is never used." verbose="The function &amp;#039;getAngleRad&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/Vector.cpp" line="60"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;setAngleRad&amp;#039; is never used." verbose="The function &amp;#039;setAngleRad&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/Vector.cpp" line="41"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;setVal&amp;#039; is never used." verbose="The function &amp;#039;setVal&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/Vector.cpp" line="34"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;close&amp;#039; is never used." verbose="The function &amp;#039;close&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/engine/UNGEngine.cpp" line="32"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;run&amp;#039; is never used." verbose="The function &amp;#039;run&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/engine/UNGEngine.cpp" line="10"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;runSensesThread&amp;#039; is never used." verbose="The function &amp;#039;runSensesThread&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/engine/UNGEngine.cpp" line="24"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;getRandomAlpha&amp;#039; is never used." verbose="The function &amp;#039;getRandomAlpha&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/WorldGenerator.cpp" line="112"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;init&amp;#039; is never used." verbose="The function &amp;#039;init&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/engine/SDLEngine.cpp" line="5"/>
+        </error>
+        <error id="unusedFunction" severity="style" msg="The function &amp;#039;isObjectOnScreen&amp;#039; is never used." verbose="The function &amp;#039;isObjectOnScreen&amp;#039; is never used." sinceDate="14.03.2020">
+            <location file="src/unGame/Object.cpp" line="14"/>
+        </error>
+    </errors>
+</results>

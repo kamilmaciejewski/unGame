@@ -17,30 +17,23 @@ class SDLEngine {
 
 	Settings *settings;
 	bool isRunning = true;
-		bool isFPSLimitEnabled = false;
-		int fpsLimit = 99;
-		int frame_counter = 0, frame_counter0 = 0;
-		int fps_counter = 0;
- 		uint32_t fpsTimeDelta, fpsTimeDeltaTemp, frameTimeDelta, frameTimeDeltaTemp,
-				msFrameStart, msFrameStart0, msFrameEnd, msFrameEnd0, msStart,
-				msEnd;
-
+	int frame_counter = 0, frame_counter0 = 0;
+	int fps_counter = 0;
+	uint32_t fpsTimeDelta, fpsTimeDeltaTemp, msStart, msEnd;
 	void countFPS(std::string*, uint32_t*, uint32_t*, int*);
 	void updateFPSInfo();
 	void drawActiveCreatureInfo(std::string);
 	void setEngineParameters();
 	void setWindowSize();
-	void runMainThread(World *world);
-	void runSensesThread(World *world);
+
 	void clearScreen();
 	SDL_bool initTextEngine();
 	void draw();
 
-
 	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
-	std::thread threadWorld;
-	std::thread threadViewSense;
+//	std::thread threadWorld;
+//	std::thread threadViewSense;
 	std::string fps_res, frame_res, sense_res;
 
 	TTF_Font *font;

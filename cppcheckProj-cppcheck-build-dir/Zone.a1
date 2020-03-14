@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3312673822">
+        <error id="noCopyConstructor" severity="warning" msg="Class &apos;Zone&apos; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &apos;Zone&apos; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." cwe="398">
+            <location file="/home/kamil/dev/repos/unGame/src/unGame/Zone.cpp" line="10"/>
+            <symbol>Zone</symbol>
+        </error>
+        <error id="noOperatorEq" severity="warning" msg="Class &apos;Zone&apos; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &apos;Zone&apos; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." cwe="398">
+            <location file="/home/kamil/dev/repos/unGame/src/unGame/Zone.cpp" line="10"/>
+            <symbol>Zone</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/Zone.cpp" file="/home/kamil/dev/repos/unGame/include/Vector.h" line="9"/>
+            <symbol>UNG_Vector</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/Zone.cpp" file="/home/kamil/dev/repos/unGame/include/Creature.h" line="21"/>
+            <symbol>Creature</symbol>
+        </error>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Zone.h:16:7" my-argnr="1" my-argname="creature" filename="/home/kamil/dev/repos/unGame/src/unGame/Zone.cpp" linenr="15" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="update" lineNumber="14"/>
+    <functiondecl functionName="kickOut" lineNumber="28"/>
+    <functiondecl functionName="draw" lineNumber="34"/>
+    <functioncall functionName="Creature"/>
+    <functioncall functionName="Object"/>
+    <functioncall functionName="SDL_ALPHA_TRANSPARENT"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="SDL_RenderDrawPoint"/>
+    <functioncall functionName="SDL_SetRenderDrawColor"/>
+    <functioncall functionName="UNG_Vector"/>
+    <functioncall functionName="Zone"/>
+    <functioncall functionName="begin"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="const"/>
+    <functioncall functionName="creature"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="distance"/>
+    <functioncall functionName="end"/>
+    <functioncall functionName="erase"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="find"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="index"/>
+    <functioncall functionName="nullptr"/>
+    <functioncall functionName="pos"/>
+    <functioncall functionName="private:"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="renderer"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="vector"/>
+    <functioncall functionName="x"/>
+    <functioncall functionName="y"/>
+  </FileInfo>
+</analyzerinfo>

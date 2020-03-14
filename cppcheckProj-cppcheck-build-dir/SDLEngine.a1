@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3034553774">
+        <error id="noConstructor" severity="style" msg="The class &apos;SDLEngine&apos; does not have a constructor although it has private member variables." verbose="The class &apos;SDLEngine&apos; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" file="/home/kamil/dev/repos/unGame/include/SDLEngine.h" line="16"/>
+            <symbol>SDLEngine</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" file="/home/kamil/dev/repos/unGame/include/Vector.h" line="9"/>
+            <symbol>UNG_Vector</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" file="/home/kamil/dev/repos/unGame/include/Creature.h" line="21"/>
+            <symbol>Creature</symbol>
+        </error>
+  <FileInfo check="ctu">
+<function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:41:12" call-funcname="countFrameTimeDelta" call-argnr="1" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="46" call-argexpr="&fpsTimeDelta" call-argvaluetype="7" call-argvalue="4"/><function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:41:12" call-funcname="countFrameTimeDelta" call-argnr="2" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="46" call-argexpr="&fpsTimeDeltaTemp" call-argvaluetype="7" call-argvalue="4"/><function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" call-funcname="countFPS" call-argnr="1" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="47" call-argexpr="&fps_res" call-argvaluetype="7" call-argvalue="0"/><function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" call-funcname="countFPS" call-argnr="2" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="47" call-argexpr="&msStart" call-argvaluetype="7" call-argvalue="4"/><function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" call-funcname="countFPS" call-argnr="3" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="47" call-argexpr="&msEnd" call-argvaluetype="7" call-argvalue="4"/><function-call call-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" call-funcname="countFPS" call-argnr="4" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="47" call-argexpr="&fps_counter" call-argvaluetype="7" call-argvalue="4"/>  </FileInfo>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" my-argnr="2" my-argname="msStart" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="74" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" my-argnr="3" my-argname="msEnd" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="73" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:41:12" my-argnr="1" my-argname="fTimeDeltaTemp" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="102" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:41:12" my-argnr="2" my-argname="fTimeDelta" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="102" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:30:7" my-argnr="2" my-argname="msStart" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="74" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/SDLEngine.h:41:12" my-argnr="2" my-argname="fTimeDelta" filename="/home/kamil/dev/repos/unGame/src/engine/SDLEngine.cpp" linenr="102" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="init" lineNumber="5"/>
+    <functiondecl functionName="run" lineNumber="37"/>
+    <functiondecl functionName="clearScreen" lineNumber="50"/>
+    <functiondecl functionName="draw" lineNumber="54"/>
+    <functiondecl functionName="close" lineNumber="60"/>
+    <functiondecl functionName="countFPS" lineNumber="71"/>
+    <functiondecl functionName="updateFPSInfo" lineNumber="83"/>
+    <functiondecl functionName="drawActiveCreatureInfo" lineNumber="92"/>
+    <functiondecl functionName="countFrameTimeDelta" lineNumber="100"/>
+    <functiondecl functionName="setEngineParameters" lineNumber="112"/>
+    <functiondecl functionName="initTextEngine" lineNumber="126"/>
+    <functiondecl functionName="setWindowSize" lineNumber="141"/>
+    <functioncall functionName="Creature"/>
+    <functioncall functionName="DM"/>
+    <functioncall functionName="Object"/>
+    <functioncall functionName="SCREEN_H"/>
+    <functioncall functionName="SCREEN_W"/>
+    <functioncall functionName="SDL_ALPHA_OPAQUE"/>
+    <functioncall functionName="SDL_CreateRenderer"/>
+    <functioncall functionName="SDL_CreateTextureFromSurface"/>
+    <functioncall functionName="SDL_CreateWindow"/>
+    <functioncall functionName="SDL_Delay"/>
+    <functioncall functionName="SDL_DestroyRenderer"/>
+    <functioncall functionName="SDL_DestroyWindow"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="SDL_FreeSurface"/>
+    <functioncall functionName="SDL_GL_ACCELERATED_VISUAL"/>
+    <functioncall functionName="SDL_GL_ALPHA_SIZE"/>
+    <functioncall functionName="SDL_GL_BLUE_SIZE"/>
+    <functioncall functionName="SDL_GL_GREEN_SIZE"/>
+    <functioncall functionName="SDL_GL_RED_SIZE"/>
+    <functioncall functionName="SDL_GL_SetAttribute"/>
+    <functioncall functionName="SDL_GL_SetSwapInterval"/>
+    <functioncall functionName="SDL_GetCurrentDisplayMode"/>
+    <functioncall functionName="SDL_GetError"/>
+    <functioncall functionName="SDL_GetTicks"/>
+    <functioncall functionName="SDL_INIT_VIDEO"/>
+    <functioncall functionName="SDL_Init"/>
+    <functioncall functionName="SDL_Point"/>
+    <functioncall functionName="SDL_QueryTexture"/>
+    <functioncall functionName="SDL_Quit"/>
+    <functioncall functionName="SDL_RENDERER_PRESENTVSYNC"/>
+    <functioncall functionName="SDL_RenderClear"/>
+    <functioncall functionName="SDL_RenderCopy"/>
+    <functioncall functionName="SDL_RenderPresent"/>
+    <functioncall functionName="SDL_RenderSetLogicalSize"/>
+    <functioncall functionName="SDL_SetRenderDrawColor"/>
+    <functioncall functionName="SDL_WINDOWPOS_UNDEFINED"/>
+    <functioncall functionName="SDL_WINDOW_SHOWN"/>
+    <functioncall functionName="TTF_CloseFont"/>
+    <functioncall functionName="TTF_Init"/>
+    <functioncall functionName="TTF_OpenFont"/>
+    <functioncall functionName="TTF_Quit"/>
+    <functioncall functionName="TTF_RenderText_Solid"/>
+    <functioncall functionName="UNG_Vector"/>
+    <functioncall functionName="World"/>
+    <functioncall functionName="Zone"/>
+    <functioncall functionName="c_str"/>
+    <functioncall functionName="clearScreen"/>
+    <functioncall functionName="color"/>
+    <functioncall functionName="const"/>
+    <functioncall functionName="countFPS"/>
+    <functioncall functionName="countFrameTimeDelta"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="draw"/>
+    <functioncall functionName="drawActiveCreatureInfo"/>
+    <functioncall functionName="fTimeDelta"/>
+    <functioncall functionName="fTimeDeltaTemp"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="font"/>
+    <functioncall functionName="fpsLimit"/>
+    <functioncall functionName="fpsTimeDelta"/>
+    <functioncall functionName="fpsTimeDeltaTemp"/>
+    <functioncall functionName="fps_counter"/>
+    <functioncall functionName="fps_dstrect"/>
+    <functioncall functionName="fps_res"/>
+    <functioncall functionName="fps_surface"/>
+    <functioncall functionName="fps_texture"/>
+    <functioncall functionName="frameTimeDeltaTemp"/>
+    <functioncall functionName="h"/>
+    <functioncall functionName="handleEvents"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="infoStr"/>
+    <functioncall functionName="info_dstrect"/>
+    <functioncall functionName="info_surface"/>
+    <functioncall functionName="info_texture"/>
+    <functioncall functionName="initTextEngine"/>
+    <functioncall functionName="isRunning"/>
+    <functioncall functionName="markActiveObjectByMousePos"/>
+    <functioncall functionName="mousePos"/>
+    <functioncall functionName="msEnd"/>
+    <functioncall functionName="msStart"/>
+    <functioncall functionName="nullptr"/>
+    <functioncall functionName="pos"/>
+    <functioncall functionName="printf"/>
+    <functioncall functionName="private:"/>
+    <functioncall functionName="renderer"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="sense_res"/>
+    <functioncall functionName="setEngineParameters"/>
+    <functioncall functionName="setWindowSize"/>
+    <functioncall functionName="settings"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="to_string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="updateFPSInfo"/>
+    <functioncall functionName="w"/>
+    <functioncall functionName="while"/>
+    <functioncall functionName="window"/>
+  </FileInfo>
+</analyzerinfo>

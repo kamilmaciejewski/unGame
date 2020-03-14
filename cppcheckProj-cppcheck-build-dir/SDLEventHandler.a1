@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3807131131">
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="handleEvents" lineNumber="3"/>
+    <functioncall functionName="SDL_PollEvent"/>
+    <functioncall functionName="break"/>
+    <functioncall functionName="btn_down_left"/>
+    <functioncall functionName="btn_down_right"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="draw_textures"/>
+    <functioncall functionName="draw_vectors"/>
+    <functioncall functionName="ev"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="look"/>
+    <functioncall functionName="move"/>
+    <functioncall functionName="rotate"/>
+    <functioncall functionName="scancode"/>
+    <functioncall functionName="switch"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="type"/>
+    <functioncall functionName="while"/>
+    <functioncall functionName="x"/>
+    <functioncall functionName="y"/>
+  </FileInfo>
+</analyzerinfo>

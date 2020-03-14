@@ -8,6 +8,8 @@
 #include "Globals.h"
 
 Creature::Creature(SDL_Surface *surfaceptr) {
+	multiview = new std::vector<UNG_Vector*>();
+	multiview->reserve(max_view_entries);
 	surface = surfaceptr;
 }
 
@@ -17,7 +19,9 @@ Creature::~Creature() {
 }
 
 void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
-	if(!isAlive()) {return;}
+	if (!isAlive()) {
+		return;
+	}
 	if (BOOST_UNLIKELY(drawable_->texture == nullptr)) {
 		drawable_->texture = SDL_CreateTextureFromSurface(renderer, surface);
 		SDL_QueryTexture(drawable_->texture, nullptr, nullptr,
@@ -38,7 +42,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	}
 //	if (BOOST_LIKELY(settings->draw_vectors)) {
 //		drawable_->vect.draw(renderer); //draw direction vector
-		//FOV presentation
+	//FOV presentation
 //		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_TRANSPARENT);
 //			for (int dx = -20; dx < 20; dx++) {
 //				double dxrad = degToRad(dx);
@@ -91,7 +95,6 @@ void Creature::rotate(const float &rotationAngle) {
 void Creature::move(const uint32_t *time_delta) {
 	pos.x += sin(degToRad(drawable_->rot_angle)) * speed * *time_delta;
 	pos.y += cos(degToRad(drawable_->rot_angle)) * speed * *time_delta;
-//	energy = (energy - metabolism_factor * (speed * *time_delta));
 	energy -= metabolism_factor * (speed * *time_delta);
 }
 
@@ -126,18 +129,24 @@ bool Creature::isAlive() {
 }
 
 void Creature::cleanupView() {
-	for (auto vect : *multiview) {
-		delete vect;
+	if (multiview->size() > 0) {
+
+		for (auto vect : *multiview) {
+			delete vect;
+		}
+		multiview->clear();
 	}
-	multiview->clear();
 }
 
 bool Creature::lookAt(const Creature *otherCreature) {
-	auto vect = lookAt(otherCreature->pos);
-	if (vect != nullptr) {
-		multiview->push_back(vect);
-		return true;
+	if (multiview->size() < max_view_entries) {
+		auto vect = lookAt(otherCreature->pos);
+		if (vect != nullptr) {
+			multiview->push_back(vect);
+			return true;
+		}
 	}
+
 	return false;
 }
 UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
@@ -152,5 +161,5 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 std::string Creature::getInfo() {
-	return "energy: " + std::to_string(energy);
+	return "energy: " + std::to_string(energy) + ", view: " + std::to_string(multiview->size());
 }

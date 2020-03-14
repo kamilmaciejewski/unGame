@@ -2,22 +2,6 @@
 
 #include "SDLEngine.h"
 
-void SDLEngine::runMainThread(World *world) {
-	while (isRunning) {
-		countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
-		world->update(
-				countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
-	}
-	std::cout<<"World thread stopping"<<std::endl;
-}
-void SDLEngine::runSensesThread(World *world) {
-	while (isRunning) {
-		countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
-		world->updateViewSense();
-	}
-	std::cout<<"Senses thread stopping"<<std::endl;
-}
-
 SDL_bool SDLEngine::init(Settings *settings) {
 	this->settings = settings;
 	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
@@ -51,8 +35,6 @@ SDL_bool SDLEngine::init(Settings *settings) {
 }
 
 void SDLEngine::run(World *world) {
-	threadWorld = std::thread(&SDLEngine::runMainThread, this, world);
-	threadViewSense = std::thread(&SDLEngine::runSensesThread, this, world);
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
@@ -61,8 +43,9 @@ void SDLEngine::run(World *world) {
 		updateFPSInfo();
 		drawActiveCreatureInfo(world->infoStr);
 		draw();
-		countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
-		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
+//		countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
+
+//(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
 }
 void SDLEngine::clearScreen() {
@@ -77,11 +60,6 @@ void SDLEngine::draw() {
 
 void SDLEngine::close() {
 
-	std::cout<<"Run stopped, wait for threads close"<<std::endl;
-	threadWorld.join();
-	std::cout<<"World thread stopped"<<std::endl;
-	threadViewSense.join();
-	std::cout<<"Sense thread stopped"<<std::endl;
 	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(renderer);
 	window = nullptr;
@@ -118,18 +96,6 @@ void SDLEngine::drawActiveCreatureInfo(std::string infoStr) {
 	SDL_QueryTexture(info_texture, nullptr, nullptr, &info_dstrect.w,
 			&info_dstrect.h);
 	SDL_FreeSurface(info_surface);
-}
-
-uint32_t* SDLEngine::countFrameTimeDelta(uint32_t *fTimeDeltaTemp,
-		uint32_t *fTimeDelta) {
-	*fTimeDeltaTemp = SDL_GetTicks() - *fTimeDelta;
-	if (isFPSLimitEnabled && *fTimeDeltaTemp < (1000.0 / fpsLimit)) {
-		SDL_Delay(1);
-		return (countFrameTimeDelta(fTimeDeltaTemp, fTimeDelta));
-	} else {
-		*fTimeDelta = SDL_GetTicks();
-		return (&frameTimeDeltaTemp);
-	}
 }
 
 void SDLEngine::setEngineParameters() {

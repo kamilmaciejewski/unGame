@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 World::World() {
+//	std::srand(time(nullptr)); ??? Is this needed?
 	surface = SDL_LoadBMP("res/arrow.bmp");
 	SDL_SetColorKey(surface, SDL_TRUE,
 			SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
@@ -14,13 +15,12 @@ World::World() {
 	creatures->reserve(maxCreatures);
 	zones = new std::vector<Zone*>();
 
-	std::srand(time(nullptr));
 	settings = nullptr;
 	initZones();
 }
 
 World::~World() {
-	SDL_FreeSurface(backgroundTexture);
+//	SDL_FreeSurface(backgroundTexture);  //Probably not used
 	SDL_FreeSurface(surface);
 	for (auto creature : *creatures) {
 		if (creature != nullptr) {
@@ -28,15 +28,15 @@ World::~World() {
 		}
 	}
 	creatures->clear();
-	delete (creatures);
+	delete creatures;
 
 	for (auto zone : *zones) {
 		if (zone != nullptr) {
-			delete (zone);
+			delete zone;
 		}
 	}
 	zones->clear();
-	delete (zones);
+	delete zones;
 }
 
 void World::initZones() {
@@ -50,6 +50,7 @@ void World::initZones() {
 	}
 
 }
+
 void World::addCreature(Creature *creature) {
 	infoStr = "Add new" + std::to_string(creatures->size());
 	creatures->push_back(creature);
@@ -66,9 +67,8 @@ void World::addCreatureReuse(Creature *creature_) {
 
 	for (auto creature : *creatures) {
 		if (!creature->isAlive()) {
-			infoStr = "Reuse" + std::to_string(creatures->size());
 			creature->setPos(creature_->pos);
-//			creature->rotate(creature_->getDrawable()->rot_angle);
+			creature->rotate(creature_->getDrawable()->rot_angle);
 			//creature->setSpeed();
 			//creature->setRotationSpeed(speedZero);
 //			creature->setAlpha(255);
@@ -112,6 +112,7 @@ void World::draw(SDL_Renderer *renderer) {
 //			}
 //		}
 //	}
+
 void World::update(uint32_t *timeDelta) {
 	for (auto creature : *creatures) {
 		creature->update(timeDelta, settings);

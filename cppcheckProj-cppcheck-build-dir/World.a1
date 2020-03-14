@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3385249765">
+        <error id="noCopyConstructor" severity="warning" msg="Class &apos;World&apos; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &apos;World&apos; does not have a copy constructor which is recommended since it has dynamic memory/resource allocation(s)." cwe="398">
+            <location file="/home/kamil/dev/repos/unGame/src/unGame/World.cpp" line="14"/>
+            <symbol>World</symbol>
+        </error>
+        <error id="noOperatorEq" severity="warning" msg="Class &apos;World&apos; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." verbose="Class &apos;World&apos; does not have a operator= which is recommended since it has dynamic memory/resource allocation(s)." cwe="398">
+            <location file="/home/kamil/dev/repos/unGame/src/unGame/World.cpp" line="14"/>
+            <symbol>World</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/World.cpp" file="/home/kamil/dev/repos/unGame/include/Vector.h" line="9"/>
+            <symbol>UNG_Vector</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/World.cpp" file="/home/kamil/dev/repos/unGame/include/Creature.h" line="21"/>
+            <symbol>Creature</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="initZones" lineNumber="43"/>
+    <functiondecl functionName="addCreature" lineNumber="55"/>
+    <functiondecl functionName="addCreatureReuse" lineNumber="60"/>
+    <functiondecl functionName="draw" lineNumber="90"/>
+    <functiondecl functionName="update" lineNumber="118"/>
+    <functiondecl functionName="updateViewSense" lineNumber="129"/>
+    <functiondecl functionName="setSettings" lineNumber="157"/>
+    <functiondecl functionName="markActiveObjectByMousePos" lineNumber="161"/>
+    <functioncall functionName="Creature"/>
+    <functioncall functionName="Object"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="SDL_FreeSurface"/>
+    <functioncall functionName="SDL_LoadBMP"/>
+    <functioncall functionName="SDL_Point"/>
+    <functioncall functionName="SDL_PointInRect"/>
+    <functioncall functionName="UNG_Vector"/>
+    <functioncall functionName="World"/>
+    <functioncall functionName="Zone"/>
+    <functioncall functionName="_settings"/>
+    <functioncall functionName="addCreature"/>
+    <functioncall functionName="addCreatureReuse"/>
+    <functioncall functionName="cleanupView"/>
+    <functioncall functionName="clear"/>
+    <functioncall functionName="const"/>
+    <functioncall functionName="creature"/>
+    <functioncall functionName="creature_"/>
+    <functioncall functionName="creatures"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="delete"/>
+    <functioncall functionName="distance"/>
+    <functioncall functionName="draw"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="for"/>
+    <functioncall functionName="getDrawable"/>
+    <functioncall functionName="getInfo"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="initZones"/>
+    <functioncall functionName="isActive"/>
+    <functioncall functionName="isAlive"/>
+    <functioncall functionName="kickOut"/>
+    <functioncall functionName="look"/>
+    <functioncall functionName="lookAt"/>
+    <functioncall functionName="maxCreatures"/>
+    <functioncall functionName="mousePos"/>
+    <functioncall functionName="nullptr"/>
+    <functioncall functionName="otherCreature"/>
+    <functioncall functionName="pos"/>
+    <functioncall functionName="private:"/>
+    <functioncall functionName="push_back"/>
+    <functioncall functionName="rect_draw"/>
+    <functioncall functionName="renderer"/>
+    <functioncall functionName="reserve"/>
+    <functioncall functionName="return"/>
+    <functioncall functionName="rotate"/>
+    <functioncall functionName="setActive"/>
+    <functioncall functionName="setInactive"/>
+    <functioncall functionName="setPos"/>
+    <functioncall functionName="setRotationSpeed"/>
+    <functioncall functionName="setSpeed"/>
+    <functioncall functionName="settings"/>
+    <functioncall functionName="size"/>
+    <functioncall functionName="speed"/>
+    <functioncall functionName="surface"/>
+    <functioncall functionName="timeDelta"/>
+    <functioncall functionName="tmpCreature"/>
+    <functioncall functionName="to_string"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="update"/>
+    <functioncall functionName="vector"/>
+    <functioncall functionName="x"/>
+    <functioncall functionName="y"/>
+    <functioncall functionName="zoneRes"/>
+  </FileInfo>
+</analyzerinfo>

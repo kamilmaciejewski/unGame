@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="1908591146">
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/Plant.cpp" file="/home/kamil/dev/repos/unGame/include/Vector.h" line="9"/>
+            <symbol>UNG_Vector</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Plant&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Plant&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="/home/kamil/dev/repos/unGame/src/unGame/Plant.cpp" file="/home/kamil/dev/repos/unGame/include/Plant.h" line="17"/>
+            <symbol>Plant</symbol>
+        </error>
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Plant.h:26:7" my-argnr="2" my-argname="settings" filename="/home/kamil/dev/repos/unGame/src/unGame/Plant.cpp" linenr="23" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="draw" lineNumber="16"/>
+    <functiondecl functionName="update" lineNumber="50"/>
+    <functiondecl functionName="setActive" lineNumber="85"/>
+    <functiondecl functionName="setInactive" lineNumber="91"/>
+    <functiondecl functionName="isActive" lineNumber="98"/>
+    <functiondecl functionName="getInfo" lineNumber="121"/>
+    <functioncall functionName="BOOST_LIKELY"/>
+    <functioncall functionName="BOOST_UNLIKELY"/>
+    <functioncall functionName="Object"/>
+    <functioncall functionName="Plant"/>
+    <functioncall functionName="SDL_CreateTextureFromSurface"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="SDL_QueryTexture"/>
+    <functioncall functionName="SDL_RenderCopy"/>
+    <functioncall functionName="UNG_Vector"/>
+    <functioncall functionName="activeState"/>
+    <functioncall functionName="const"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="draw_textures"/>
+    <functioncall functionName="draw_vectors"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="h"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="nullptr"/>
+    <functioncall functionName="pos"/>
+    <functioncall functionName="rect_draw"/>
+    <functioncall functionName="renderer"/>
+    <functioncall functionName="surface"/>
+    <functioncall functionName="surfaceptr"/>
+    <functioncall functionName="texture"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="w"/>
+  </FileInfo>
+</analyzerinfo>

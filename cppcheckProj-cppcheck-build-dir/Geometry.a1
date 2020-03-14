@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3939699773">
+  <FileInfo check="Null pointer">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Geometry.hpp:15:7" my-argnr="1" my-argname="from" filename="/home/kamil/dev/repos/unGame/src/unGame/Geometry.cpp" linenr="7" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Geometry.hpp:15:7" my-argnr="2" my-argname="to" filename="/home/kamil/dev/repos/unGame/src/unGame/Geometry.cpp" linenr="7" value="0"/>
+  </FileInfo>
+  <FileInfo check="Uninitialized variables">
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Geometry.hpp:15:7" my-argnr="1" my-argname="from" filename="/home/kamil/dev/repos/unGame/src/unGame/Geometry.cpp" linenr="7" value="0"/>
+    <unsafe-usage my-id="/home/kamil/dev/repos/unGame/include/Geometry.hpp:15:7" my-argnr="2" my-argname="to" filename="/home/kamil/dev/repos/unGame/src/unGame/Geometry.cpp" linenr="7" value="0"/>
+  </FileInfo>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="distance" lineNumber="6"/>
+    <functiondecl functionName="distance" lineNumber="9"/>
+    <functiondecl functionName="getDifference" lineNumber="12"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="abs"/>
+    <functioncall functionName="b1"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="fmod"/>
+    <functioncall functionName="if"/>
+    <functioncall functionName="pow"/>
+    <functioncall functionName="r"/>
+    <functioncall functionName="sqrt"/>
+    <functioncall functionName="x"/>
+    <functioncall functionName="y"/>
+  </FileInfo>
+</analyzerinfo>

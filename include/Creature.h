@@ -11,11 +11,13 @@ class Creature: public Object {
 	const float fov = 45.0;
 	const int view_dist = 100;
 	const int rotation_step = 3;
-	float metabolism_factor = 0.05;
+	float metabolism_factor = 0.001;
+	const unsigned int max_view_entries = 100;
 
 public:
 	float energy = 255;
-	std::vector<UNG_Vector*> *multiview = new std::vector<UNG_Vector*>();
+	std::vector<UNG_Vector*> *multiview;
+
 	Creature(SDL_Surface*);
 	virtual ~Creature();
 

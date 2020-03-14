@@ -6,6 +6,9 @@ Object::Object() {
 }
 
 Object::~Object() {
+	SDL_DestroyTexture(drawable_->texture);
+	delete drawable_;
+	delete vect;
 }
 
 bool Object::isObjectOnScreen(const int *screenWidth,

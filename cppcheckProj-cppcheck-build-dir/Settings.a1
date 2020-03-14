@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="3406201180">
+  <FileInfo check="CheckUnusedFunctions">
+    <functioncall functionName="Settings"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="true"/>
+  </FileInfo>
+</analyzerinfo>

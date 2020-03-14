@@ -7,6 +7,7 @@ public:
   Settings();
   virtual ~Settings();
 
+  bool isRunning = true;
   bool btn_down = false;
   bool btn_down_left = false;
   bool btn_down_right = false;

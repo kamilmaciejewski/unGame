@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<analyzerinfo checksum="4036163675">
+        <error id="noConstructor" severity="style" msg="The class &apos;SDLEngine&apos; does not have a constructor although it has private member variables." verbose="The class &apos;SDLEngine&apos; does not have a constructor although it has private member variables. Member variables of builtin types are left uninitialized when the class is instantiated. That may cause bugs or undefined behavior." cwe="398">
+            <location file0="src/unGame.cpp" file="/home/kamil/dev/repos/unGame/include/SDLEngine.h" line="16"/>
+            <symbol>SDLEngine</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;UNG_Vector&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="src/unGame.cpp" file="/home/kamil/dev/repos/unGame/include/Vector.h" line="9"/>
+            <symbol>UNG_Vector</symbol>
+        </error>
+        <error id="noExplicitConstructor" severity="style" msg="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit." verbose="Class &apos;Creature&apos; has a constructor with 1 argument that is not explicit. Such constructors should in general be explicit for type safety reasons. Using the explicit keyword in the constructor means some mistakes when using the class can be avoided." cwe="398">
+            <location file0="src/unGame.cpp" file="/home/kamil/dev/repos/unGame/include/Creature.h" line="21"/>
+            <symbol>Creature</symbol>
+        </error>
+  <FileInfo check="CheckUnusedFunctions">
+    <functiondecl functionName="main" lineNumber="8"/>
+    <functioncall functionName="Creature"/>
+    <functioncall functionName="Object"/>
+    <functioncall functionName="SDL_FPoint"/>
+    <functioncall functionName="SDL_Point"/>
+    <functioncall functionName="Settings"/>
+    <functioncall functionName="TestConfigurations"/>
+    <functioncall functionName="UNG_Vector"/>
+    <functioncall functionName="World"/>
+    <functioncall functionName="WorldGenerator"/>
+    <functioncall functionName="Zone"/>
+    <functioncall functionName="conf1Creature"/>
+    <functioncall functionName="const"/>
+    <functioncall functionName="default"/>
+    <functioncall functionName="delete"/>
+    <functioncall functionName="false"/>
+    <functioncall functionName="float"/>
+    <functioncall functionName="generateWorld"/>
+    <functioncall functionName="nullptr"/>
+    <functioncall functionName="pos"/>
+    <functioncall functionName="private:"/>
+    <functioncall functionName="setSettings"/>
+    <functioncall functionName="settings"/>
+    <functioncall functionName="string"/>
+    <functioncall functionName="timeDelta"/>
+    <functioncall functionName="true"/>
+    <functioncall functionName="update"/>
+    <functioncall functionName="updateViewSense"/>
+    <functioncall functionName="world"/>
+    <functioncall functionName="worldGenerator"/>
+  </FileInfo>
+</analyzerinfo>
