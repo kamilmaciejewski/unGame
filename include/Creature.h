@@ -11,7 +11,7 @@ class Creature: public Object {
 	const float fov = 45.0;
 	const int view_dist = 100;
 	const int rotation_step = 3;
-	float metabolism_factor = 0.001;
+	float metabolism_factor = 0.05;
 	const unsigned int max_view_entries = 100;
 
 public:

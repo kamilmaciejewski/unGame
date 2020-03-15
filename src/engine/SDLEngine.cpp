@@ -35,6 +35,7 @@ SDL_bool SDLEngine::init(Settings *settings) {
 }
 
 void SDLEngine::run(World *world) {
+	std::cout << "SDL engine world running" << std::endl;
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
@@ -43,10 +44,9 @@ void SDLEngine::run(World *world) {
 		updateFPSInfo();
 		drawActiveCreatureInfo(world->infoStr);
 		draw();
-//		countFrameTimeDelta(&fpsTimeDelta, &fpsTimeDeltaTemp);
-
-//(&fps_res, &msStart, &msEnd, &fps_counter);
+		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
+	std::cout << "SDL engine world running stop" << std::endl;
 }
 void SDLEngine::clearScreen() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -55,6 +55,8 @@ void SDLEngine::clearScreen() {
 void SDLEngine::draw() {
 	SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
 	SDL_RenderCopy(renderer, info_texture, nullptr, &info_dstrect);
+	SDL_DestroyTexture(fps_texture);
+	SDL_DestroyTexture(info_texture);
 	SDL_RenderPresent(renderer);
 }
 
@@ -109,7 +111,6 @@ void SDLEngine::setEngineParameters() {
 //    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 //    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 2);
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
-
 }
 
 SDL_bool SDLEngine::initTextEngine() {
@@ -130,6 +131,6 @@ SDL_bool SDLEngine::initTextEngine() {
 void SDLEngine::setWindowSize() {
 	SDL_DisplayMode DM;
 	SDL_GetCurrentDisplayMode(0, &DM);
-	UNG_Globals::SCREEN_W = DM.w / 2;
-	UNG_Globals::SCREEN_H = DM.h / 2;
+	UNG_Globals::SCREEN_W = DM.w * 0.8;
+	UNG_Globals::SCREEN_H = DM.h * 0.8;
 }

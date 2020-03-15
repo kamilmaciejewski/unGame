@@ -1,4 +1,3 @@
-
 #include "UNGEngine.h"
 
 UNGEngine::UNGEngine() {
@@ -13,23 +12,25 @@ void UNGEngine::run(World *world) {
 }
 
 void UNGEngine::runMainThread(World *world) {
+	std::cout << "UNG engine world running" << std::endl;
 	while (isRunning) {
 //		countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
-		world->update(countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
+		world->update(
+				countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
 	}
-	std::cout<<"World thread stopping"<<std::endl;
+	std::cout << "UNG engine world running stop" << std::endl;
 }
 void UNGEngine::runSensesThread(World *world) {
 	while (isRunning) {
 //		countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
 		world->updateViewSense();
 	}
-	std::cout<<"Senses thread stopping"<<std::endl;
+	std::cout << "Senses thread stopping" << std::endl;
 }
 
 void UNGEngine::close() {
+	std::cout << "Run stopped, wait for threads close" << std::endl;
 	isRunning = false;
-	std::cout<<"Run stopped, wait for threads close"<<std::endl;
 	threadWorld.join();
 	std::cout<<"World thread stopped"<<std::endl;
 	threadViewSense.join();
@@ -44,6 +45,6 @@ uint32_t* UNGEngine::countFrameTimeDelta(uint32_t *fTimeDeltaTemp,
 		return (countFrameTimeDelta(fTimeDeltaTemp, fTimeDelta));
 	} else {
 		*fTimeDelta = SDL_GetTicks();
-		return (&frameTimeDeltaTemp);
+		return (fTimeDeltaTemp);
 	}
 }

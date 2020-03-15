@@ -97,9 +97,9 @@ void World::draw(SDL_Renderer *renderer) {
 //			infoStr = creature->getInfo();
 //		}
 	}
-//	for (auto zone : *zones) {
-//		zone->draw(renderer);
-//	}
+	for (auto zone : *zones) {
+		zone->draw(renderer);
+	}
 }
 //remove ptr to dead
 //for (ptr = creatures->begin(); ptr < creatures->end(); ptr++) {
@@ -120,7 +120,6 @@ void World::update(uint32_t *timeDelta) {
 			infoStr = creature->getInfo();
 		}
 	}
-//	infoStr = "size: " + std::to_string(creatures->size());
 }
 
 void World::updateViewSense() {
@@ -171,11 +170,12 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 
 	if (settings->mark_active == true) {
 		settings->mark_active = false;
+		bool found =false;
 		for (auto creature : *creatures) {
-			if (SDL_PointInRect(&mousePos,
+			if (!found && SDL_PointInRect(&mousePos,
 					&creature->getDrawable()->rect_draw)) {
 				creature->setActive();
-				return;
+				found = true;
 			} else {
 				creature->setInactive();
 			}

@@ -42,19 +42,6 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	}
 //	if (BOOST_LIKELY(settings->draw_vectors)) {
 //		drawable_->vect.draw(renderer); //draw direction vector
-	//FOV presentation
-//		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, SDL_ALPHA_TRANSPARENT);
-//			for (int dx = -20; dx < 20; dx++) {
-//				double dxrad = degToRad(dx);
-//
-//				for (int x = 0; x < 100; x++) {
-//					SDL_RenderDrawPoint(renderer,
-//							pos.x + (x * sin(drawable_->vect->getAngleRad() + dxrad)),
-//							pos.y + (x * cos(drawable_->vect->getAngleRad() + dxrad)));
-//				}
-//			}
-
-//	}
 }
 
 void Creature::update(const uint32_t *timeDelta, Settings *settings) {
@@ -126,6 +113,7 @@ bool Creature::isActive() {
 
 bool Creature::isAlive() {
 	return energy > 0;
+
 }
 
 void Creature::cleanupView() {
@@ -161,5 +149,6 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 std::string Creature::getInfo() {
-	return "energy: " + std::to_string(energy) + ", view: " + std::to_string(multiview->size());
+	return "energy: " + std::to_string(energy) + ", view: "
+			+ std::to_string(multiview->size());
 }
