@@ -35,7 +35,10 @@ SDL_bool SDLEngine::init(Settings *settings) {
 }
 
 void SDLEngine::run(World *world) {
-	std::cout << "SDL engine world running" << std::endl;
+	threadSDL = std::thread(&SDLEngine::runThread, this, world);
+}
+void SDLEngine::runThread(World *world) {
+	log("SDL engine world running");
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
@@ -46,7 +49,8 @@ void SDLEngine::run(World *world) {
 		draw();
 		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
-	std::cout << "SDL engine world running stop" << std::endl;
+	log("SDL engine world running stop");
+	close();
 }
 void SDLEngine::clearScreen() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
@@ -60,15 +64,36 @@ void SDLEngine::draw() {
 	SDL_RenderPresent(renderer);
 }
 
-void SDLEngine::close() {
+void SDLEngine::stop() {
+	isRunning = false;
+	threadSDL.join();
+	close();
+}
+void SDLEngine::log(std::string message) {
+	if (logger != nullptr) {
+		logger->push(message);
+	}
+}
 
-	SDL_DestroyWindow(window);
-	SDL_DestroyRenderer(renderer);
+void SDLEngine::close() {
+	if (window != nullptr) {
+		SDL_DestroyWindow(window);
+	};
+	if (renderer != nullptr) {
+		SDL_DestroyRenderer(renderer);
+	}
 	window = nullptr;
 	renderer = nullptr;
-	TTF_CloseFont(font);
-	TTF_Quit();
-	SDL_Quit();
+	if (font != nullptr) {
+		TTF_CloseFont(font);
+	}
+	font = nullptr;
+	if (TTF_WasInit()) {
+		TTF_Quit();
+	}
+	if (SDL_WasInit(SDL_INIT_VIDEO)) {
+		SDL_Quit();
+	}
 }
 
 void SDLEngine::countFPS(std::string *res_string, uint32_t *msStart,
@@ -115,13 +140,13 @@ void SDLEngine::setEngineParameters() {
 
 SDL_bool SDLEngine::initTextEngine() {
 	if (TTF_Init() != 0) {
-		std::cout << "TTF_Init failed" << std::endl;
+		log("TTF_Init failed");
 		SDL_Quit();
 		return SDL_FALSE;
 	}
 	font = TTF_OpenFont("res/Pixel.ttf", 15);
 	if (font == nullptr) {
-		std::cout << "Font load failed" << std::endl;
+		log("Font load failed");
 		SDL_Quit();
 		return SDL_FALSE;
 	}

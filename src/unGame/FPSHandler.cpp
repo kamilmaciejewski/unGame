@@ -3,6 +3,8 @@
 
 #include "FPSHandler.hpp"
 
+
+//TODO: not used
 uint32_t* countFrameTimeDelta(uint32_t *fTimeDeltaTemp,
 		uint32_t *fTimeDelta) {
 	*fTimeDeltaTemp = SDL_GetTicks() - *fTimeDelta;

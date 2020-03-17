@@ -3,15 +3,16 @@
 #include "World.h"
 #include "WorldGenerator.h"
 #include "SDLEngine.h"
-#include  "UNGEngine.h"
+#include "UNGEngine.h"
+#include "UNGConsole.h"
 
-WorldGenerator * worldGenerator;
-Settings* settings;
-SDL_Surface* screenSurface = nullptr;
-SDL_Surface* imageSurface = nullptr;
+WorldGenerator *worldGenerator;
+Settings *settings;
+SDL_Surface *screenSurface = nullptr;
+SDL_Surface *imageSurface = nullptr;
 
 SDLEngine sdlEngine;
 UNGEngine ungEngine;
-World * world;
+World *world;
 
 #endif /* UNGAME_H_ */

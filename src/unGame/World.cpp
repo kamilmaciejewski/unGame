@@ -52,8 +52,8 @@ void World::initZones() {
 }
 
 void World::addCreature(Creature *creature) {
-	infoStr = "Add new" + std::to_string(creatures->size());
 	creatures->push_back(creature);
+	log("Add new" + std::to_string(creatures->size()));
 }
 
 void World::addCreatureReuse(Creature *creature_) {
@@ -75,6 +75,7 @@ void World::addCreatureReuse(Creature *creature_) {
 			creature->setInactive();
 			creature->energy = 255;
 			delete creature_;
+			log("Add creature reuse: " + std::to_string(creatures->size()));
 			return;
 		}
 	}
@@ -184,3 +185,8 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 
 }
 
+void World::log(std::string message){
+	if(logger!=nullptr){
+		logger->push(message);
+	}
+}

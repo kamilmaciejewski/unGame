@@ -15,6 +15,7 @@
 
 class SDLEngine {
 
+	std::thread threadSDL;
 	Settings *settings;
 	bool isRunning = true;
 	int frame_counter = 0, frame_counter0 = 0;
@@ -29,7 +30,9 @@ class SDLEngine {
 	void clearScreen();
 	SDL_bool initTextEngine();
 	void draw();
-
+	void runThread(World*);
+	void close();
+	void log(std::string);
 	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
 //	std::thread threadWorld;
@@ -52,8 +55,9 @@ class SDLEngine {
 
 public:
 	SDL_bool init(Settings*);
-	void close();
 	void run(World*);
-};
+	void stop();
+	std::queue<std::string> *logger;
 
+};
 #endif /* SDLENGINE_H_ */

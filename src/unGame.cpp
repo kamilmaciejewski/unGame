@@ -6,33 +6,39 @@
 
 int main(int argc, char *args[]) {
 	settings = new Settings();
+	auto console = new UNGConsole();
 	if (!sdlEngine.init(settings)) {
-		std::cout << "Init failed" << std::endl;
+		console->logqueue.push("Init failed");
 		return 1;
 	}
-	std::cout << "Start world generator" << std::endl;
+	console->logqueue.push("Start world generator");
 	worldGenerator = new WorldGenerator();
-	std::cout << "Generate world" << std::endl;
+	console->logqueue.push("Generate world");
 //
 //	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
 //	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
-  world = worldGenerator->generateWorld(WorldGenerator::conf10KRandomCreatures);
+	world = worldGenerator->generateWorld(
+			WorldGenerator::conf10KRandomCreatures);
+	world->logger = &console->logqueue;
 //
-	std::cout << "World set settings" << std::endl;
+	console->logqueue.push("World set settings");
 	world->setSettings(settings);
-	std::cout << "Starting" << std::endl;
+	console->logqueue.push("Starting");
 	ungEngine.run(world);
 	sdlEngine.run(world);
-	sdlEngine.close();
+	sdlEngine.logger = &console->logqueue;
+	console->run();
+	sdlEngine.stop();
 	ungEngine.close();
-	std::cout << "Removing world..." << std::endl;
+	console->logqueue.push("Removing world...");
 	delete (world);
-	std::cout << "Removing world generator" << std::endl;
+	console->logqueue.push("Removing world generator");
 	delete (worldGenerator);
-	std::cout<<"Removing settings handler"<<std::endl;
+	console->logqueue.push("Removing settings handler");
 	delete (settings);
-	std::cout << "Closed" << std::endl;
+	console->logqueue.push("Closed");
+	console->close();
 	return 0;
 }

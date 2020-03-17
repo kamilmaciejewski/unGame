@@ -9,6 +9,7 @@
 #include "Creature.h"
 #include "Zone.h"
 #include "Globals.h"
+#include <queue>
 
 class World {
 	const int zoneRes = 10;
@@ -18,8 +19,10 @@ class World {
 	std::vector<Creature*> *creatures;
 	std::vector<Zone*> *zones;
 	std::vector<Creature*>::iterator ptr;
+	void log(std::string);
 public:
 
+	std::queue<std::string> *logger = nullptr;
 	std::string infoStr;
 	void markActiveObjectByMousePos(SDL_Point);
 	void draw(SDL_Renderer*);
