@@ -18,9 +18,9 @@ int main(int argc, char *args[]) {
 //	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
 //	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-//  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
-	world = worldGenerator->generateWorld(
-			WorldGenerator::conf10KRandomCreatures);
+  world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
+//	world = worldGenerator->generateWorld(
+//			WorldGenerator::conf10KRandomCreatures);
 	world->logger = &console->logqueue;
 //
 	console->logqueue.push("World set settings");
@@ -40,5 +40,6 @@ int main(int argc, char *args[]) {
 	delete (settings);
 	console->logqueue.push("Closed");
 	console->close();
+	delete console;
 	return 0;
 }

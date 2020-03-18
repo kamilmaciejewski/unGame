@@ -1,11 +1,14 @@
 #include "UNGConsole.h"
+#include "SDL2/SDL.h"
 
 UNGConsole::UNGConsole() {
 
 }
 
 UNGConsole::~UNGConsole() {
-	// TODO Auto-generated destructor stub
+	while (!logqueue.empty()) {
+		logqueue.pop();
+	}
 }
 void UNGConsole::run() {
 	initscr();
@@ -25,8 +28,7 @@ void UNGConsole::run() {
 			counter++;
 
 			while (!logqueue.empty()) {
-				std::string str = logqueue.front();
-				log(str);
+				log(logqueue.front());
 				logqueue.pop();
 			}
 
@@ -36,7 +38,7 @@ void UNGConsole::run() {
 			isRunning = false;
 		}
 	}
-
+	endwin();
 }
 void UNGConsole::log(std::string log) {
 	logs[logCycle] = log;
@@ -51,11 +53,9 @@ void UNGConsole::printLogs() {
 
 void UNGConsole::close() {
 	while (!logqueue.empty()) {
-		std::string str = logqueue.front();
-		log(str);
+		log(logqueue.front());
 		logqueue.pop();
 	}
-	endwin();
 	for (int logEntry = 0; logEntry < logsSize; logEntry++) {
 		if (!logs[(logEntry + logCycle) % logsSize].empty())
 			std::cout << logs[(logEntry + logCycle) % logsSize] << std::endl;
