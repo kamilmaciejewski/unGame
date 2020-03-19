@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <string>
 #include "SDLEngine.h"
 
 SDL_bool SDLEngine::init(Settings *settings) {
@@ -34,11 +34,25 @@ SDL_bool SDLEngine::init(Settings *settings) {
 	}
 }
 
-void SDLEngine::run(World *world) {
+void SDLEngine::run(World *world, Settings *settings) {
+	this->settings = settings;
 	threadSDL = std::thread(&SDLEngine::runThread, this, world);
 }
 void SDLEngine::runThread(World *world) {
-	log("SDL engine world running");
+	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
+		log("SDL Engine init: not initialized, try initialize now");
+		if (!init(settings)) {
+			SDL_Log("SDL Engine init: Unable to initialize SDL: %s",
+					SDL_GetError());
+			log("SDL Engine init: Unable to initialize SDL:");
+			log(SDL_GetError());
+		} else {
+			log("SDL Engine init: SDL init OK in thead");
+		}
+	} else {
+		log("SDL Engine init: SDL already initialized");
+	}
+	log("SDL Engine: world running");
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();

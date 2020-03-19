@@ -55,7 +55,7 @@ class SDLEngine {
 
 public:
 	SDL_bool init(Settings*);
-	void run(World*);
+	void run(World*,Settings *settings);
 	void stop();
 	std::queue<std::string> *logger;
 

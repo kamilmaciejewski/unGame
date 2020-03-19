@@ -7,10 +7,7 @@
 int main(int argc, char *args[]) {
 	settings = new Settings();
 	auto console = new UNGConsole();
-	if (!sdlEngine.init(settings)) {
-		console->logqueue.push("Init failed");
-		return 1;
-	}
+
 	console->logqueue.push("Start world generator");
 	worldGenerator = new WorldGenerator();
 	console->logqueue.push("Generate world");
@@ -27,7 +24,7 @@ int main(int argc, char *args[]) {
 	world->setSettings(settings);
 	console->logqueue.push("Starting");
 	ungEngine.run(world);
-	sdlEngine.run(world);
+	sdlEngine.run(world, settings);
 	sdlEngine.logger = &console->logqueue;
 	console->run();
 	sdlEngine.stop();
