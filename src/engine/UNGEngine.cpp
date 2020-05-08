@@ -7,34 +7,35 @@ UNGEngine::UNGEngine() {
 UNGEngine::~UNGEngine() {
 }
 void UNGEngine::run(World *world) {
+	logger = LoggingHandler::getLogger("UNG Engine");
 	threadWorld = std::thread(&UNGEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&UNGEngine::runSensesThread, this, world);
 }
 
 void UNGEngine::runMainThread(World *world) {
-	std::cout << "UNG engine world running" << std::endl;
+	logger->log("world running");
 	while (isRunning) {
 //		countFPS(&frame_res, &msFrameStart, &msFrameEnd, &frame_counter);
 		world->update(
 				countFrameTimeDelta(&frameTimeDeltaTemp, &frameTimeDelta));
 	}
-	std::cout << "UNG engine world running stop" << std::endl;
+	logger->log("world running stop");
 }
 void UNGEngine::runSensesThread(World *world) {
 	while (isRunning) {
 //		countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
 		world->updateViewSense();
 	}
-	std::cout << "Senses thread stopping" << std::endl;
+	logger->log("Senses thread stopping");
 }
 
 void UNGEngine::close() {
-	std::cout << "Run stopped, wait for threads close" << std::endl;
+	logger->log("Run stopped, wait for threads close");
 	isRunning = false;
 	threadWorld.join();
-	std::cout<<"World thread stopped"<<std::endl;
+	logger->log("World thread stopped");
 	threadViewSense.join();
-	std::cout<<"Sense thread stopped"<<std::endl;
+	logger->log("Sense thread stopped");
 }
 
 uint32_t* UNGEngine::countFrameTimeDelta(uint32_t *fTimeDeltaTemp,

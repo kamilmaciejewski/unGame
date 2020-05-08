@@ -1,16 +1,17 @@
 #include <SDL2/SDL.h>
 #include <stdio.h>
+#include <UNGLogger.h>
 #include <iostream>
 
 #include "unGame.h"
 
 int main(int argc, char *args[]) {
 	settings = new Settings();
-	auto console = new UNGConsole();
-
-	console->logqueue.push("Start world generator");
+	auto console = LoggingHandler::getConsole();
+	auto logger = LoggingHandler::getLogger("MAIN");
+	logger->log("Start world generator");
 	worldGenerator = new WorldGenerator();
-	console->logqueue.push("Generate world");
+	logger->log("Generate world");
 //
 //	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
@@ -18,24 +19,24 @@ int main(int argc, char *args[]) {
   world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
 //	world = worldGenerator->generateWorld(
 //			WorldGenerator::conf10KRandomCreatures);
-	world->logger = &console->logqueue;
+//	world->logger = &console->logqueue;
 //
-	console->logqueue.push("World set settings");
+	logger->log("World set settings");
 	world->setSettings(settings);
-	console->logqueue.push("Starting");
+	logger->log("Starting");
 	ungEngine.run(world);
 	sdlEngine.run(world, settings);
-	sdlEngine.logger = &console->logqueue;
+//	sdlEngine.logger = ;
 	console->run();
 	sdlEngine.stop();
 	ungEngine.close();
-	console->logqueue.push("Removing world...");
+	logger->log("Removing world...");
 	delete (world);
-	console->logqueue.push("Removing world generator");
+	logger->log("Removing world generator");
 	delete (worldGenerator);
-	console->logqueue.push("Removing settings handler");
+	logger->log("Removing settings handler");
 	delete (settings);
-	console->logqueue.push("Closed");
+	logger->log("Closed");
 	console->close();
 	delete console;
 	return 0;

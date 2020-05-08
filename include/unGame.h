@@ -5,6 +5,7 @@
 #include "SDLEngine.h"
 #include "UNGEngine.h"
 #include "UNGConsole.h"
+#include "LoggingHandler.h"
 
 WorldGenerator *worldGenerator;
 Settings *settings;

@@ -13,6 +13,8 @@
 
 class World {
 	const int zoneRes = 10;
+	const int SIZE_W = 1000;
+	const int SIZE_H = 1000;
 	const long unsigned int maxCreatures = 100000;
 	SDL_Surface *backgroundTexture = nullptr;
 	Settings *settings;
@@ -20,6 +22,7 @@ class World {
 	std::vector<Zone*> *zones;
 	std::vector<Creature*>::iterator ptr;
 	void log(std::string);
+	void wrapPos(SDL_FPoint*);
 public:
 
 	std::queue<std::string> *logger = nullptr;

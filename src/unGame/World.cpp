@@ -41,10 +41,8 @@ World::~World() {
 
 void World::initZones() {
 
-	for (int x = 0; x <= UNG_Globals::SCREEN_W;
-			x += UNG_Globals::SCREEN_W / zoneRes) {
-		for (int y = 0; y <= UNG_Globals::SCREEN_H;
-				y += UNG_Globals::SCREEN_H / zoneRes) {
+	for (int x = 0; x <= SIZE_W; x += SIZE_W / zoneRes) {
+		for (int y = 0; y <= SIZE_H; y += SIZE_H / zoneRes) {
 			zones->push_back(new Zone(x, y));
 		}
 	}
@@ -117,6 +115,8 @@ void World::draw(SDL_Renderer *renderer) {
 void World::update(uint32_t *timeDelta) {
 	for (auto creature : *creatures) {
 		creature->update(timeDelta, settings);
+		wrapPos(&creature->pos);
+
 		if (creature->isActive()) {
 			infoStr = creature->getInfo();
 		}
@@ -171,10 +171,11 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 
 	if (settings->mark_active == true) {
 		settings->mark_active = false;
-		bool found =false;
+		bool found = false;
 		for (auto creature : *creatures) {
-			if (!found && SDL_PointInRect(&mousePos,
-					&creature->getDrawable()->rect_draw)) {
+			if (!found
+					&& SDL_PointInRect(&mousePos,
+							&creature->getDrawable()->rect_draw)) {
 				creature->setActive();
 				found = true;
 			} else {
@@ -185,8 +186,21 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 
 }
 
-void World::log(std::string message){
-	if(logger!=nullptr){
+void World::log(std::string message) {
+	if (logger != nullptr) {
 		logger->push(message);
+	}
+}
+
+void World::wrapPos(SDL_FPoint *pos) {
+	if (pos->x < 0) {
+		pos->x = SIZE_W + pos->x;
+	} else if (pos->x > SIZE_W) {
+		pos->x = pos->x - SIZE_W;
+	}
+	if (pos->y < 0) {
+		pos->y = SIZE_H + pos->y;
+	} else if (pos->y > SIZE_H) {
+		pos->y = pos->y - SIZE_H;
 	}
 }

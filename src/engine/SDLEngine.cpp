@@ -2,9 +2,11 @@
 #include <string>
 #include "SDLEngine.h"
 
-SDL_bool SDLEngine::init(Settings *settings) {
-	this->settings = settings;
-	if (SDL_Init( SDL_INIT_VIDEO) < 0) {
+SDL_bool SDLEngine::init(Settings *settings_) {
+	settings = settings_;
+	logger = LoggingHandler::getLogger("SLD Engine");
+	logger->log("ASD");
+	if (!initSDLEngine()) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return SDL_FALSE;
 	} else {
@@ -39,20 +41,9 @@ void SDLEngine::run(World *world, Settings *settings) {
 	threadSDL = std::thread(&SDLEngine::runThread, this, world);
 }
 void SDLEngine::runThread(World *world) {
-	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
-		log("SDL Engine init: not initialized, try initialize now");
-		if (!init(settings)) {
-			SDL_Log("SDL Engine init: Unable to initialize SDL: %s",
-					SDL_GetError());
-			log("SDL Engine init: Unable to initialize SDL:");
-			log(SDL_GetError());
-		} else {
-			log("SDL Engine init: SDL init OK in thead");
-		}
-	} else {
-		log("SDL Engine init: SDL already initialized");
-	}
-	log("SDL Engine: world running");
+
+	init(settings);
+	logger->log("world running");
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
@@ -63,7 +54,7 @@ void SDLEngine::runThread(World *world) {
 		draw();
 		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
-	log("SDL engine world running stop");
+	logger->log("world running stop");
 	close();
 }
 void SDLEngine::clearScreen() {
@@ -82,11 +73,6 @@ void SDLEngine::stop() {
 	isRunning = false;
 	threadSDL.join();
 	close();
-}
-void SDLEngine::log(std::string message) {
-	if (logger != nullptr) {
-		logger->push(message);
-	}
 }
 
 void SDLEngine::close() {
@@ -123,6 +109,7 @@ void SDLEngine::countFPS(std::string *res_string, uint32_t *msStart,
 }
 
 void SDLEngine::updateFPSInfo() {
+	logger->reportFPS(123);
 	std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res
 			+ " Sense FPS: " + sense_res;
 	fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
@@ -154,17 +141,35 @@ void SDLEngine::setEngineParameters() {
 
 SDL_bool SDLEngine::initTextEngine() {
 	if (TTF_Init() != 0) {
-		log("TTF_Init failed");
+		logger->log("init: TTF_Init failed");
 		SDL_Quit();
 		return SDL_FALSE;
 	}
 	font = TTF_OpenFont("res/Pixel.ttf", 15);
 	if (font == nullptr) {
-		log("Font load failed");
+		logger->log("init: font load failed");
 		SDL_Quit();
 		return SDL_FALSE;
 	}
 	return SDL_TRUE;
+}
+SDL_bool SDLEngine::initSDLEngine() {
+	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
+		logger->log("init: not initialized, try initialize now");
+		if (SDL_Init( SDL_INIT_VIDEO) < 0) {
+			SDL_Log("init: Unable to initialize SDL: %s",
+					SDL_GetError());
+			logger->log("init: Unable to initialize SDL:");
+			logger->log(SDL_GetError());
+		} else {
+			logger->log("init: SDL init OK in thead");
+			return SDL_TRUE;
+		}
+	} else {
+		logger->log("init: SDL already initialized");
+		return SDL_TRUE;
+	}
+	return SDL_FALSE;
 }
 
 void SDLEngine::setWindowSize() {

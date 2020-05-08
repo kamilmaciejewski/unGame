@@ -10,6 +10,7 @@ UNGConsole::~UNGConsole() {
 		logqueue.pop();
 	}
 }
+
 void UNGConsole::run() {
 	initscr();
 	cbreak();

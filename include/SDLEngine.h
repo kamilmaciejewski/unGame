@@ -12,11 +12,13 @@
 #include "SDLEventHandler.h"
 #include "Settings.h"
 #include "Globals.h"
+#include "LoggingHandler.h"
 
 class SDLEngine {
-
+	UNGLogger* logger;
+	const std::string ID = "SDL Engine";
 	std::thread threadSDL;
-	Settings *settings;
+	Settings *settings = nullptr;
 	bool isRunning = true;
 	int frame_counter = 0, frame_counter0 = 0;
 	int fps_counter = 0;
@@ -29,10 +31,10 @@ class SDLEngine {
 
 	void clearScreen();
 	SDL_bool initTextEngine();
+	SDL_bool initSDLEngine();
 	void draw();
 	void runThread(World*);
 	void close();
-	void log(std::string);
 	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
 
 //	std::thread threadWorld;
@@ -57,7 +59,7 @@ public:
 	SDL_bool init(Settings*);
 	void run(World*,Settings *settings);
 	void stop();
-	std::queue<std::string> *logger;
+//	std::queue<std::string> *logger;
 
 };
 #endif /* SDLENGINE_H_ */
