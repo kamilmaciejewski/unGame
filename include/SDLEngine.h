@@ -13,8 +13,10 @@
 #include "Settings.h"
 #include "Globals.h"
 #include "UNGLoggingHandler.h"
+#include "UNGTimeFrameHandler.hpp"
 
 class SDLEngine {
+	UNGTimeFrameHandler timeFrameHandler;
 	UNGLogger* logger;
 	const std::string ID = "SDL Engine";
 	std::thread threadSDL;
@@ -23,8 +25,6 @@ class SDLEngine {
 	int frame_counter = 0, frame_counter0 = 0;
 	int fps_counter = 0;
 	uint32_t fpsTimeDelta, fpsTimeDeltaTemp, msStart, msEnd;
-	void countFPS(std::string*, uint32_t*, uint32_t*, int*);
-	void updateFPSInfo();
 	void drawActiveCreatureInfo(std::string);
 	void setEngineParameters();
 	void setWindowSize();
@@ -36,24 +36,16 @@ class SDLEngine {
 	void runThread(World*);
 	void close();
 	uint32_t* countFrameTimeDelta(uint32_t*, uint32_t*);
-
-//	std::thread threadWorld;
-//	std::thread threadViewSense;
-	std::string fps_res, frame_res, sense_res;
-
 	TTF_Font *font;
 
 	SDLEventHandler SdlEventHandler;
 	SDL_Window *window = nullptr;
 //  SDL_Surface* screenSurface = nullptr;
-	SDL_Surface *fps_surface;
 	SDL_Surface *info_surface;
 	SDL_Renderer *renderer = nullptr;
-	SDL_Texture *fps_texture;
 	SDL_Texture *info_texture;
 	SDL_Color color = { 255, 255, 255 };
-	SDL_Rect fps_dstrect = { 10, 10, 0, 0 };
-	SDL_Rect info_dstrect = { 10, 30, 0, 0 };
+	SDL_Rect info_dstrect = { 10, 10, 0, 0 };
 
 public:
 	SDL_bool init(Settings*);

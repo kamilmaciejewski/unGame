@@ -4,6 +4,8 @@
 
 World::World() {
 //	std::srand(time(nullptr)); ??? Is this needed?
+	logger = LoggingHandler::getLogger("WRLD");
+	logger->addPermaLog("active:");
 	surface = SDL_LoadBMP("res/arrow.bmp");
 	SDL_SetColorKey(surface, SDL_TRUE,
 			SDL_MapRGB(surface->format, 0xff, 0x0, 0xff));
@@ -51,7 +53,7 @@ void World::initZones() {
 
 void World::addCreature(Creature *creature) {
 	creatures->push_back(creature);
-	log("Add new" + std::to_string(creatures->size()));
+	logger->log("Add new" + std::to_string(creatures->size()));
 }
 
 void World::addCreatureReuse(Creature *creature_) {
@@ -73,14 +75,14 @@ void World::addCreatureReuse(Creature *creature_) {
 			creature->setInactive();
 			creature->energy = 255;
 			delete creature_;
-			log("Add creature reuse: " + std::to_string(creatures->size()));
+			logger->log("Add creature reuse: " + std::to_string(creatures->size()));
 			return;
 		}
 	}
 	if (creatures->size() < maxCreatures) {
 		addCreature(creature_);
 	} else {
-		infoStr = "Slot not found" + std::to_string(creatures->size());
+		logger->log("Slot not found" + std::to_string(creatures->size()));
 	}
 }
 //TODO: Last two parameters should be a rectangle for zooming the screen.
@@ -118,7 +120,7 @@ void World::update(uint32_t *timeDelta) {
 		wrapPos(&creature->pos);
 
 		if (creature->isActive()) {
-			infoStr = creature->getInfo();
+			logger->setPermaLog("active:", creature->getInfo());
 		}
 	}
 }
@@ -184,12 +186,6 @@ void World::markActiveObjectByMousePos(SDL_Point mousePos) {
 		}
 	}
 
-}
-
-void World::log(std::string message) {
-	if (logger != nullptr) {
-		logger->push(message);
-	}
 }
 
 void World::wrapPos(SDL_FPoint *pos) {

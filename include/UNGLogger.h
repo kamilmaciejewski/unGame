@@ -7,10 +7,14 @@
 
 class UNGLogger {
 public:
+	UNGLogger(std::string, UNGConsole*);
 	~UNGLogger();
+
 	void reportFps(int);
 	void log(std::string);
-	UNGLogger(std::string, UNGConsole*);
+	void addPermaLog(std::string);
+	void setPermaLog(std::string, std::string);
+	void deletePermaLog(std::string);
 private:
 	std::string engineID;
 	UNGConsole *consoleHandler;

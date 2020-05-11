@@ -34,6 +34,7 @@ void UNGConsole::run() {
 			}
 
 			printFps();
+			printPermaLogs();
 			printLogs();
 			refresh();
 		} else {
@@ -48,7 +49,7 @@ void UNGConsole::log(std::string log) {
 }
 void UNGConsole::printLogs() {
 	for (int logEntry = 0; logEntry < logsSize; logEntry++) {
-		mvaddstr(10 + logEntry, 0,
+		mvaddstr(15 + logEntry, 0,
 				logs[(logEntry + logCycle) % logsSize].c_str());
 	}
 }
@@ -61,6 +62,16 @@ void UNGConsole::printFps() {
 	}
 }
 
+void UNGConsole::printPermaLogs() {
+	int rowId = 0;
+	for (auto const &x : permaLogs) {
+		std::string row = x.first + ": " + x.second;
+		mvaddstr(10 + rowId, 0, row.c_str());
+		rowId++;
+	}
+}
+
+
 void UNGConsole::close() {
 	while (!logqueue.empty()) {
 		log(logqueue.front());
@@ -72,12 +83,20 @@ void UNGConsole::close() {
 	}
 	std::cout << "Console closed" << std::endl;
 }
-//void UNGConsole::registerLogger(std::string engineID){
-//
-//}
 void UNGConsole::reportFps(std::string engineID, int fpsVal) {
 	if (fpsReports.find(engineID) == fpsReports.end()) {
 		fpsReports.insert(std::make_pair(engineID, 0));
 	}
 	fpsReports[engineID] = fpsVal;
+}
+
+void UNGConsole::addPermaLog(std::string logId) {
+	permaLogs.insert(std::make_pair(logId, ""));
+}
+void UNGConsole::setPermaLog(std::string logId, std::string logVal) {
+	permaLogs[logId] = logVal;
+}
+
+void UNGConsole::deletePermaLog(std::string logId) {
+	permaLogs.erase(logId);
 }

@@ -9,7 +9,7 @@
 #include "Creature.h"
 #include "Zone.h"
 #include "Globals.h"
-#include <queue>
+#include "UNGLoggingHandler.h"
 
 class World {
 	const int zoneRes = 10;
@@ -25,8 +25,7 @@ class World {
 	void wrapPos(SDL_FPoint*);
 public:
 
-	std::queue<std::string> *logger = nullptr;
-	std::string infoStr;
+	UNGLogger* logger;
 	void markActiveObjectByMousePos(SDL_Point);
 	void draw(SDL_Renderer*);
 	World();

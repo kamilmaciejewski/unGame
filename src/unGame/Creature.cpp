@@ -52,24 +52,11 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		rotate(rotation_speed * *timeDelta);
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
-//			wrapScreenPos();
 		}
 		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 	}
 }
-//void Creature::wrapScreenPos() {
-//	if (pos.x < 0) {
-//		pos.x = UNG_Globals::SCREEN_W + pos.x;
-//	} else if (pos.x > UNG_Globals::SCREEN_W) {
-//		pos.x = pos.x - UNG_Globals::SCREEN_W;
-//	}
-//	if (pos.y < 0) {
-//		pos.y = UNG_Globals::SCREEN_H + pos.y;
-//	} else if (pos.y > UNG_Globals::SCREEN_H) {
-//		pos.y = pos.y - UNG_Globals::SCREEN_H;
-//	}
-//}
 
 void Creature::rotate(const float &rotationAngle) {
 	drawable_->rot_angle += rotationAngle;
@@ -88,18 +75,18 @@ void Creature::move(const uint32_t *time_delta) {
 void Creature::setSpeed(float &speed) {
 	this->speed = speed;
 }
+
 void Creature::setRotationSpeed(float &speed) {
 	this->rotation_speed = speed;
 }
-//void Creature::setAlpha(int alpha) {
-//	this->alpha = alpha;
-//}
+
 void Creature::setActive() {
 	if (!activeState) {
 		SDL_SetTextureAlphaMod(drawable_->texture, 255);
 		activeState = true;
 	}
 }
+
 void Creature::setInactive() {
 	if (activeState) {
 		SDL_SetTextureAlphaMod(drawable_->texture, energy);

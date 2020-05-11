@@ -4,8 +4,10 @@
 
 SDL_bool SDLEngine::init(Settings *settings_) {
 	settings = settings_;
-	logger = LoggingHandler::getLogger("SLD Engine");
-	logger->log("ASD");
+
+	logger = LoggingHandler::getLogger("SDL");
+	timeFrameHandler.setLogger(logger);
+
 	if (!initSDLEngine()) {
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 		return SDL_FALSE;
@@ -37,6 +39,9 @@ SDL_bool SDLEngine::init(Settings *settings_) {
 }
 
 void SDLEngine::run(World *world, Settings *settings) {
+	if (settings->mode != Settings::MODE::GUI) {
+		return;
+	}
 	this->settings = settings;
 	threadSDL = std::thread(&SDLEngine::runThread, this, world);
 }
@@ -49,12 +54,11 @@ void SDLEngine::runThread(World *world) {
 		clearScreen();
 		world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
 		world->draw(renderer);
-		updateFPSInfo();
-		drawActiveCreatureInfo(world->infoStr);
+//		drawActiveCreatureInfo(world->infoStr);
 		draw();
-		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
+		timeFrameHandler.frameTick();
 	}
-	logger->log("world running stop");
+	logger->log("world stopped");
 	logger->reportFps(0);
 	close();
 }
@@ -63,16 +67,16 @@ void SDLEngine::clearScreen() {
 	SDL_RenderClear(renderer);
 }
 void SDLEngine::draw() {
-	SDL_RenderCopy(renderer, fps_texture, nullptr, &fps_dstrect);
 	SDL_RenderCopy(renderer, info_texture, nullptr, &info_dstrect);
-	SDL_DestroyTexture(fps_texture);
 	SDL_DestroyTexture(info_texture);
 	SDL_RenderPresent(renderer);
 }
 
 void SDLEngine::stop() {
 	isRunning = false;
-	threadSDL.join();
+	if (threadSDL.joinable()) {
+		threadSDL.join();
+	}
 	close();
 }
 
@@ -97,28 +101,6 @@ void SDLEngine::close() {
 	}
 }
 
-void SDLEngine::countFPS(std::string *res_string, uint32_t *msStart,
-		uint32_t *msEnd, int *frame_counter) {
-	*msEnd = SDL_GetTicks();
-	if (*msEnd - *msStart > 1000) {
-		*msStart = SDL_GetTicks();
-		*res_string = std::to_string(*frame_counter);
-		logger->reportFps(*frame_counter);
-		*frame_counter = 0;
-	} else {
-		++*frame_counter;
-	}
-}
-
-void SDLEngine::updateFPSInfo() {
-	std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res
-			+ " Sense FPS: " + sense_res;
-	fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);
-	fps_texture = SDL_CreateTextureFromSurface(renderer, fps_surface);
-	SDL_QueryTexture(fps_texture, nullptr, nullptr, &fps_dstrect.w,
-			&fps_dstrect.h);
-	SDL_FreeSurface(fps_surface);
-}
 void SDLEngine::drawActiveCreatureInfo(std::string infoStr) {
 	info_surface = TTF_RenderText_Solid(font, infoStr.c_str(), color);
 	info_texture = SDL_CreateTextureFromSurface(renderer, info_surface);
@@ -158,8 +140,7 @@ SDL_bool SDLEngine::initSDLEngine() {
 	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
 		logger->log("init: not initialized, try initialize now");
 		if (SDL_Init( SDL_INIT_VIDEO) < 0) {
-			SDL_Log("init: Unable to initialize SDL: %s",
-					SDL_GetError());
+			SDL_Log("init: Unable to initialize SDL: %s", SDL_GetError());
 			logger->log("init: Unable to initialize SDL:");
 			logger->log(SDL_GetError());
 		} else {
