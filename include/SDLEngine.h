@@ -12,7 +12,7 @@
 #include "SDLEventHandler.h"
 #include "Settings.h"
 #include "Globals.h"
-#include "LoggingHandler.h"
+#include "UNGLoggingHandler.h"
 
 class SDLEngine {
 	UNGLogger* logger;
@@ -59,7 +59,6 @@ public:
 	SDL_bool init(Settings*);
 	void run(World*,Settings *settings);
 	void stop();
-//	std::queue<std::string> *logger;
 
 };
 #endif /* SDLENGINE_H_ */

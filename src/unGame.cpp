@@ -12,21 +12,19 @@ int main(int argc, char *args[]) {
 	logger->log("Start world generator");
 	worldGenerator = new WorldGenerator();
 	logger->log("Generate world");
-//
+
 //	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
 //	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
   world = worldGenerator->generateWorld(WorldGenerator::conf1KRandomCreatures);
 //	world = worldGenerator->generateWorld(
 //			WorldGenerator::conf10KRandomCreatures);
-//	world->logger = &console->logqueue;
-//
+
 	logger->log("World set settings");
 	world->setSettings(settings);
 	logger->log("Starting");
 	ungEngine.run(world);
 	sdlEngine.run(world, settings);
-//	sdlEngine.logger = ;
 	console->run();
 	sdlEngine.stop();
 	ungEngine.close();

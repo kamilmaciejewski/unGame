@@ -2,14 +2,13 @@
 #define UNG_UNGLogger_H_
 
 #include <string>
-#include <map>
 #include "UNGConsole.h"
 #include "Globals.h"
 
 class UNGLogger {
 public:
 	~UNGLogger();
-	void reportFPS(int);
+	void reportFps(int);
 	void log(std::string);
 	UNGLogger(std::string, UNGConsole*);
 private:

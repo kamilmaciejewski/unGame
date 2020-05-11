@@ -8,6 +8,7 @@ UNGEngine::~UNGEngine() {
 }
 void UNGEngine::run(World *world) {
 	logger = LoggingHandler::getLogger("UNG Engine");
+	logger->reportFps(9);
 	threadWorld = std::thread(&UNGEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&UNGEngine::runSensesThread, this, world);
 }

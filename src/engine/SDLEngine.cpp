@@ -55,6 +55,7 @@ void SDLEngine::runThread(World *world) {
 		countFPS(&fps_res, &msStart, &msEnd, &fps_counter);
 	}
 	logger->log("world running stop");
+	logger->reportFps(0);
 	close();
 }
 void SDLEngine::clearScreen() {
@@ -102,6 +103,7 @@ void SDLEngine::countFPS(std::string *res_string, uint32_t *msStart,
 	if (*msEnd - *msStart > 1000) {
 		*msStart = SDL_GetTicks();
 		*res_string = std::to_string(*frame_counter);
+		logger->reportFps(*frame_counter);
 		*frame_counter = 0;
 	} else {
 		++*frame_counter;
@@ -109,7 +111,6 @@ void SDLEngine::countFPS(std::string *res_string, uint32_t *msStart,
 }
 
 void SDLEngine::updateFPSInfo() {
-	logger->reportFPS(123);
 	std::string asd = "Draw FPS: " + fps_res + " Engine FPS: " + frame_res
 			+ " Sense FPS: " + sense_res;
 	fps_surface = TTF_RenderText_Solid(font, asd.c_str(), color);

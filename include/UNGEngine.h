@@ -9,9 +9,9 @@
 #include "SDLEventHandler.h"
 #include "Settings.h"
 #include "Globals.h"
-#include "LoggingHandler.h"
+#include "UNGLoggingHandler.h"
 class UNGEngine {
-	UNGLogger* logger;
+	UNGLogger* logger = nullptr;
 	bool isFPSLimitEnabled = false;
 	int fpsLimit = 99;
 	uint32_t frameTimeDelta, frameTimeDeltaTemp,

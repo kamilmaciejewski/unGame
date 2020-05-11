@@ -33,6 +33,7 @@ void UNGConsole::run() {
 				logqueue.pop();
 			}
 
+			printFps();
 			printLogs();
 			refresh();
 		} else {
@@ -51,6 +52,14 @@ void UNGConsole::printLogs() {
 				logs[(logEntry + logCycle) % logsSize].c_str());
 	}
 }
+void UNGConsole::printFps() {
+	int rowId = 0;
+	for (auto const &x : fpsReports) {
+		std::string row = x.first + " FPS: " + std::to_string(x.second);
+		mvaddstr(5 + rowId, 0, row.c_str());
+		rowId++;
+	}
+}
 
 void UNGConsole::close() {
 	while (!logqueue.empty()) {
@@ -62,4 +71,13 @@ void UNGConsole::close() {
 			std::cout << logs[(logEntry + logCycle) % logsSize] << std::endl;
 	}
 	std::cout << "Console closed" << std::endl;
+}
+//void UNGConsole::registerLogger(std::string engineID){
+//
+//}
+void UNGConsole::reportFps(std::string engineID, int fpsVal) {
+	if (fpsReports.find(engineID) == fpsReports.end()) {
+		fpsReports.insert(std::make_pair(engineID, 0));
+	}
+	fpsReports[engineID] = fpsVal;
 }
