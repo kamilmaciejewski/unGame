@@ -12,7 +12,7 @@ class Creature: public Object {
 	const float FOV = 45.0;
 	const int VIEW_DIST = 100;
 	const int ROTATION_STEP = 3;
-	float metabolism_factor = 0.01;
+	float metabolism_factor = 0.05;
 	const unsigned int MAX_VIEW_ENTRIES = 1000;
 
 public:

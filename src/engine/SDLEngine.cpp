@@ -52,7 +52,7 @@ void SDLEngine::runThread(World *world) {
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
-		world->markActiveObjectByMousePos(SdlEventHandler.mousePos);
+		world->handleInput(SdlEventHandler.mousePos);
 		world->draw(renderer);
 //		drawActiveCreatureInfo(world->infoStr);
 		draw();

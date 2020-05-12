@@ -35,7 +35,7 @@ try {
 		settings->mode = Settings::MODE::CONSOLE;
 	}
 
-	logger->log("Mode: " + settings->mode);
+	logger->log("Mode: " + mode);
 	logger->log("Start world generator");
 	worldGenerator = new WorldGenerator();
 	logger->log("Generate world");

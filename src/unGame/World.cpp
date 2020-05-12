@@ -56,6 +56,29 @@ void World::addCreature(Creature *creature) {
 	creatures->push_back(creature);
 }
 
+void World::addCreature(SDL_Point pos){
+			float speed = 0.05;
+			Creature *tmpCreature = new Creature(surface);
+			tmpCreature->setPos(
+					SDL_FPoint { (float) pos.x, (float) pos.y });
+			tmpCreature->rotate(0);
+			tmpCreature->setSpeed(speed);
+			tmpCreature->setRotationSpeed(speed);
+			tmpCreature->setInactive();
+			addCreatureReuse(tmpCreature);
+}
+
+void World::addPlant(SDL_Point pos) {
+	Plant *plant = new Plant();
+	plant->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
+	plant->setActive();
+	plant->update();
+	plants->push_back(plant);
+	for (auto zone : *zones) {
+		zone->update(plant);
+	}
+}
+
 void World::addCreatureReuse(Creature *creature_) {
 
 //	for (ptr = creatures->begin(); ptr < creatures->end(); ptr++) {
@@ -124,17 +147,19 @@ void World::update(uint32_t *timeDelta) {
 		if (creature->isActive()) {
 			logger->setPermaLog("active:", creature->getInfo());
 		}
+		logger->setPermaLog("Size", std::to_string(creatures->size()));
 	}
 }
 
 void World::updateViewSense() {
+	activeCreaturesCounter = 0;
+	activePlantsCounter = 0;
 	if (settings->look) {
 		for (auto creature : *creatures) {
 			if (creature->isAlive()) {
+				++activeCreaturesCounter;
 				creature->cleanupView();
 				for (auto zone : *zones) {
-					if (zone->plants->size()>0)
-						logger->setPermaLog("Zone", std::to_string(zone->plants->size()));
 					zone->update(creature);
 					for (auto plant : *zone->plants) {
 						if (plant != nullptr) {
@@ -161,33 +186,26 @@ void World::updateViewSense() {
 			for (auto zone : *zones) {
 				zone->kickOut(plant);
 			}
+		} else {
+			++activePlantsCounter;
 		}
 	}
+	logger->setPermaLog("active creatures:", std::to_string(activeCreaturesCounter));
+	logger->setPermaLog("active plants:", std::to_string(activePlantsCounter));
 }
 
 void World::setSettings(Settings *_settings) {
 	settings = _settings;
 }
 
-void World::markActiveObjectByMousePos(SDL_Point mousePos) {
+void World::handleInput(SDL_Point mousePos) {
 
 	if (settings->btn_down_right == true) {
-//		float speed = 0.05;
-//		Creature *tmpCreature = new Creature(surface);
-//		tmpCreature->setPos(
-//				SDL_FPoint { (float) mousePos.x, (float) mousePos.y });
-//		tmpCreature->rotate(0);
-//		tmpCreature->setSpeed(speed);
-//		tmpCreature->setRotationSpeed(speed);
-//		tmpCreature->setInactive();
-//		addCreatureReuse(tmpCreature);
-		Plant *plant = new Plant();
-		plant->setPos(SDL_FPoint { (float) mousePos.x, (float) mousePos.y });
-		plant->setActive();
-		plant->update();
-		plants->push_back(plant);
-		for (auto zone : *zones) {
-			zone->update(plant);
+		if (settings->creature) {
+			addCreature(mousePos);
+		} else {
+
+			addPlant(mousePos);
 		}
 	}
 

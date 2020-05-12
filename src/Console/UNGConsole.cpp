@@ -36,6 +36,7 @@ void UNGConsole::run() {
 			printFps();
 			printPermaLogs();
 			printLogs();
+			printInfo();
 			refresh();
 		} else {
 			isRunning = false;
@@ -53,6 +54,20 @@ void UNGConsole::printLogs() {
 				logs[(logEntry + logCycle) % logsSize].c_str());
 	}
 }
+
+void UNGConsole::printInfo() {
+		int rowid = 30;
+		mvaddstr(rowid++, 0, "Usage in Console window:");
+		mvaddstr(rowid++, 0, "ANY: exit");
+		rowid++;
+		mvaddstr(rowid++, 0, "Usage in GUI window:");
+		mvaddstr(rowid++, 0, "V: draw vectors toggle, T: draw textures toggle");
+		mvaddstr(rowid++, 0, "R: rotate toggle,       M: move toggle");
+		mvaddstr(rowid++, 0, "L: look toggle,          C: add creature/plant toggle");
+		mvaddstr(rowid++, 0, "ESC: close GUI window");
+		mvaddstr(rowid++, 0, "LMB: mark active object, RMB: add creature/plant");
+}
+
 void UNGConsole::printFps() {
 	int rowId = 0;
 	for (auto const &x : fpsReports) {

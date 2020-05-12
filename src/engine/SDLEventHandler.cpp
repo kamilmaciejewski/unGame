@@ -50,6 +50,9 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
       case SDL_SCANCODE_L:
         settings->look = !settings->look;
         break;
+      case SDL_SCANCODE_C:
+	  settings->creature = !settings->creature;
+	  	break;
       case SDL_SCANCODE_ESCAPE:
         *result = false;
         break;

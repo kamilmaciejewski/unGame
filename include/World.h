@@ -18,6 +18,8 @@ class World {
 	const unsigned int SIZE_H = 1000;
 	const unsigned int MAX_CREATURES = 100000;
 	const unsigned int MAX_PLANTS = 100000;
+	uint32_t activeCreaturesCounter = 0;
+	uint32_t activePlantsCounter = 0;
 
 //	SDL_Surface *backgroundTexture = nullptr;
 
@@ -36,9 +38,11 @@ public:
 	virtual ~World();
 	SDL_Surface *surface;
 
-	void markActiveObjectByMousePos(SDL_Point);
+	void handleInput(SDL_Point);
 	void draw(SDL_Renderer*);
+	void addCreature(SDL_Point);
 	void addCreature(Creature*);
+	void addPlant(SDL_Point);
 	void addCreatureReuse(Creature*);
 	void initZones();
 	void update(uint32_t*);

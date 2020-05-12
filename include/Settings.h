@@ -20,6 +20,7 @@ enum MODE{CONSOLE, GUI};
   bool rotate = true;
   bool move = true;
   bool look = true;
+  bool creature = true;
 };
 
 #endif /* UNGAME_SETTINGS_H_ */

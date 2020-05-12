@@ -23,6 +23,7 @@ class UNGConsole {
 	std::map<std::string, std::string> permaLogs;
 	int logCycle = 0;
 	void printLogs();
+	void printInfo();
 	void printFps();
 	void printPermaLogs();
 	std::queue<std::string> logqueue;

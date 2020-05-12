@@ -47,7 +47,7 @@ void Zone::kickOut(Plant *plant) {
 }
 
 void Zone::draw(SDL_Renderer *renderer) {
-	if (creatures->size() > 0 || plants->size() >0) {
+	if (creatures->size() > 0 || plants->size() > 0) {
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0x0, 0x0, SDL_ALPHA_TRANSPARENT);
 	} else {
 		SDL_SetRenderDrawColor(renderer, 0x0, 0xFF, 0x0, SDL_ALPHA_TRANSPARENT);
