@@ -7,37 +7,43 @@
 #include <time.h>
 
 #include "Creature.h"
+#include "Plant.h"
 #include "Zone.h"
 #include "Globals.h"
-#include <queue>
+#include "UNGLoggingHandler.h"
 
 class World {
-	const int zoneRes = 10;
-	const int SIZE_W = 1000;
-	const int SIZE_H = 1000;
-	const long unsigned int maxCreatures = 100000;
-	SDL_Surface *backgroundTexture = nullptr;
+	const unsigned int ZONE_RES = 10;
+	const unsigned int SIZE_W = 1000;
+	const unsigned int SIZE_H = 1000;
+	const unsigned int MAX_CREATURES = 100000;
+	const unsigned int MAX_PLANTS = 100000;
+
+//	SDL_Surface *backgroundTexture = nullptr;
+
 	Settings *settings;
 	std::vector<Creature*> *creatures;
+	std::vector<Plant*> *plants;
 	std::vector<Zone*> *zones;
 	std::vector<Creature*>::iterator ptr;
-	void log(std::string);
+
 	void wrapPos(SDL_FPoint*);
+	UNGLogger* logger;
+
 public:
 
-	std::queue<std::string> *logger = nullptr;
-	std::string infoStr;
-	void markActiveObjectByMousePos(SDL_Point);
-	void draw(SDL_Renderer*);
 	World();
 	virtual ~World();
+	SDL_Surface *surface;
+
+	void markActiveObjectByMousePos(SDL_Point);
+	void draw(SDL_Renderer*);
 	void addCreature(Creature*);
 	void addCreatureReuse(Creature*);
 	void initZones();
 	void update(uint32_t*);
 	void updateViewSense();
 	void setSettings(Settings*);
-	SDL_Surface *surface;
 };
 
 #endif /* WORLD_H_ */

@@ -20,12 +20,17 @@ class UNGConsole {
 	const int logsSize = 10;
 	std::string logs [10];
 	std::map<std::string, int> fpsReports;
+	std::map<std::string, std::string> permaLogs;
 	int logCycle = 0;
 	void printLogs();
 	void printFps();
+	void printPermaLogs();
 	std::queue<std::string> logqueue;
-//	void registerLogger(std::string);
 	void reportFps(std::string, int);
+	void addPermaLog(std::string);
+	void setPermaLog(std::string, std::string);
+	void deletePermaLog(std::string);
+
 public:
 	UNGConsole();
 	virtual ~UNGConsole();

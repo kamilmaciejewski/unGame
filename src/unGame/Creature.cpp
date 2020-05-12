@@ -9,7 +9,7 @@
 
 Creature::Creature(SDL_Surface *surfaceptr) {
 	multiview = new std::vector<UNG_Vector*>();
-	multiview->reserve(max_view_entries);
+	multiview->reserve(MAX_VIEW_ENTRIES);
 	surface = surfaceptr;
 }
 
@@ -52,24 +52,11 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		rotate(rotation_speed * *timeDelta);
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
-//			wrapScreenPos();
 		}
 		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 	}
 }
-//void Creature::wrapScreenPos() {
-//	if (pos.x < 0) {
-//		pos.x = UNG_Globals::SCREEN_W + pos.x;
-//	} else if (pos.x > UNG_Globals::SCREEN_W) {
-//		pos.x = pos.x - UNG_Globals::SCREEN_W;
-//	}
-//	if (pos.y < 0) {
-//		pos.y = UNG_Globals::SCREEN_H + pos.y;
-//	} else if (pos.y > UNG_Globals::SCREEN_H) {
-//		pos.y = pos.y - UNG_Globals::SCREEN_H;
-//	}
-//}
 
 void Creature::rotate(const float &rotationAngle) {
 	drawable_->rot_angle += rotationAngle;
@@ -88,18 +75,18 @@ void Creature::move(const uint32_t *time_delta) {
 void Creature::setSpeed(float &speed) {
 	this->speed = speed;
 }
+
 void Creature::setRotationSpeed(float &speed) {
 	this->rotation_speed = speed;
 }
-//void Creature::setAlpha(int alpha) {
-//	this->alpha = alpha;
-//}
+
 void Creature::setActive() {
 	if (!activeState) {
 		SDL_SetTextureAlphaMod(drawable_->texture, 255);
 		activeState = true;
 	}
 }
+
 void Creature::setInactive() {
 	if (activeState) {
 		SDL_SetTextureAlphaMod(drawable_->texture, energy);
@@ -127,21 +114,32 @@ void Creature::cleanupView() {
 }
 
 bool Creature::lookAt(const Creature *otherCreature) {
-	if (multiview->size() < max_view_entries) {
+	if (multiview->size() < MAX_VIEW_ENTRIES) {
 		auto vect = lookAt(otherCreature->pos);
 		if (vect != nullptr) {
 			multiview->push_back(vect);
 			return true;
 		}
 	}
-
 	return false;
 }
+
+bool Creature::lookAt(const Plant *plant) {
+	if (multiview->size() < MAX_VIEW_ENTRIES) {
+		auto vect = lookAt(plant->pos);
+		if (vect != nullptr) {
+			multiview->push_back(vect);
+			return true;
+		}
+	}
+	return false;
+}
+
 UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 	float dist = distance(pos, point);
-	if (dist != 0 && abs(dist) < view_dist) {
+	if (dist != 0 && abs(dist) < VIEW_DIST) {
 		float angle = radToDeg(atan2(point.x - pos.x, point.y - pos.y));
-		if (getDifference(vect->getAngleDeg(), angle) < fov) {
+		if (getDifference(vect->getAngleDeg(), angle) < FOV) {
 			return new UNG_Vector(&pos, angle, dist);
 		}
 	}

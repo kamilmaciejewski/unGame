@@ -5,14 +5,15 @@
 
 #include "SDL2_rotozoom.h"
 #include "Object.h"
+#include "Plant.h"
 
 class Creature: public Object {
 
-	const float fov = 45.0;
-	const int view_dist = 100;
-	const int rotation_step = 3;
-	float metabolism_factor = 0.05;
-	const unsigned int max_view_entries = 100;
+	const float FOV = 45.0;
+	const int VIEW_DIST = 100;
+	const int ROTATION_STEP = 3;
+	float metabolism_factor = 0.01;
+	const unsigned int MAX_VIEW_ENTRIES = 1000;
 
 public:
 	float energy = 255;
@@ -23,7 +24,6 @@ public:
 
 	void setRotationSpeed(float&);
 	void setSpeed(float&);
-//	void setAlpha(int);
 	void setActive();
 	void setInactive();
 
@@ -38,6 +38,7 @@ public:
 	void cleanupView();
 	std::string getInfo();
 	bool lookAt(const Creature*);
+	bool lookAt(const Plant*);
 
 private:
 	UNG_Vector* lookAt(const SDL_FPoint point);

@@ -1,11 +1,14 @@
 #ifndef UNGAME_SETTINGS_H_
 #define UNGAME_SETTINGS_H_
 
+#include <string>
 class Settings {
 public:
-
+enum MODE{CONSOLE, GUI};
   Settings();
   virtual ~Settings();
+
+  MODE mode = MODE::GUI;
 
   bool isRunning = true;
   bool btn_down = false;
