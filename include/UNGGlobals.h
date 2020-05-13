@@ -1,5 +1,5 @@
-#ifndef SRC_UNGAME_GLOBALS_HPP_
-#define SRC_UNGAME_GLOBALS_HPP_
+#ifndef UNGAME_GLOBALS_H_
+#define UNGAME_GLOBALS_H_
 
 namespace UNG_Globals {
 inline int SCREEN_H = 100;
@@ -8,4 +8,4 @@ enum engine {
 	SDLEngine, UNGEngine, WORLDEngine
 };
 }
-#endif /* SRC_UNGAME_GLOBALS_HPP_ */
+#endif /* UNGAME_GLOBALS_H_ */

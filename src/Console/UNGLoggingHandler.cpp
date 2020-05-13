@@ -1,4 +1,5 @@
 #include <UNGLoggingHandler.h>
+
 UNGConsole *LoggingHandler::consoleHandler = nullptr;
 
 UNGLogger* LoggingHandler::getLogger(std::string engineID) {

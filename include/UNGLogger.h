@@ -1,24 +1,24 @@
-#ifndef UNG_UNGLogger_H_
-#define UNG_UNGLogger_H_
+#ifndef UNGLogger_H_
+#define UNGLogger_H_
 
 #include <string>
+
 #include "UNGConsole.h"
-#include "Globals.h"
-//class UNGPermaLog{
-//	public:
-//};
+#include "UNGGlobals.h"
+
 class UNGLogger {
 public:
 	UNGLogger(std::string, UNGConsole*);
-	~UNGLogger();
+	~UNGLogger() = default;
 
 	void reportFps(int);
 	void log(std::string);
 	void setPermaLog(std::string, std::string);
 	void deletePermaLog(std::string);
+
 private:
 	std::string engineID;
 	UNGConsole *consoleHandler;
 };
 
-#endif /* UNG_UNGLogger_H_ */
+#endif /* UNGLogger_H_ */

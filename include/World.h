@@ -9,7 +9,7 @@
 #include "Creature.h"
 #include "Plant.h"
 #include "Zone.h"
-#include "Globals.h"
+#include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 
 class World {

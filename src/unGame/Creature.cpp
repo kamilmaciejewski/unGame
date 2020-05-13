@@ -3,9 +3,9 @@
 #include <cmath>
 #include <iostream>
 #include <boost/config/compiler/gcc.hpp>
+#include <UNGGlobals.h>
 
 #include "Creature.h"
-#include "Globals.h"
 
 Creature::Creature(SDL_Surface *surfaceptr) {
 	multiview = new std::vector<UNG_Vector*>();

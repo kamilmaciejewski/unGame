@@ -1,13 +1,15 @@
-#ifndef SRC_UNGCONSOLE_H_
-#define SRC_UNGCONSOLE_H_
+#ifndef UNGCONSOLE_H_
+#define UNGCONSOLE_H_
 
+#include <iostream>
 #include <map>
 #include <ncurses.h>
 #include <string>
 #include <vector>
 #include <queue>
-#include <iostream>
-#include "Globals.h"
+
+#include "SDL2/SDL.h"
+#include "UNGGlobals.h"
 
 struct UNGConsoleEntry{
 	UNG_Globals::engine engineId;
@@ -17,28 +19,29 @@ struct UNGConsoleEntry{
 class UNGConsole {
 	friend class UNGLogger;
 	bool isRunning = true;
+	int logCycle = 0;
 	const int logsSize = 10;
-	std::string logs [10];
+	std::queue<std::string> logqueue;
 	std::map<std::string, int> fpsReports;
 	std::map<std::string, std::string> permaLogs;
-	int logCycle = 0;
+
+	std::string logs [10];
 	void printLogs();
 	void printInfo();
 	void printFps();
 	void printPermaLogs();
-	std::queue<std::string> logqueue;
 	void reportFps(std::string, int);
 	void addPermaLog(std::string);
 	void setPermaLog(std::string, std::string);
 	void deletePermaLog(std::string);
 
 public:
-	UNGConsole();
+	UNGConsole() = default;
 	virtual ~UNGConsole();
 	void run();
 	void log(std::string);
 	void close();
 };
 
-#endif /* SRC_UNGCONSOLE_H_ */
+#endif /* UNGCONSOLE_H_ */
 

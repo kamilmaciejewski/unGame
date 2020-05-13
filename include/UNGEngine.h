@@ -8,7 +8,7 @@
 #include "World.h"
 #include "SDLEventHandler.h"
 #include "Settings.h"
-#include "Globals.h"
+#include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 #include "UNGTimeFrameHandler.hpp"
 
@@ -17,14 +17,14 @@ class UNGEngine {
 	UNGLogger *loggerSenses = nullptr;
 	UNGTimeFrameHandler timeFrameHandler;
 	UNGTimeFrameHandler timeFrameHandlerSenses;
-	bool isFPSLimitEnabled = true;
+	bool isFPSLimitEnabled = false;
 	int fpsLimit = 99;
 	uint32_t frameEnd = 0, frameStart = 0;
 	bool isRunning = true;
 	std::thread threadWorld;
 	std::thread threadViewSense;
 public:
-	UNGEngine();
+	UNGEngine() = default;
 	virtual ~UNGEngine();
 	void close();
 	void run(World*);

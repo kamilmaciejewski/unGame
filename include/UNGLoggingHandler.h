@@ -1,5 +1,5 @@
-#ifndef SRC_ENGINE_LOGGINGHANDLER_H_
-#define SRC_ENGINE_LOGGINGHANDLER_H_
+#ifndef UNGLOGGINGHANDLER_H_
+#define UNGLOGGINGHANDLER_H_
 
 #include "UNGLogger.h"
 
@@ -11,4 +11,4 @@ private:
 	static UNGConsole* consoleHandler;
 };
 
-#endif /* SRC_ENGINE_LOGGINGHANDLER_H_ */
+#endif /* UNGLOGGINGHANDLER_H_ */

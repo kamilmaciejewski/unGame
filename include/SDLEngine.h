@@ -11,7 +11,7 @@
 #include "World.h"
 #include "SDLEventHandler.h"
 #include "Settings.h"
-#include "Globals.h"
+#include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 #include "UNGTimeFrameHandler.hpp"
 

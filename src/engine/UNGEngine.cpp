@@ -1,9 +1,5 @@
 #include "UNGEngine.h"
 
-UNGEngine::UNGEngine() {
-
-}
-
 UNGEngine::~UNGEngine() {
 }
 void UNGEngine::run(World *world) {
@@ -48,11 +44,11 @@ void UNGEngine::close() {
 
 uint32_t* UNGEngine::countFrameTimeDelta() {
 	frameStart = SDL_GetTicks() - frameEnd;
-//	if (isFPSLimitEnabled && frameStart < (1000.0 / fpsLimit)) {
-//		SDL_Delay(1);
-//		return (countFrameTimeDelta());
-//	} else {
+	if (isFPSLimitEnabled && frameStart < (1000.0 / fpsLimit)) {
+		SDL_Delay(1);
+		return (countFrameTimeDelta());
+	} else {
 	frameEnd = SDL_GetTicks();
 	return (&frameStart);
-//	}
+	}
 }

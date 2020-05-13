@@ -1,9 +1,4 @@
 #include "UNGConsole.h"
-#include "SDL2/SDL.h"
-
-UNGConsole::UNGConsole() {
-
-}
 
 UNGConsole::~UNGConsole() {
 	while (!logqueue.empty()) {
@@ -16,17 +11,15 @@ void UNGConsole::run() {
 	cbreak();
 	noecho();
 	clear();
-	halfdelay(5);
+	halfdelay(10);
 	int counter = 0;
 
 	while (isRunning) {
 		char ch = getch();
 		if (ch == ERR) {
 			erase();
-			mvaddstr(0, 0, "Waiting");
-			std::string cntStr = std::to_string(counter);
-			mvaddstr(1, 0, cntStr.c_str());
-			counter++;
+			std::string cntStr = std::to_string(counter++);
+			mvaddstr(0, 0, ("Running for " + cntStr + " seconds").c_str());
 
 			while (!logqueue.empty()) {
 				log(logqueue.front());
@@ -61,8 +54,8 @@ void UNGConsole::printInfo() {
 		mvaddstr(rowid++, 0, "ANY: exit");
 		rowid++;
 		mvaddstr(rowid++, 0, "Usage in GUI window:");
-		mvaddstr(rowid++, 0, "V: draw vectors toggle, T: draw textures toggle");
-		mvaddstr(rowid++, 0, "R: rotate toggle,       M: move toggle");
+		mvaddstr(rowid++, 0, "V: draw vectors toggle,  T: draw textures toggle");
+		mvaddstr(rowid++, 0, "R: rotate toggle,        M: move toggle");
 		mvaddstr(rowid++, 0, "L: look toggle,          C: add creature/plant toggle");
 		mvaddstr(rowid++, 0, "ESC: close GUI window");
 		mvaddstr(rowid++, 0, "LMB: mark active object, RMB: add creature/plant");
