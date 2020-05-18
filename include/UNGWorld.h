@@ -5,10 +5,10 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
+#include <UNGCreature.h>
+#include <UNGPlant.h>
+#include <UNGZone.h>
 
-#include "Creature.h"
-#include "Plant.h"
-#include "Zone.h"
 #include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 

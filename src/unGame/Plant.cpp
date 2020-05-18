@@ -4,7 +4,7 @@
 #include <iostream>
 #include <boost/config/compiler/gcc.hpp>
 
-#include "Plant.h"
+#include <UNGPlant.h>
 
 Plant::Plant() {
 	drawable_->rect_draw.h = 50;

@@ -1,8 +1,8 @@
-#include "WorldGenerator.h"
+#include <UNGGeometry.hpp>
+#include <UNGWorldGenerator.h>
 #include <cstdlib>
 #include <ctime>
 #include "SDLEngine.h"
-#include "Geometry.hpp"
 
 WorldGenerator::WorldGenerator() {
 	std::srand(time(nullptr));

@@ -1,11 +1,11 @@
 #ifndef ZONE_H_
 #define ZONE_H_
 
+#include <UNGCreature.h>
+#include <UNGPlant.h>
 #include <vector>
 #include <mutex>
 
-#include "Creature.h"
-#include "Plant.h"
 class Zone {
 public:
 	int size = 100;

@@ -4,13 +4,13 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include <stdio.h>
+#include <UNGSettings.h>
+#include <UNGWorld.h>
 #include <string>
 #include <thread>
 
 #include "SDL2_rotozoom.h"
-#include "World.h"
 #include "SDLEventHandler.h"
-#include "Settings.h"
 #include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 #include "UNGTimeFrameHandler.hpp"

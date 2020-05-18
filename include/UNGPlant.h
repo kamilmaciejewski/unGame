@@ -1,10 +1,10 @@
 #ifndef PLANT_H
 #define PLANT_H
 
+#include <UNGObject.h>
 #include <string>
 
 #include "SDL2_rotozoom.h"
-#include "Object.h"
 
 class Plant: public Object {
 
