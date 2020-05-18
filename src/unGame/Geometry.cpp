@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
+#include <UNGGeometry.hpp>
 #include <cmath>
 
-#include "Geometry.hpp"
 
 float distance(const SDL_FPoint *from, const SDL_FPoint *to) {
 	return sqrt((pow(from->x - to->x, 2) + pow(from->y - to->y, 2)));

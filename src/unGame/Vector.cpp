@@ -5,7 +5,7 @@
  *      Author: ekammac
  */
 
-#include "Vector.h"
+#include <UNGVector.h>
 #include <iostream>
 
 UNG_Vector::UNG_Vector(SDL_FPoint *pos_) {

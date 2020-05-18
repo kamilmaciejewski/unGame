@@ -2,11 +2,11 @@
 #define UNGAME_BASICOBJECT_H_
 
 #include <SDL2/SDL.h>
-#include "Vector.h"
-#include "Settings.h"
-#include "Drawable.h"
-#include "Geometry.hpp"
-#include "Vector.h"
+#include <UNGDrawable.h>
+#include <UNGGeometry.hpp>
+#include <UNGSettings.h>
+#include <UNGVector.h>
+#include <UNGVector.h>
 
 class Object {
 

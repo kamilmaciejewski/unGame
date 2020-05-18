@@ -2,12 +2,12 @@
 #define SRC_ENGINE_UNGENGINE_H_
 
 #include <stdio.h>
+#include <UNGSettings.h>
+#include <UNGWorld.h>
 #include <string>
 #include <thread>
 
-#include "World.h"
 #include "SDLEventHandler.h"
-#include "Settings.h"
 #include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
 #include "UNGTimeFrameHandler.hpp"

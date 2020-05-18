@@ -1,7 +1,7 @@
 #ifndef WORLDGENERATOR_H_
 #define WORLDGENERATOR_H_
 
-#include "World.h"
+#include <UNGWorld.h>
 
 class WorldGenerator {
 public:

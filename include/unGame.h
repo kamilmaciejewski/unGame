@@ -5,9 +5,9 @@
 #include <iostream>
 #include <unistd.h>
 #include <boost/program_options.hpp>
+#include <UNGWorld.h>
+#include <UNGWorldGenerator.h>
 
-#include "World.h"
-#include "WorldGenerator.h"
 #include "SDLEngine.h"
 #include "UNGConsole.h"
 #include "UNGEngine.h"

@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
+#include <UNGGeometry.hpp>
+#include <UNGVector.h>
 #include <vector>
-#include "Vector.h"
-#include "Geometry.hpp"
 
 struct drawable {
 	SDL_Texture *texture;

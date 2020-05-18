@@ -1,11 +1,12 @@
 #ifndef CREATURE_H_
 #define CREATURE_H_
 
+#include <UNGObject.h>
+#include <UNGPlant.h>
 #include <string>
 
 #include "SDL2_rotozoom.h"
-#include "Object.h"
-#include "Plant.h"
+#include "UNGNeuralNetwork.h"
 
 class Creature: public Object {
 
@@ -42,6 +43,7 @@ public:
 
 private:
 	UNG_Vector* lookAt(const SDL_FPoint point);
+	UNGNeuralNetwork neuralNet;
 	bool activeState = false;
 	float speed = 0, rotation_speed = 0;
 };

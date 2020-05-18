@@ -1,10 +1,4 @@
-#include <stdio.h>
-#include <SDL2/SDL.h>
-#include <cmath>
-#include <iostream>
-#include <boost/config/compiler/gcc.hpp>
-
-#include "Zone.h"
+#include <UNGZone.h>
 
 Zone::Zone(unsigned int &x, unsigned int &y) {
 	creatures = new std::vector<Creature*>();
