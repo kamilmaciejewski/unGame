@@ -30,6 +30,7 @@ public:
 
 	void draw(SDL_Renderer*, Settings*);
 	void update(const uint32_t*, Settings*);
+	void updateNeuralNet();
 	void wrapScreenPos();
 	void move(const uint32_t*);
 	void rotate(const float&);

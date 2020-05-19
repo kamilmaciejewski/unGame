@@ -6,6 +6,10 @@ UNGNeuralNetwork::UNGNeuralNetwork() {
 	hidden = new std::vector<UNGNeuron*>();
 	output = new std::vector<UNGNeuron*>();
 }
+void UNGNeuralNetwork::process(){
+
+}
+
 
 UNGNeuralNetwork::~UNGNeuralNetwork() {
 	cleanupNetwork(input);

@@ -5,10 +5,12 @@
 #include "UNGLogger.h"
 
 class UNGTimeFrameHandler {
-	uint32_t msStart, msEnd, frameCounter;
-	UNGLogger* logger;
-	public:
+	uint32_t msStart = 0, msEnd = 0, frameCounter = 0;
+	UNGLogger *logger;
+public:
 	void frameTick();
+	bool isFPSLimitEnabled = true;
+	int fpsLimit = 99;
 	void setLogger(UNGLogger*);
 };
 

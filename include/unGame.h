@@ -13,6 +13,7 @@
 #include "UNGEngine.h"
 #include "UNGLoggingHandler.h"
 #include "UNGLogger.h"
+#include "UNGNeuralEngine.h"
 
 WorldGenerator *worldGenerator;
 Settings *settings;
@@ -21,6 +22,8 @@ SDL_Surface *imageSurface = nullptr;
 
 SDLEngine sdlEngine;
 UNGEngine ungEngine;
+UNGNeuralEngine neuralEngine;
 World *world;
+bool handleOptions(int, const char*[]);
 
 #endif /* UNGAME_H_ */

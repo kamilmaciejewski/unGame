@@ -11,6 +11,7 @@ public:
 
 	UNGNeuralNetwork();
 	~UNGNeuralNetwork();
+	void process();
 
 private:
 	void cleanupNetwork(std::vector<UNGNeuron*>*);
