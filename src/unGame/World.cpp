@@ -194,6 +194,13 @@ void World::updateViewSense() {
 	logger->setPermaLog("active plants:", std::to_string(activePlantsCounter));
 }
 
+void World::updateNeuralNetworks(){
+	for (auto creature : *creatures) {
+		creature->updateNeuralNet();
+	}
+
+}
+
 void World::setSettings(Settings *_settings) {
 	settings = _settings;
 }

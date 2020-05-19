@@ -47,6 +47,7 @@ public:
 	void initZones();
 	void update(uint32_t*);
 	void updateViewSense();
+	void updateNeuralNetworks();
 	void setSettings(Settings*);
 };
 

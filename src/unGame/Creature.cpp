@@ -58,6 +58,10 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 	}
 }
 
+void Creature::updateNeuralNet(){
+	neuralNet.process();
+}
+
 void Creature::rotate(const float &rotationAngle) {
 	drawable_->rot_angle += rotationAngle;
 	if (BOOST_UNLIKELY(std::abs(drawable_->rot_angle) > f360)) {

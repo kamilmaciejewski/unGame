@@ -17,7 +17,7 @@ class UNGEngine {
 	UNGLogger *loggerSenses = nullptr;
 	UNGTimeFrameHandler timeFrameHandler;
 	UNGTimeFrameHandler timeFrameHandlerSenses;
-	bool isFPSLimitEnabled = false;
+	bool isFPSLimitEnabled = true;
 	int fpsLimit = 99;
 	uint32_t frameEnd = 0, frameStart = 0;
 	bool isRunning = true;
