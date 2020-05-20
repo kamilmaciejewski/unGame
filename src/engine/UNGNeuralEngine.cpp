@@ -10,6 +10,7 @@ void UNGNeuralEngine::run(World *world) {
 
 void UNGNeuralEngine::runMainThread(World *world) {
 	logger->log("engine running");
+
 	while (isRunning) {
 		world->updateNeuralNetworks();
 		timeFrameHandler.frameTick();
@@ -24,3 +25,4 @@ void UNGNeuralEngine::close() {
 	threadNeur.join();
 	logger->log("Thread stopped");
 }
+

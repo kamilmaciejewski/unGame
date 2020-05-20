@@ -1,19 +1,24 @@
 #ifndef CREATURE_H_
 #define CREATURE_H_
 
-#include <UNGObject.h>
-#include <UNGPlant.h>
+#include <boost/config/compiler/gcc.hpp>
+#include <iostream>
 #include <string>
+#include <SDL2/SDL.h>
+#include <cmath>
 
 #include "SDL2_rotozoom.h"
 #include "UNGNeuralNetwork.h"
+#include "UNGGlobals.h"
+#include "UNGObject.h"
+#include "UNGPlant.h"
 
 class Creature: public Object {
 
 	const float FOV = 45.0;
 	const int VIEW_DIST = 100;
 	const int ROTATION_STEP = 3;
-	float metabolism_factor = 0.05;
+	float metabolism_factor = 0.1;
 	const unsigned int MAX_VIEW_ENTRIES = 1000;
 
 public:
