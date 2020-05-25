@@ -12,14 +12,17 @@
 #include "UNGGlobals.h"
 #include "UNGObject.h"
 #include "UNGPlant.h"
+#include "UNGLoggingHandler.h"
+
 
 class Creature: public Object {
 
 	const float FOV = 45.0;
-	const int VIEW_DIST = 100;
-	const int ROTATION_STEP = 3;
-	float metabolism_factor = 0.1;
-	const unsigned int MAX_VIEW_ENTRIES = 1000;
+	const uint8_t VIEW_DIST = 100;
+	const uint8_t ROTATION_STEP = 3;
+	const uint16_t MAX_VIEW_ENTRIES = 100;
+	UNGLogger *logger;
+	float metabolism_factor = 0.01;
 
 public:
 	float energy = 255;
@@ -46,6 +49,7 @@ public:
 	std::string getInfo();
 	bool lookAt(const Creature*);
 	bool lookAt(const Plant*);
+	void mapViewOnNeuralNetwork(UNG_Vector*);
 
 private:
 	UNG_Vector* lookAt(const SDL_FPoint point);

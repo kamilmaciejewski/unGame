@@ -3,7 +3,6 @@
 #include <UNGWorld.h>
 
 World::World() {
-//	std::srand(time(nullptr)); ??? Is this needed?
 	logger = LoggingHandler::getLogger("WRLD");
 	surface = SDL_LoadBMP("res/arrow.bmp");
 	SDL_SetColorKey(surface, SDL_TRUE,

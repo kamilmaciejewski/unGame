@@ -15,5 +15,5 @@ float getDifference(float b1, float b2) {
 		r += 360.0;
 	if (r >= 180.0)
 		r -= 360.0;
-	return abs(r);
+	return r;
 }

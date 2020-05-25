@@ -6,13 +6,13 @@ void UNGTimeFrameHandler::setLogger(UNGLogger *logger_) {
 
 void UNGTimeFrameHandler::frameTick() {
 
-	frameStart = SDL_GetTicks();
 	if (isFPSLimitEnabled) {
 		while (SDL_GetTicks() - frameStart < fpsLimitDelta) {
-//			SDL_Delay(fpsLimitDelta / (SDL_GetTicks() - frameStart + 1) / 10);
+//			SDL_Delay(fpsLimitDelta / (SDL_GetTicks() - frameStart + 1) / 2);
 			SDL_Delay(1);
 		}
 	}
+	frameStart = SDL_GetTicks();
 	if (SDL_GetTicks() - frameEnd > 1000) {
 		frameEnd = SDL_GetTicks();
 		logger->reportFps(frameCounter);

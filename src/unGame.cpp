@@ -17,10 +17,10 @@ try {
 	logger->log("Generate world");
 
 //	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
-  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
+//  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
 //	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-//	world = worldGenerator->generateWorld(
-//			WorldGenerator::conf1KRandomCreatures);
+	world = worldGenerator->generateWorld(
+			WorldGenerator::conf1KRandomCreatures);
 //	world = worldGenerator->generateWorld(
 //			WorldGenerator::conf10KRandomCreatures);
 

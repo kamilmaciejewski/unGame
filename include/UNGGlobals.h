@@ -7,5 +7,8 @@ inline int SCREEN_W = 100;
 enum engine {
 	SDLEngine, UNGEngine, WORLDEngine
 };
+					        //0xAA BB GG RR
+static const uint32_t RED =   0xFF'00'00'FF;
+static const uint32_t GREEN = 0xFF'00'FF'00;
 }
 #endif /* UNGAME_GLOBALS_H_ */
