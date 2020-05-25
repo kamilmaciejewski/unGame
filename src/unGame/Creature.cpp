@@ -4,6 +4,7 @@ Creature::Creature(SDL_Surface *surfaceptr) {
 	multiview = new std::vector<UNG_Vector*>();
 	multiview->reserve(MAX_VIEW_ENTRIES);
 	surface = surfaceptr;
+	logger = LoggingHandler::getLogger("Creature");
 }
 
 Creature::~Creature() {
@@ -23,6 +24,7 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	if (BOOST_LIKELY(settings->draw_textures)) {
 		SDL_SetTextureAlphaMod(drawable_->texture, energy);
 		if (BOOST_UNLIKELY(activeState)) {
+			neuralNet.draw(renderer);
 			for (auto vect : *multiview) {
 				vect->draw(renderer);
 			}
@@ -51,7 +53,7 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 	}
 }
 
-void Creature::updateNeuralNet(){
+void Creature::updateNeuralNet() {
 	neuralNet.process();
 }
 
@@ -101,6 +103,7 @@ bool Creature::isAlive() {
 }
 
 void Creature::cleanupView() {
+	neuralNet.clearInput();
 	if (multiview->size() > 0) {
 
 		for (auto vect : *multiview) {
@@ -126,6 +129,8 @@ bool Creature::lookAt(const Plant *plant) {
 		auto vect = lookAt(plant->pos);
 		if (vect != nullptr) {
 			multiview->push_back(vect);
+			//TODO: should be relative vector for neural network as plant might get out of view FOV in the mean time
+			mapViewOnNeuralNetwork(vect);
 			return true;
 		}
 	}
@@ -136,11 +141,19 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 	float dist = distance(pos, point);
 	if (dist != 0 && abs(dist) < VIEW_DIST) {
 		float angle = radToDeg(atan2(point.x - pos.x, point.y - pos.y));
-		if (getDifference(vect->getAngleDeg(), angle) < FOV) {
+		if (abs(getDifference(vect->getAngleDeg(), angle)) < FOV) {
 			return new UNG_Vector(&pos, angle, dist);
 		}
 	}
 	return nullptr;
+}
+
+void Creature::mapViewOnNeuralNetwork(UNG_Vector *vectView) {
+	neuralNet.kickInput(
+			int(
+					//TODO: should be relative vector passed here
+					(getDifference(vectView->getAngleDeg(), vect->getAngleDeg())
+							+ FOV) / (2 * FOV / neuralNet.inputSize)));
 }
 
 std::string Creature::getInfo() {

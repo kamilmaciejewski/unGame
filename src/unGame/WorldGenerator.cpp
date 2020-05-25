@@ -5,7 +5,6 @@
 #include "SDLEngine.h"
 
 WorldGenerator::WorldGenerator() {
-	std::srand(time(nullptr));
 }
 
 WorldGenerator::~WorldGenerator() {
@@ -15,27 +14,26 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 	World *tmpWorld = new World();
 	if (testConfiguration == conf2CreatureSightTest) {
 		Creature *observer = new Creature(tmpWorld->surface);
-		float speedZero2 = 0.2;
+		float speedZero2 = 0.05;
 		float speedZero = 0.0;
 		observer->setPos(
-				SDL_FPoint { (float) UNG_Globals::SCREEN_W / 2, (float) UNG_Globals::SCREEN_H / 2 });
+				SDL_FPoint { (float) 300, (float) 300 });
 		observer->rotate(270);
-		observer->setSpeed(speedZero2);
-		observer->setRotationSpeed(speedZero);
+		observer->setSpeed(speedZero);
+		observer->setRotationSpeed(speedZero2);
 //		observer->setAlpha(255);
-		observer->setInactive();
+		observer->setActive();
 		tmpWorld->addCreature(observer);
 
-		Creature *traveller = new Creature(tmpWorld->surface);
-		float speed = 0.4;
-		traveller->setPos(
-				SDL_FPoint { (float) UNG_Globals::SCREEN_W / 2, (float) UNG_Globals::SCREEN_H / 2 });
-		traveller->rotate(0);
-		traveller->setSpeed(speed);
-		traveller->setRotationSpeed(speed);
-//		traveller->setAlpha(255);
-		traveller->setInactive();
-		tmpWorld->addCreature(traveller);
+//		Creature *traveller = new Creature(tmpWorld->surface);
+//		float speed = 0.4;
+//		traveller->setPos(
+//				SDL_FPoint { (float) UNG_Globals::SCREEN_W / 2, (float) UNG_Globals::SCREEN_H / 2 });
+//		traveller->rotate(0);
+//		traveller->setSpeed(speed);
+//		traveller->setRotationSpeed(speed);
+//		traveller->setInactive();
+//		tmpWorld->addCreature(traveller);
 
 	} else {
 
