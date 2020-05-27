@@ -1,37 +1,28 @@
-/*
- * Vector.cpp
- *
- *  Created on: 16 lip 2018
- *      Author: ekammac
- */
-
 #include <UNGVector.h>
 #include <iostream>
 
-UNG_Vector::UNG_Vector(SDL_FPoint *pos_) {
+UNG_Vector::UNG_Vector(SDL_FPoint *pos) {
 	value = 40;
 	angle = 0.0;
-	pos.x = pos_->x;
-	pos.y = pos_->y;
+	this->pos = pos;
 
 }
-UNG_Vector::UNG_Vector(SDL_FPoint *pos_, float _angle , float _value) {
-	value = _value;
-	angle = _angle;
-	pos.x = pos_->x;
-	pos.y = pos_->y;
+UNG_Vector::UNG_Vector(SDL_FPoint *pos, float angle , float value) {
+	this->value = value;
+	this->angle = angle;
+	this->pos = pos;
 
 }
 
 
 void UNG_Vector::draw(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderDrawLine(renderer, pos.x, pos.y,
-			pos.x + (value * sin(degToRad(angle))),
-			pos.y + (value * cos(degToRad(angle))));
+	SDL_RenderDrawLine(renderer, pos->x, pos->y,
+			pos->x + (value * sin(degToRad(angle))),
+			pos->y + (value * cos(degToRad(angle))));
 }
 
-void UNG_Vector::setVal(float &val) {
+void UNG_Vector::setVal(float val) {
 	value = val;
 }
 

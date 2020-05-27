@@ -10,7 +10,7 @@ public:
 	UNG_Vector(SDL_FPoint*, float, float);
 	virtual ~UNG_Vector() = default;
 	void draw(SDL_Renderer*);
-	void setVal(float&);
+	void setVal(float);
 	void setAngleDeg(float&);
 	void setAngleRad(float&);
 	void add(UNG_Vector*);
@@ -19,7 +19,7 @@ public:
 	float getAngleRad();
 private:
 	float angle;
-	SDL_FPoint pos;
+	SDL_FPoint* pos;
 	float value;
 };
 

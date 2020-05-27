@@ -21,6 +21,7 @@ public:
 	void clearInput();
 	const uint8_t inputSize = 30;
 	const uint8_t hiddenSize = 100;
+	const uint8_t outputSize = 10;
 
 private:
 	UNGLogger *logger = LoggingHandler::getLogger("NeuralNet");
