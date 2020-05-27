@@ -40,6 +40,10 @@ void UNGEngine::close() {
 	logger->log("World thread stopped");
 	threadViewSense.join();
 	logger->log("Sense thread stopped");
+	delete logger;
+	logger = nullptr;
+	delete loggerSenses;
+	loggerSenses = nullptr;
 }
 
 uint32_t* UNGEngine::countFrameTimeDelta() {

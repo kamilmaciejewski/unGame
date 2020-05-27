@@ -52,5 +52,7 @@ void Zone::draw(SDL_Renderer *renderer) {
 Zone::~Zone() {
 	creatures->clear();
 	delete creatures;
+	plants->clear();
+	delete plants;
 }
 

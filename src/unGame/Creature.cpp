@@ -4,39 +4,39 @@ Creature::Creature(SDL_Surface *surfaceptr) {
 	multiview = new std::vector<UNG_Vector*>();
 	multiview->reserve(MAX_VIEW_ENTRIES);
 	surface = surfaceptr;
-	logger = LoggingHandler::getLogger("Creature");
 }
 
 Creature::~Creature() {
 	cleanupView();
 	delete multiview;
+	multiview = nullptr;
 }
 
 void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	if (!isAlive()) {
 		return;
 	}
-	if (BOOST_UNLIKELY(drawable_->texture == nullptr)) {
-		drawable_->texture = SDL_CreateTextureFromSurface(renderer, surface);
-		SDL_QueryTexture(drawable_->texture, nullptr, nullptr,
-				&drawable_->rect_draw.w, &drawable_->rect_draw.h);
+	if (BOOST_UNLIKELY(drawable->texture == nullptr)) {
+		drawable->texture = SDL_CreateTextureFromSurface(renderer, surface);
+		SDL_QueryTexture(drawable->texture, nullptr, nullptr,
+				&drawable->rect_draw.w, &drawable->rect_draw.h);
 	}
 	if (BOOST_LIKELY(settings->draw_textures)) {
-		SDL_SetTextureAlphaMod(drawable_->texture, energy);
+		SDL_SetTextureAlphaMod(drawable->texture, energy);
 		if (BOOST_UNLIKELY(activeState)) {
 			neuralNet.draw(renderer);
 			for (auto vect : *multiview) {
 				vect->draw(renderer);
 			}
-			SDL_RenderDrawRect(renderer, &drawable_->rect_draw);
+			SDL_RenderDrawRect(renderer, &drawable->rect_draw);
 		}
 
-		SDL_RenderCopyEx(renderer, drawable_->texture, nullptr,
-				&drawable_->rect_draw, -drawable_->rot_angle, nullptr,
+		SDL_RenderCopyEx(renderer, drawable->texture, nullptr,
+				&drawable->rect_draw, -drawable->rot_angle, nullptr,
 				SDL_FLIP_NONE);
 	}
 //	if (BOOST_LIKELY(settings->draw_vectors)) {
-//		drawable_->vect.draw(renderer); //draw direction vector
+//		drawable->vect.draw(renderer); //draw direction vector
 }
 
 void Creature::update(const uint32_t *timeDelta, Settings *settings) {
@@ -48,8 +48,8 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
 		}
-		drawable_->rect_draw.x = pos.x - (drawable_->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
-		drawable_->rect_draw.y = pos.y - (drawable_->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
+		drawable->rect_draw.x = pos.x - (drawable->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
+		drawable->rect_draw.y = pos.y - (drawable->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 	}
 }
 
@@ -58,16 +58,16 @@ void Creature::updateNeuralNet() {
 }
 
 void Creature::rotate(const float &rotationAngle) {
-	drawable_->rot_angle += rotationAngle;
-	if (BOOST_UNLIKELY(std::abs(drawable_->rot_angle) > f360)) {
-		drawable_->rot_angle = fmod(drawable_->rot_angle, f360);
+	drawable->rot_angle += rotationAngle;
+	if (BOOST_UNLIKELY(std::abs(drawable->rot_angle) > f360)) {
+		drawable->rot_angle = fmod(drawable->rot_angle, f360);
 	}
-	vect->setAngleDeg(drawable_->rot_angle);
+	vect->setAngleDeg(drawable->rot_angle);
 }
 
 void Creature::move(const uint32_t *time_delta) {
-	pos.x += sin(degToRad(drawable_->rot_angle)) * speed * *time_delta;
-	pos.y += cos(degToRad(drawable_->rot_angle)) * speed * *time_delta;
+	pos.x += sin(degToRad(drawable->rot_angle)) * speed * *time_delta;
+	pos.y += cos(degToRad(drawable->rot_angle)) * speed * *time_delta;
 	energy -= metabolism_factor * (speed * *time_delta);
 }
 
@@ -81,14 +81,14 @@ void Creature::setRotationSpeed(float &speed) {
 
 void Creature::setActive() {
 	if (!activeState) {
-		SDL_SetTextureAlphaMod(drawable_->texture, 255);
+		SDL_SetTextureAlphaMod(drawable->texture, 255);
 		activeState = true;
 	}
 }
 
 void Creature::setInactive() {
 	if (activeState) {
-		SDL_SetTextureAlphaMod(drawable_->texture, energy);
+		SDL_SetTextureAlphaMod(drawable->texture, energy);
 		activeState = false;
 	}
 }
@@ -108,6 +108,7 @@ void Creature::cleanupView() {
 
 		for (auto vect : *multiview) {
 			delete vect;
+			vect = nullptr;
 		}
 		multiview->clear();
 	}

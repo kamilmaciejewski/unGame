@@ -12,7 +12,7 @@ class Object {
 
 protected:
 
-	drawable *drawable_ = new drawable;
+	Drawable *drawable = new Drawable;
 	SDL_Surface *surface = nullptr;
 
 	UNG_Vector *vect = new UNG_Vector { &pos };
@@ -22,7 +22,7 @@ public:
 	Object();
 	virtual ~Object();
 	void setPos(const SDL_FPoint&);
-	drawable* getDrawable();
+	Drawable* getDrawable();
 };
 
 #endif /* UNGAME_BASICOBJECT_H_ */

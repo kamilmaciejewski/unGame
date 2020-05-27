@@ -1,0 +1,13 @@
+{
+   ignore_ncurses_alloc
+   Memcheck:Leak
+   ...
+   obj:*/libncurses.so.*
+}
+{
+   ignore_sdl_alloc
+   Memcheck:Leak
+   ...
+
+   obj:*/libSDL2-2.0.so.*
+}

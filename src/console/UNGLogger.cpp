@@ -19,3 +19,7 @@ void UNGLogger::setPermaLog(std::string logId, std::string logVal) {
 void UNGLogger::deletePermaLog(std::string logId) {
 	consoleHandler->deletePermaLog(engineID+ ": " + logId);
 }
+
+UNGLogger::~UNGLogger(){
+	consoleHandler = nullptr;
+}

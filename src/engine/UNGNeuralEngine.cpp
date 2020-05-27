@@ -24,5 +24,7 @@ void UNGNeuralEngine::close() {
 	isRunning = false;
 	threadNeur.join();
 	logger->log("Thread stopped");
+	delete logger;
+	logger = nullptr;
 }
 

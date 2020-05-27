@@ -16,6 +16,7 @@
 #include "UNGTimeFrameHandler.hpp"
 
 class SDLEngine {
+
 	UNGTimeFrameHandler timeFrameHandler;
 	UNGLogger* logger;
 	const std::string ID = "SDL Engine";
@@ -48,6 +49,7 @@ class SDLEngine {
 	SDL_Rect info_dstrect = { 10, 10, 0, 0 };
 
 public:
+	virtual ~SDLEngine();
 	SDL_bool init(Settings*);
 	void run(World*,Settings *settings);
 	void stop();

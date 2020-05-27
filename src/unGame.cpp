@@ -16,11 +16,11 @@ try {
 	worldGenerator = new WorldGenerator();
 	logger->log("Generate world");
 
-//	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
+	world = worldGenerator->generateWorld(WorldGenerator::conf1Creature);
 //  world = worldGenerator->generateWorld(WorldGenerator::conf2CreatureSightTest);
 //	world = worldGenerator->generateWorld(WorldGenerator::conf99RandomCreatures);
-	world = worldGenerator->generateWorld(
-			WorldGenerator::conf1KRandomCreatures);
+//	world = worldGenerator->generateWorld(
+//			WorldGenerator::conf1KRandomCreatures);
 //	world = worldGenerator->generateWorld(
 //			WorldGenerator::conf10KRandomCreatures);
 
@@ -37,20 +37,19 @@ try {
 	logger->log("Removing world...");
 	delete (world);
 	logger->log("Removing world generator");
-	delete (worldGenerator);
+	delete worldGenerator;
 	logger->log("Removing settings handler");
-	delete (settings);
+	delete settings;
 	logger->log("Closed");
 	console->close();
 	delete console;
+	delete logger;
 	return 0;
-
 }
 catch (const error &ex) {
 	std::cerr << ex.what() << '\n';
 }
 
-//using namespace boost::program_options;
 bool handleOptions(int argc, const char *argv[]) {
 	options_description desc { "Options" };
 	desc.add_options()("help,h", "Help screen")("mode",
