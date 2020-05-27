@@ -72,6 +72,8 @@ void SDLEngine::clearScreen() {
 	SDL_RenderClear(renderer);
 }
 void SDLEngine::draw() {
+	SDL_SetRenderDrawColor(renderer, 88, 88, 88, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawRect(renderer, &(UNG_Globals::worldBox));
 	SDL_RenderCopy(renderer, info_texture, nullptr, &info_dstrect);
 	SDL_DestroyTexture(info_texture);
 	SDL_RenderPresent(renderer);
@@ -104,7 +106,7 @@ void SDLEngine::close() {
 	if (SDL_WasInit(SDL_INIT_VIDEO)) {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	}
-	if (logger!= nullptr){
+	if (logger != nullptr) {
 		logger->log("Attempt do delete logger");
 		delete logger;
 		logger = nullptr;

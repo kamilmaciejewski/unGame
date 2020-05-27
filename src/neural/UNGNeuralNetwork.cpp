@@ -1,6 +1,6 @@
 #include "UNGNeuralNetwork.h"
 #include <iostream>
-
+using namespace UNG_Globals;
 UNGNeuralNetwork::UNGNeuralNetwork() {
 	input = new std::vector<UNGNeuron*>();
 	input->reserve(inputSize);
@@ -11,15 +11,24 @@ UNGNeuralNetwork::UNGNeuralNetwork() {
 	for (uint8_t i = 0; i < inputSize; i++) {
 		input->push_back(
 				new UNGNeuron(
-						SDL_FPoint { (float) 1100, (float) (25 * (i + 1)) },
-						"in" + std::to_string(i)));
+						SDL_FPoint { (float) neuralBox.x + 10,
+								(float) (neuralBox.h / inputSize * (i))
+										+ neuralBox.y + 10 },
+						"i" + std::to_string(i), (float) 0));
 	}
 	for (uint8_t i = 0; i < hiddenSize; i++) {
-
-		hidden->push_back(generateHiddenNeuron("hi" + std::to_string(i)));
+		hidden->push_back(generateHiddenNeuron("h" + std::to_string(i)));
 	}
 	for (auto neuron : *hidden) {
 		generateNeuronConnections(neuron, input);
+	}
+	for (uint8_t i = 0; i < outputSize; i++) {
+		output->push_back(
+				new UNGNeuron(
+						SDL_FPoint { (float) (neuralBox.x + neuralBox.w - 10),
+								(float) (neuralBox.h / outputSize * (i))
+										+ neuralBox.y + 10 },
+						"o" + std::to_string(i), (float) 0));
 	}
 
 }
@@ -28,7 +37,8 @@ void UNGNeuralNetwork::generateNeuronConnections(UNGNeuron *neuron,
 	std::map<float, UNGNeuron*> connections;
 	for (auto external : *network) {
 		if (neuron->id != external->id)
-			connections[100.0/distance(neuron->pos, external->pos)] = external;
+			connections[100.0 / distance(neuron->pos, external->pos)] =
+					external;
 	}
 	std::map<float, UNGNeuron*>::iterator itr;
 	for (itr = connections.begin(); itr != connections.end(); itr++) {
@@ -45,8 +55,8 @@ UNGNeuron* UNGNeuralNetwork::generateHiddenNeuron(std::string id) {
 	uint8_t collisionCount = 0;
 	do {
 		collide = false;
-		posX = (float) 1125 + (rand()) % 300;
-		posY = (float) 25 + (rand()) % 25 * inputSize;
+		posX = (float) neuralBox.x + 25 + (rand() % (neuralBox.w - 50));
+		posY = (float) neuralBox.y + 5 + (rand()) % (neuralBox.h - 10);
 		for (auto neuron : *hidden) {
 			if (abs(posX - neuron->pos.x) < 20.0
 					&& abs(posY - neuron->pos.y) < 20.0) {
@@ -54,7 +64,8 @@ UNGNeuron* UNGNeuralNetwork::generateHiddenNeuron(std::string id) {
 			}
 		}
 	} while (collide && ++collisionCount < 255);
-	return new UNGNeuron(SDL_FPoint { (float) (posX), (float) (posY) }, id);
+	return new UNGNeuron(SDL_FPoint { (float) (posX), (float) (posY) }, id,
+			(rand() % 50) - 115);
 
 }
 void UNGNeuralNetwork::process() {
@@ -78,12 +89,17 @@ void UNGNeuralNetwork::kickInput(int id) {
 }
 
 void UNGNeuralNetwork::draw(SDL_Renderer *renderer) {
+	SDL_SetRenderDrawColor(renderer, 88, 88, 88, SDL_ALPHA_OPAQUE);
+	SDL_RenderDrawRect(renderer, &(neuralBox));
 	for (auto neuron : *hidden) {
 		neuron->draw(renderer);
 	}
 	for (auto neuron : *input) {
 		neuron->draw(renderer);
 	}
+	for (auto neuron : *output) {
+			neuron->draw(renderer);
+		}
 }
 
 UNGNeuralNetwork::~UNGNeuralNetwork() {
@@ -91,7 +107,7 @@ UNGNeuralNetwork::~UNGNeuralNetwork() {
 	cleanupNetwork(hidden);
 	cleanupNetwork(output);
 	delete input;
-	input= nullptr;
+	input = nullptr;
 	delete hidden;
 	hidden = nullptr;
 	delete output;
@@ -101,13 +117,13 @@ UNGNeuralNetwork::~UNGNeuralNetwork() {
 }
 
 void UNGNeuralNetwork::cleanupNetwork(std::vector<UNGNeuron*> *network) {
-	if(network == nullptr){
+	if (network == nullptr) {
 		return;
 	}
 	if (network->size() > 0) {
 		for (auto neuron : *network) {
-			if (neuron!=nullptr)
-			delete neuron;
+			if (neuron != nullptr)
+				delete neuron;
 		}
 		network->clear();
 	}
