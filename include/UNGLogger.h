@@ -9,7 +9,7 @@
 class UNGLogger {
 public:
 	UNGLogger(std::string, UNGConsole*);
-	~UNGLogger() = default;
+	virtual ~UNGLogger();
 
 	void reportFps(int);
 	void log(std::string);

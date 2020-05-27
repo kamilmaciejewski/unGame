@@ -2,6 +2,11 @@
 #include <string>
 #include "SDLEngine.h"
 
+SDLEngine::~SDLEngine() {
+	delete logger;
+	logger = nullptr;
+}
+
 SDL_bool SDLEngine::init(Settings *settings_) {
 	settings = settings_;
 
@@ -98,6 +103,11 @@ void SDLEngine::close() {
 	}
 	if (SDL_WasInit(SDL_INIT_VIDEO)) {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	}
+	if (logger!= nullptr){
+		logger->log("Attempt do delete logger");
+		delete logger;
+		logger = nullptr;
 	}
 }
 

@@ -21,3 +21,6 @@ void UNGTimeFrameHandler::frameTick() {
 		++frameCounter;
 	}
 }
+UNGTimeFrameHandler::~UNGTimeFrameHandler() {
+	logger = nullptr;
+}

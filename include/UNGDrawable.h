@@ -3,7 +3,7 @@
 #include <UNGVector.h>
 #include <vector>
 
-struct drawable {
+struct Drawable {
 	SDL_Texture *texture;
 	SDL_Rect rect_draw;
 	float rot_angle = 0;

@@ -13,6 +13,7 @@ public:
 	uint32_t fpsLimit = 100;
 	uint32_t fpsLimitDelta = 1000.0/fpsLimit;
 	void setLogger(UNGLogger*);
+	virtual ~UNGTimeFrameHandler();
 };
 
 #endif /* UNGAME_TIMEFRAMEHANDLER_HPP_ */

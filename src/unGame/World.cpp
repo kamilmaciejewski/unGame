@@ -38,6 +38,13 @@ World::~World() {
 	}
 	zones->clear();
 	delete zones;
+	for (auto plant : *plants) {
+			if (plant != nullptr) {
+				delete plant;
+			}
+		}
+	plants->clear();
+	delete plants;
 	delete logger;
 }
 

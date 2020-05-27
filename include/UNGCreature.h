@@ -12,7 +12,6 @@
 #include "UNGGlobals.h"
 #include "UNGObject.h"
 #include "UNGPlant.h"
-#include "UNGLoggingHandler.h"
 
 
 class Creature: public Object {
@@ -21,7 +20,6 @@ class Creature: public Object {
 	const uint8_t VIEW_DIST = 100;
 	const uint8_t ROTATION_STEP = 3;
 	const uint16_t MAX_VIEW_ENTRIES = 100;
-	UNGLogger *logger;
 	float metabolism_factor = 0.01;
 
 public:
