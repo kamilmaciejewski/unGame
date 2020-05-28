@@ -1,8 +1,9 @@
 #include "UNGNeuronConnection.h"
 
-UNGNeuronConnection::UNGNeuronConnection(SDL_FPoint pos, UNGNeuron* neuron) {
+UNGNeuronConnection::UNGNeuronConnection(SDL_FPoint pos, UNGNeuron* neuron, std::string id) {
 	externalPos = pos;
 	this->neuron = neuron;
+	this->id = id;
 }
 
 UNGNeuronConnection::~UNGNeuronConnection() {

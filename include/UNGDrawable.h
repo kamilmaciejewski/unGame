@@ -1,5 +1,5 @@
 #include <SDL2/SDL.h>
-#include <UNGGeometry.hpp>
+#include <UNGGeometry.h>
 #include <UNGVector.h>
 #include <vector>
 

@@ -8,6 +8,7 @@
 #include <cmath>
 
 #include "SDL2_rotozoom.h"
+#include <SDL2_gfxPrimitives.h>
 #include "UNGNeuralNetwork.h"
 #include "UNGGlobals.h"
 #include "UNGObject.h"
@@ -36,7 +37,7 @@ public:
 
 	void draw(SDL_Renderer*, Settings*);
 	void update(const uint32_t*, Settings*);
-	void updateNeuralNet();
+	void updateNeuralNet(Settings*);
 	void wrapScreenPos();
 	void move(const uint32_t*);
 	void rotate(const float&);
@@ -48,12 +49,14 @@ public:
 	bool lookAt(const Creature*);
 	bool lookAt(const Plant*);
 	void mapViewOnNeuralNetwork(UNG_Vector*);
+	void mapNeuralNetworkOutput();
 
 private:
 	UNG_Vector* lookAt(const SDL_FPoint point);
 	UNGNeuralNetwork neuralNet;
 	bool activeState = false;
 	float speed = 0, rotation_speed = 0;
+	std::string tmp = "";
 };
 
 #endif /* CREATURE_H_ */

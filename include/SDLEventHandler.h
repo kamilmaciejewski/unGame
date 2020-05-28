@@ -10,6 +10,5 @@ class SDLEventHandler {
 
 public:
   void handleEvents(bool*, Settings*);
-  SDL_Point mousePos;
 };
 #endif /* SDLEVENTHANDLER_H_ */

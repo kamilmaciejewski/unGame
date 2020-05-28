@@ -38,7 +38,7 @@ public:
 	virtual ~World();
 	SDL_Surface *surface;
 
-	void handleInput(SDL_Point);
+	void handleInput();
 	void draw(SDL_Renderer*);
 	void addCreature(SDL_Point);
 	void addCreature(Creature*);

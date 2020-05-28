@@ -2,6 +2,7 @@
 #define UNGAME_SETTINGS_H_
 
 #include <string>
+#include <SDL2/SDL.h>
 class Settings {
 public:
 enum MODE{CONSOLE, GUI};
@@ -9,7 +10,7 @@ enum MODE{CONSOLE, GUI};
   virtual ~Settings();
 
   MODE mode = MODE::GUI;
-
+  SDL_Point mousePos;
   bool isRunning = true;
   bool btn_down = false;
   bool btn_down_left = false;
