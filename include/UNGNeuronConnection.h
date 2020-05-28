@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2_gfxPrimitives.h>
 #include "UNGGlobals.h"
+#include <string>
 
 class UNGNeuron; //forward declaration for cross-dependency
 
@@ -13,10 +14,11 @@ friend class UNGNeuron;
 
 public:
 
-	UNGNeuronConnection(SDL_FPoint, UNGNeuron*);
+	UNGNeuronConnection(SDL_FPoint, UNGNeuron*, std::string);
 	virtual ~UNGNeuronConnection();
 
 private:
+	std::string id;
 	uint32_t getColor();
 	SDL_FPoint externalPos;
 	UNGNeuron* neuron;

@@ -24,6 +24,11 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 	if (BOOST_LIKELY(settings->draw_textures)) {
 		SDL_SetTextureAlphaMod(drawable->texture, energy);
 		if (BOOST_UNLIKELY(activeState)) {
+			stringColor(renderer, pos.x, pos.y + 20,
+					("rot:" + std::to_string(rotation_speed)).c_str(),
+					UNG_Globals::GREEN);
+			stringColor(renderer, pos.x, pos.y + 30, ("out:" + tmp).c_str(),
+					UNG_Globals::GREEN);
 			neuralNet.draw(renderer);
 			for (auto vect : *multiview) {
 				vect->draw(renderer);
@@ -53,8 +58,12 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 	}
 }
 
-void Creature::updateNeuralNet() {
+void Creature::updateNeuralNet(Settings *settings) {
 	neuralNet.process();
+	if (isActive()) {
+		neuralNet.handleInput(settings);
+	}
+	mapNeuralNetworkOutput();
 }
 
 void Creature::rotate(const float &rotationAngle) {
@@ -152,9 +161,23 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 void Creature::mapViewOnNeuralNetwork(UNG_Vector *vectView) {
 	neuralNet.kickInput(
 			int(
-					//TODO: should be relative vector passed here
+			//TODO: should be relative vector passed here
 					(getDifference(vectView->getAngleDeg(), vect->getAngleDeg())
 							+ FOV) / (2 * FOV / neuralNet.inputSize)));
+}
+
+void Creature::mapNeuralNetworkOutput() {
+	rotation_speed = 0;
+	tmp = "";
+	float speedFactor = 0.05;
+	int angle = ((*neuralNet.output).size() / 2) * (-1);
+	for (auto neuron : *neuralNet.output) {
+		++angle;
+		if (neuron->state) {
+			rotation_speed -= angle  * speedFactor;
+			tmp = tmp + neuron->id + ":"+ std::to_string(angle) + ";";
+		}
+	}
 }
 
 std::string Creature::getInfo() {

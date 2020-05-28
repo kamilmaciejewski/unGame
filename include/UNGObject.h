@@ -3,7 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <UNGDrawable.h>
-#include <UNGGeometry.hpp>
+#include <UNGGeometry.h>
 #include <UNGSettings.h>
 #include <UNGVector.h>
 #include <UNGVector.h>

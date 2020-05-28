@@ -1,4 +1,4 @@
-#include <UNGGeometry.hpp>
+#include <UNGGeometry.h>
 #include <UNGWorldGenerator.h>
 #include <cstdlib>
 #include <ctime>
@@ -19,8 +19,8 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 		observer->setPos(
 				SDL_FPoint { (float) 300, (float) 300 });
 		observer->rotate(270);
-		observer->setSpeed(speedZero);
-		observer->setRotationSpeed(speedZero2);
+		observer->setSpeed(speedZero2);
+		observer->setRotationSpeed(speedZero);
 //		observer->setAlpha(255);
 		observer->setActive();
 		tmpWorld->addCreature(observer);

@@ -57,7 +57,7 @@ void SDLEngine::runThread(World *world) {
 	while (isRunning) {
 		SdlEventHandler.handleEvents(&isRunning, settings);
 		clearScreen();
-		world->handleInput(SdlEventHandler.mousePos);
+		world->handleInput();
 		world->draw(renderer);
 //		drawActiveCreatureInfo(world->infoStr);
 		draw();

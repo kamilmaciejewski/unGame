@@ -62,8 +62,8 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
       break;
     }
     case SDL_MOUSEMOTION: {
-      mousePos.x = ev.motion.x;
-      mousePos.y = ev.motion.y;
+      settings->mousePos.x = ev.motion.x;
+      settings->mousePos.y = ev.motion.y;
       break;
     }
     default: {

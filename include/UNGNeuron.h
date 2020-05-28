@@ -12,11 +12,13 @@
 class UNGNeuron {
 public:
 	SDL_FPoint pos;
+	SDL_Rect rectPos;
 	UNG_Vector vect = UNG_Vector { &pos };
 	double treshhold = 0.1;
 	std::string id;
 	std::vector<std::pair<double, UNGNeuronConnection*>> *connections;
-//	const uint32_t maxConnections = 100;
+	const uint32_t maxConnections = 10;
+	const uint FOV = 45;
 	bool state = false;
 
 	UNGNeuron(SDL_FPoint, std::string, float);
@@ -25,7 +27,9 @@ public:
 	void calculate();
 	void draw(SDL_Renderer*);
 	uint32_t getColor();
+	bool isActive = false;
 
 private:
+	double net = 0, sigm = 0;
 };
 #endif /* UNGNEURON_H_ */

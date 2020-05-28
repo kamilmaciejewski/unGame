@@ -202,7 +202,7 @@ void World::updateViewSense() {
 
 void World::updateNeuralNetworks(){
 	for (auto creature : *creatures) {
-		creature->updateNeuralNet();
+		creature->updateNeuralNet(settings);
 	}
 
 }
@@ -211,23 +211,24 @@ void World::setSettings(Settings *_settings) {
 	settings = _settings;
 }
 
-void World::handleInput(SDL_Point mousePos) {
+void World::handleInput() {
 
-	if (settings->btn_down_right == true) {
+
+	if (settings->btn_down_right == true && SDL_PointInRect(&settings->mousePos, &UNG_Globals::worldBox)) {
 		if (settings->creature) {
-			addCreature(mousePos);
+			addCreature(settings->mousePos);
 		} else {
 
-			addPlant(mousePos);
+			addPlant(settings->mousePos);
 		}
 	}
 
-	if (settings->mark_active == true) {
+	if (settings->mark_active == true && SDL_PointInRect(&settings->mousePos, &UNG_Globals::worldBox)) {
 		settings->mark_active = false;
 		bool found = false;
 		for (auto creature : *creatures) {
 			if (!found
-					&& SDL_PointInRect(&mousePos,
+					&& SDL_PointInRect(&settings->mousePos,
 							&creature->getDrawable()->rect_draw)) {
 				creature->setActive();
 				found = true;
