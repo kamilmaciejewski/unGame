@@ -3,13 +3,15 @@
 #include <SDL2_gfxPrimitives.h>
 #include <SDL2/SDL.h>
 
-UNGNeuron::UNGNeuron(SDL_FPoint pos, std::string id, float angle) {
+UNGNeuron::UNGNeuron(SDL_FPoint pos, std::string id, float angle, uint16_t fov, double treshold) {
 	connections = new std::vector<std::pair<double, UNGNeuronConnection*>>();
 	this->pos = pos;
 	this->rectPos = { (int) pos.x - 5, (int) pos.y - 5, 10, 10 };
 	this->id = id;
 	this->vect.setAngleDeg(angle);
 	this->vect.setVal((float) 10);
+	this->fov = fov;
+	this->treshhold = treshold;
 }
 
 UNGNeuron::~UNGNeuron() {

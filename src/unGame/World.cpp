@@ -96,8 +96,8 @@ void World::addCreatureReuse(Creature *creature_) {
 
 	for (auto creature : *creatures) {
 		if (!creature->isAlive()) {
-			creature->setPos(creature_->pos);
-			creature->rotate(creature_->getDrawable()->rot_angle);
+//			creature->setPos(creature_->pos);
+//			creature->rotate(creature_->getDrawable()->rot_angle);
 			//creature->setSpeed();
 			//creature->setRotationSpeed(speedZero);
 //			creature->setAlpha(255);

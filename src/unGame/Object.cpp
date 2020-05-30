@@ -30,4 +30,3 @@ void Object::setPos(const SDL_FPoint &pos_) {
 Drawable* Object::getDrawable() {
 	return (drawable);
 }
-
