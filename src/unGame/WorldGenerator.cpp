@@ -1,8 +1,7 @@
-#include <UNGGeometry.h>
-#include <UNGWorldGenerator.h>
-#include <cstdlib>
-#include <ctime>
-#include "SDLEngine.h"
+#include "UNGGeometry.h"
+#include "UNGWorldGenerator.h"
+#include "UNGLoggingHandler.h"
+
 
 WorldGenerator::WorldGenerator() {
 }
@@ -12,16 +11,17 @@ WorldGenerator::~WorldGenerator() {
 
 World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 	World *tmpWorld = new World();
+	gereratePlantsCircle(tmpWorld);
+	NeuralParams params(&tmpWorld->generator, &tmpWorld->distribution);
+
 	if (testConfiguration == conf2CreatureSightTest) {
-		Creature *observer = new Creature(tmpWorld->surface);
+		Creature *observer = new Creature(tmpWorld->surface, params);
 		float speedZero2 = 0.05;
 		float speedZero = 0.0;
-		observer->setPos(
-				SDL_FPoint { (float) 300, (float) 300 });
+		observer->setPos(SDL_FPoint { (float) 300, (float) 300 });
 		observer->rotate(270);
 		observer->setSpeed(speedZero2);
 		observer->setRotationSpeed(speedZero);
-//		observer->setAlpha(255);
 		observer->setActive();
 		tmpWorld->addCreature(observer);
 
@@ -39,75 +39,78 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 
 		for (int i = 0; i < testConfiguration; ++i) {
 			tmpWorld->addCreature(
-					generateCreature(testConfiguration, tmpWorld->surface));
+					generateCreature(testConfiguration, tmpWorld->surface, tmpWorld));
 		}
 	}
 	return (tmpWorld);
 }
 
 Creature* WorldGenerator::generateCreature(
-		TestConfigurations &testConfiguration, SDL_Surface *surface) {
-	Creature *tmpCreature = new Creature(surface);
+		TestConfigurations &testConfiguration, SDL_Surface *surface, World* world) {
 
-	float speed = 0.05;
-	float speedZero = 0;
-	float speed0 = (0.1 + (rand() % 6) * 0.09);
-	float speed1 = (0.1 + (rand() % 1000) * 0.0003);
-
-//	float rotSpeed1 = (0.1 + (0.01 * (rand() % 20)));
-//	float rotSpeed2 = (0.1 + (0.00001 * (rand() % 20000)));
+	NeuralParams params(&world->generator, &world->distribution);
+	params.randomize();
+	Creature *tmpCreature = new Creature(surface, params);
+	tmpCreature->setSpeed(fabs(world->distribution(world->generator)));
 
 	switch (testConfiguration) {
+
 	case conf1Creature:
 		tmpCreature->setPos(SDL_FPoint { 500.0, 500.0 });
 		tmpCreature->rotate(0);
-		tmpCreature->setSpeed(speed);
-		tmpCreature->setRotationSpeed(speed);
-//		tmpCreature->setAlpha(255);
 		break;
 	case conf2CreatureSightTest:
 		break;
 	case conf99RandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
-		tmpCreature->setSpeed(speed0);
-		tmpCreature->setRotationSpeed(speedZero);
-//		tmpCreature->setAlpha(rand() % 150);
 		break;
 	case conf1KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
-		tmpCreature->setSpeed(speed1);
-		speedZero = getRandomSpeed();
-		tmpCreature->setRotationSpeed(speedZero);
-//		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	case conf10KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
-		tmpCreature->setSpeed(speed1);
-		tmpCreature->setRotationSpeed(speedZero);
-//		tmpCreature->setAlpha(getRandomAlpha());
 		break;
 	}
 	return (tmpCreature);
 }
 
 float WorldGenerator::getRandomPosH() {
-	return (float) (UNG_Globals::SCREEN_H / 2 + rand() % UNG_Globals::SCREEN_H / 10);
+	return (float) (UNG_Globals::SCREEN_H / 2
+			+ rand() % UNG_Globals::SCREEN_H / 10);
 }
 
 float WorldGenerator::getRandomPosW() {
-	return (float) (UNG_Globals::SCREEN_W / 2 + rand() % UNG_Globals::SCREEN_W / 10);
+	return (float) (UNG_Globals::SCREEN_W / 2
+			+ rand() % UNG_Globals::SCREEN_W / 10);
 }
 
 SDL_FPoint WorldGenerator::getRandomPos() {
 	return SDL_FPoint { (float) getRandomPosW(), (float) getRandomPosH() };
 }
-float WorldGenerator::getRandomSpeed(){
+float WorldGenerator::getRandomSpeed() {
 	return ((0.0001 * (rand() % 2000)));
 }
-float WorldGenerator::getRandomAlpha(){
+float WorldGenerator::getRandomAlpha() {
 	return (10 + (rand() % 150));
 }
 
+void WorldGenerator::gereratePlantsCircle(World* world){
+	int n = 20;
+	int xs = UNG_Globals::worldBox.w/2;
+	int ys = UNG_Globals::worldBox.h/2;
+	int r = 300;
+
+	for(int i = 0; i < n; i++)
+	{
+	  double alpha = 6.283185 * i / (n);
+
+	  int x = (int)(xs + r * cos(alpha));
+	  int y = (int)(ys + r * sin(alpha));
+	  world->addPlant({x,y});
+	}
+
+
+}

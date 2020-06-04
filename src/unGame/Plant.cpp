@@ -17,6 +17,9 @@ Plant::~Plant() {
 void Plant::draw(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0x0, 0xF0, 0x0, SDL_ALPHA_OPAQUE);
 	SDL_RenderDrawRect(renderer, &drawable->rect_draw);
+	stringColor(renderer, pos.x, pos.y + 20,
+						("en:" + std::to_string(energy)).c_str(),
+						UNG_Globals::GREEN);
  	}
 
 void Plant::update() {

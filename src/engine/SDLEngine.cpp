@@ -107,7 +107,6 @@ void SDLEngine::close() {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
 	}
 	if (logger != nullptr) {
-		logger->log("Attempt do delete logger");
 		delete logger;
 		logger = nullptr;
 	}
@@ -150,17 +149,14 @@ SDL_bool SDLEngine::initTextEngine() {
 }
 SDL_bool SDLEngine::initSDLEngine() {
 	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
-		logger->log("init: not initialized, try initialize now");
 		if (SDL_Init( SDL_INIT_VIDEO) < 0) {
 			SDL_Log("init: Unable to initialize SDL: %s", SDL_GetError());
 			logger->log("init: Unable to initialize SDL:");
 			logger->log(SDL_GetError());
 		} else {
-			logger->log("init: SDL init OK in thead");
 			return SDL_TRUE;
 		}
 	} else {
-		logger->log("init: SDL already initialized");
 		return SDL_TRUE;
 	}
 	return SDL_FALSE;

@@ -28,11 +28,12 @@ public:
 	float energy = 255;
 	std::vector<UNG_Vector*> *multiview;
 
-	Creature(SDL_Surface*);
+	Creature(SDL_Surface*, NeuralParams);
+	Creature(const Creature&);
 	virtual ~Creature();
 
-	void setRotationSpeed(float&);
-	void setSpeed(float&);
+	void setRotationSpeed(float);
+	void setSpeed(float);
 	void setActive();
 	void setInactive();
 
@@ -54,10 +55,8 @@ public:
 
 private:
 	Genotype genotype;
-	NeuralParams neuralParams;
-
 	const uint8_t ROTATION_STEP = 3;
-	float metabolism_factor = 0.01;
+	float metabolism_factor = 0.02;
 
 	UNG_Vector* lookAt(const SDL_FPoint point);
 	UNGNeuralNetwork *neuralNet;

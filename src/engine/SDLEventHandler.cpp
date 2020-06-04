@@ -17,6 +17,7 @@ void SDLEventHandler::handleEvents(bool* result, Settings* settings) {
 		} else if (ev.button.button == SDL_BUTTON_RIGHT) {
 			if (!settings->btn_down_right) {
 				settings->btn_down_right = true;
+				settings->mark_active = true;
 			}
 			break;
 		}

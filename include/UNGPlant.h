@@ -1,10 +1,10 @@
 #ifndef PLANT_H
 #define PLANT_H
 
-#include <UNGObject.h>
 #include <string>
-
-#include "SDL2_rotozoom.h"
+#include "UNGObject.h"
+#include "UNGGlobals.h"
+#include "SDL2_gfxPrimitives.h"
 
 class Plant: public Object {
 
@@ -21,6 +21,7 @@ public:
 	bool isActive();
 	std::string getInfo();
 
+	float energy = 255; //TODO: make private
 private:
 	bool activeState = false;
 };

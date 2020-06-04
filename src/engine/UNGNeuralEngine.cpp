@@ -20,10 +20,8 @@ void UNGNeuralEngine::runMainThread(World *world) {
 
 void UNGNeuralEngine::close() {
 
-	logger->log("engine stopped, wait for threads close");
 	isRunning = false;
 	threadNeur.join();
-	logger->log("Thread stopped");
 	delete logger;
 	logger = nullptr;
 }
