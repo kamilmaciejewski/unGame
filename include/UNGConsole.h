@@ -25,7 +25,7 @@ class UNGConsole {
 	std::map<std::string, int> fpsReports;
 	std::map<std::string, std::string> permaLogs;
 
-	std::string logs [10];
+	std::string logs [15];
 	void printLogs();
 	void printInfo();
 	void printFps();

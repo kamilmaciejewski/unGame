@@ -3,13 +3,16 @@
 #include <SDL2_gfxPrimitives.h>
 #include <SDL2/SDL.h>
 
-UNGNeuron::UNGNeuron(SDL_FPoint pos, std::string id, float angle) {
+UNGNeuron::UNGNeuron(SDL_FPoint pos, std::string id, float angle, uint16_t fov,
+		double treshold) {
 	connections = new std::vector<std::pair<double, UNGNeuronConnection*>>();
 	this->pos = pos;
 	this->rectPos = { (int) pos.x - 5, (int) pos.y - 5, 10, 10 };
 	this->id = id;
 	this->vect.setAngleDeg(angle);
 	this->vect.setVal((float) 10);
+	this->fov = fov;
+	this->treshhold = treshold;
 }
 
 UNGNeuron::~UNGNeuron() {
@@ -24,6 +27,7 @@ UNGNeuron::~UNGNeuron() {
 }
 void UNGNeuron::draw(SDL_Renderer *renderer) {
 	if (isActive) {
+//		stringColor(renderer, pos.x, pos.y + 6, id.c_str(), getColor());
 		SDL_RenderDrawRect(renderer, &rectPos);
 		for (auto connection : *connections) {
 			lineColor(renderer, pos.x, pos.y, connection.second->neuron->pos.x,
@@ -35,17 +39,16 @@ void UNGNeuron::draw(SDL_Renderer *renderer) {
 					(connection.second->id + ": "
 							+ std::to_string(connection.first)).c_str(),
 					connection.second->getColor());
-				stringColor(renderer, pos.x, pos.y + 20,
-						("net:" + std::to_string(net)).c_str(), getColor());
-				stringColor(renderer, pos.x, pos.y + 30,
-						("sigm:" + std::to_string(sigm)).c_str(), getColor());
-				stringColor(renderer, pos.x, pos.y + 40,
-						("trsh:" + std::to_string(treshhold)).c_str(), getColor());
+			stringColor(renderer, pos.x, pos.y + 20,
+					("net:" + std::to_string(net)).c_str(), getColor());
+			stringColor(renderer, pos.x, pos.y + 30,
+					("sigm:" + std::to_string(sigm)).c_str(), getColor());
+			stringColor(renderer, pos.x, pos.y + 40,
+					("trsh:" + std::to_string(treshhold)).c_str(), getColor());
 
 		}
 	}
 	circleColor(renderer, pos.x, pos.y, 5, getColor());
-	stringColor(renderer, pos.x, pos.y + 6, id.c_str(), getColor());
 	vect.draw(renderer);
 
 }

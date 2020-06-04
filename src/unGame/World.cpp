@@ -3,6 +3,7 @@
 #include <UNGWorld.h>
 
 World::World() {
+	distribution = std::normal_distribution<double>(0.0, 0.3);
 	logger = LoggingHandler::getLogger("WRLD");
 	surface = SDL_LoadBMP("res/arrow.bmp");
 	SDL_SetColorKey(surface, SDL_TRUE,
@@ -39,13 +40,15 @@ World::~World() {
 	zones->clear();
 	delete zones;
 	for (auto plant : *plants) {
-			if (plant != nullptr) {
-				delete plant;
-			}
+		if (plant != nullptr) {
+			delete plant;
 		}
+	}
 	plants->clear();
 	delete plants;
+	plants = nullptr;
 	delete logger;
+	logger = nullptr;
 }
 
 void World::initZones() {
@@ -62,16 +65,17 @@ void World::addCreature(Creature *creature) {
 	creatures->push_back(creature);
 }
 
-void World::addCreature(SDL_Point pos){
-			float speed = 0.05;
-			Creature *tmpCreature = new Creature(surface);
-			tmpCreature->setPos(
-					SDL_FPoint { (float) pos.x, (float) pos.y });
-			tmpCreature->rotate(0);
-			tmpCreature->setSpeed(speed);
-			tmpCreature->setRotationSpeed(speed);
-			tmpCreature->setInactive();
-			addCreatureReuse(tmpCreature);
+void World::addCreature(SDL_Point pos) {
+	float speed = 0.05;
+	NeuralParams params(&generator, &distribution);
+//	NeuralParams params;
+	Creature *tmpCreature = new Creature(surface, params);
+	tmpCreature->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
+	tmpCreature->rotate(0);
+	tmpCreature->setSpeed(speed);
+	tmpCreature->setRotationSpeed(speed);
+	tmpCreature->setInactive();
+	addCreatureReuse(tmpCreature);
 }
 
 void World::addPlant(SDL_Point pos) {
@@ -96,8 +100,8 @@ void World::addCreatureReuse(Creature *creature_) {
 
 	for (auto creature : *creatures) {
 		if (!creature->isAlive()) {
-			creature->setPos(creature_->pos);
-			creature->rotate(creature_->getDrawable()->rot_angle);
+//			creature->setPos(creature_->pos);
+//			creature->rotate(creature_->getDrawable()->rot_angle);
 			//creature->setSpeed();
 			//creature->setRotationSpeed(speedZero);
 //			creature->setAlpha(255);
@@ -146,8 +150,27 @@ void World::draw(SDL_Renderer *renderer) {
 //	}
 
 void World::update(uint32_t *timeDelta) {
+	for (auto plant : *plants) {
+		if (plant->energy < 255.0) {
+			plant->energy += (energryDelta / ((plants->size() / 5)))
+					* *timeDelta;
+		}
+	}
 	for (auto creature : *creatures) {
 		creature->update(timeDelta, settings);
+		for (auto zone : *zones) {
+			for (auto plant : *zone->plants) {
+				SDL_Point tmpPos = { (int) creature->pos.x,
+						(int) creature->pos.y };
+				if (SDL_PointInRect(&tmpPos,
+						&plant->getDrawable()->rect_draw)) {
+					if (creature->energy < 255 && plant->energy > 0) {
+						creature->energy += energryDelta * *timeDelta;
+						plant->energy -= energryDelta * *timeDelta;
+					};
+				}
+			}
+		}
 		wrapPos(&creature->pos);
 
 		if (creature->isActive()) {
@@ -196,11 +219,12 @@ void World::updateViewSense() {
 			++activePlantsCounter;
 		}
 	}
-	logger->setPermaLog("active creatures:", std::to_string(activeCreaturesCounter));
+	logger->setPermaLog("active creatures:",
+			std::to_string(activeCreaturesCounter));
 	logger->setPermaLog("active plants:", std::to_string(activePlantsCounter));
 }
 
-void World::updateNeuralNetworks(){
+void World::updateNeuralNetworks() {
 	for (auto creature : *creatures) {
 		creature->updateNeuralNet(settings);
 	}
@@ -213,31 +237,33 @@ void World::setSettings(Settings *_settings) {
 
 void World::handleInput() {
 
+	if (SDL_PointInRect(&settings->mousePos, &UNG_Globals::worldBox)
+			&& settings->mark_active == true) {
 
-	if (settings->btn_down_right == true && SDL_PointInRect(&settings->mousePos, &UNG_Globals::worldBox)) {
-		if (settings->creature) {
-			addCreature(settings->mousePos);
-		} else {
-
-			addPlant(settings->mousePos);
-		}
-	}
-
-	if (settings->mark_active == true && SDL_PointInRect(&settings->mousePos, &UNG_Globals::worldBox)) {
-		settings->mark_active = false;
-		bool found = false;
-		for (auto creature : *creatures) {
-			if (!found
-					&& SDL_PointInRect(&settings->mousePos,
-							&creature->getDrawable()->rect_draw)) {
-				creature->setActive();
-				found = true;
+		if (settings->btn_down_right == true) {
+			if (settings->creature) {
+				addCreature(settings->mousePos);
 			} else {
-				creature->setInactive();
+				addPlant(settings->mousePos);
+				settings->mark_active = false;
+			}
+		}
+
+		if (settings->btn_down_left == true) {
+			settings->mark_active = false;
+			bool found = false;
+			for (auto creature : *creatures) {
+				if (!found
+						&& SDL_PointInRect(&settings->mousePos,
+								&creature->getDrawable()->rect_draw)) {
+					creature->setActive();
+					found = true;
+				} else {
+					creature->setInactive();
+				}
 			}
 		}
 	}
-
 }
 
 void World::wrapPos(SDL_FPoint *pos) {
