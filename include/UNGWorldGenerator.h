@@ -2,6 +2,7 @@
 #define WORLDGENERATOR_H_
 
 #include <random>
+#include <thread>
 #include <UNGWorld.h>
 #include <cstdlib>
 #include "SDLEngine.h"
@@ -20,13 +21,14 @@ public:
   WorldGenerator();
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
-  Creature * generateCreature(TestConfigurations &, SDL_Surface*, World*);
+  std::shared_ptr<Creature> generateCreature(TestConfigurations &, SDL_Surface*, World*);
   float getRandomPosH();
   float getRandomPosW();
   SDL_FPoint getRandomPos();
   float getRandomSpeed();
   float getRandomAlpha();
 private:
+  	 UNGLogger* logger;
 	void gereratePlantsCircle(World*);
 
 };

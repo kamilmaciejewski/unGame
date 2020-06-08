@@ -5,12 +5,13 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-#include <UNGCreature.h>
-#include <UNGPlant.h>
-#include <UNGZone.h>
+#include <thread>
 
+#include "UNGCreature.h"
 #include "UNGGlobals.h"
 #include "UNGLoggingHandler.h"
+#include "UNGPlant.h"
+#include "UNGZone.h"
 
 class World {
 	const unsigned int ZONE_RES = 10;
@@ -25,10 +26,10 @@ class World {
 //	SDL_Surface *backgroundTexture = nullptr;
 
 	Settings *settings;
-	std::vector<Creature*> *creatures;
-	std::vector<Plant*> *plants;
-	std::vector<Zone*> *zones;
-	std::vector<Creature*>::iterator ptr;
+	std::vector<std::shared_ptr<Creature>> creaturesWorld;
+	std::vector<std::shared_ptr<Creature>> creaturesSdl;
+	std::vector<Plant*> plants;
+	std::vector<Zone*> zones;
 
 	void wrapPos(SDL_FPoint*);
 	UNGLogger *logger;
@@ -44,9 +45,9 @@ public:
 	void handleInput();
 	void draw(SDL_Renderer*);
 	void addCreature(SDL_Point);
-	void addCreature(Creature*);
+	void addCreature(std::shared_ptr<Creature>);
 	void addPlant(SDL_Point);
-	void addCreatureReuse(Creature*);
+	void addCreatureReuse(std::shared_ptr<Creature>);
 	void initZones();
 	void update(uint32_t*);
 	void updateViewSense();

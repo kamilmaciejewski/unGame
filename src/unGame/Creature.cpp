@@ -1,22 +1,34 @@
 #include <UNGCreature.h>
 #include <UNGLoggingHandler.h>
 
+#include <sstream> //for std::stringstream temp
+#include <string>  //for std::string temp
 Creature::Creature(SDL_Surface *surfaceptr, NeuralParams params) {
 	neuralNet = new UNGNeuralNetwork(params);
 	multiview = new std::vector<UNG_Vector*>();
 	multiview->reserve(genotype.maxViewEntries);
 	surface = surfaceptr;
+//	logger = LoggingHandler::getLogger("CR");
 }
 
-Creature::Creature(const Creature& creature){
-	neuralNet = new UNGNeuralNetwork(creature.neuralNet->params);//TODO: copy constructor here
+Creature::Creature(const Creature &creature) {
+	neuralNet = new UNGNeuralNetwork(creature.neuralNet->params); //TODO: copy constructor here
 	multiview = new std::vector<UNG_Vector*>();
 	genotype = creature.genotype;
 	multiview->reserve(genotype.maxViewEntries);
 	surface = creature.surface;
+//	logger = LoggingHandler::getLogger("CR");
 }
 
 Creature::~Creature() {
+
+//	const void *address = static_cast<const void*>(this);
+//	std::stringstream ss;
+//	ss << address;
+//	std::string name = ss.str();
+//	logger->log("Creature destr");
+//	delete logger;
+//	logger = nullptr;
 	cleanupView();
 	delete multiview;
 	multiview = nullptr;
@@ -65,8 +77,8 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		}
 		drawable->rect_draw.x = pos.x - (drawable->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable->rect_draw.y = pos.y - (drawable->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
-	energy -= metabolism_factor * (speed * *timeDelta);
-	energy -= metabolism_factor * neuralNet->energyCost;
+		energy -= metabolism_factor * (speed * *timeDelta);
+		energy -= metabolism_factor * neuralNet->energyCost;
 	}
 }
 
@@ -118,7 +130,7 @@ bool Creature::isActive() {
 }
 
 bool Creature::isAlive() {
-	return energy > 0;
+	return energy > 1;
 
 }
 
@@ -174,7 +186,8 @@ void Creature::mapViewOnNeuralNetwork(UNG_Vector *vectView) {
 			int(
 			//TODO: should be relative vector passed here
 					(getDifference(vectView->getAngleDeg(), vect->getAngleDeg())
-							+ genotype.fov) / (2 * genotype.fov / neuralNet->params.inputSize)));
+							+ genotype.fov)
+							/ (2 * genotype.fov / neuralNet->params.inputSize)));
 }
 
 void Creature::mapNeuralNetworkOutput() {
@@ -184,7 +197,7 @@ void Creature::mapNeuralNetworkOutput() {
 	for (auto neuron : *neuralNet->output) {
 		++angle;
 		if (neuron->state) {
-			rotation_speed -= (angle^2)  * genotype.speedFactor;
+			rotation_speed -= (angle ^ 2) * genotype.speedFactor;
 //			tmp = tmp + neuron->id + ":"+ std::to_string(angle) + ";";
 		}
 	}

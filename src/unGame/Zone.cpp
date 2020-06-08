@@ -1,12 +1,12 @@
 #include <UNGZone.h>
 
 Zone::Zone(unsigned int &x, unsigned int &y) {
-	creatures = new std::vector<Creature*>();
+	creatures = new std::vector<std::shared_ptr<Creature>>();
 	plants = new std::vector<Plant*>();
 	pos.x = x;
 	pos.y = y;
 }
-void Zone::update(Creature* creature) {
+void Zone::update(std::shared_ptr<Creature> creature) {
 	if (distance(pos, creature->pos) <= size) {
 		if (std::find(creatures->begin(), creatures->end(), creature)
 				== creatures->end()) {
@@ -27,11 +27,13 @@ void Zone::update(Plant *plant) {
 	}
 }
 
-void Zone::kickOut(Creature *creature) {
+long Zone::kickOut(std::shared_ptr<Creature> creature) {
 	auto index = std::find(creatures->begin(), creatures->end(), creature);
 	if (index != creatures->end()) {
 		creatures->erase(index);
+		return creature.use_count();
 	}
+	return 0;
 }
 void Zone::kickOut(Plant *plant) {
 	auto index = std::find(plants->begin(), plants->end(), plant);
