@@ -8,6 +8,7 @@ class NeuralParams {
 public:
 
 	NeuralParams(std::default_random_engine*, std::normal_distribution<double>*);
+	NeuralParams() = default;
 
 	std::normal_distribution<double> *distribution;
 	std::default_random_engine *generator;

@@ -15,6 +15,7 @@ void UNGNeuralEngine::runMainThread(World *world) {
 		world->updateNeuralNetworks();
 		timeFrameHandler.frameTick();
 	}
+	logger->setPermaLog("Neural", "STOP");
 	logger->log("engine stop");
 }
 

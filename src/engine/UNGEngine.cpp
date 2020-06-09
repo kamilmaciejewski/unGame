@@ -8,6 +8,7 @@ void UNGEngine::run(World *world) {
 	timeFrameHandler.setLogger(logger);
 	loggerSenses = LoggingHandler::getLogger("SNS");
 	timeFrameHandlerSenses.setLogger(loggerSenses);
+	logger->log("ASD");
 	threadWorld = std::thread(&UNGEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&UNGEngine::runSensesThread, this, world);
 }
@@ -22,7 +23,6 @@ void UNGEngine::runMainThread(World *world) {
 }
 void UNGEngine::runSensesThread(World *world) {
 	while (isRunning) {
-//		countFPS(&sense_res, &msFrameStart0, &msFrameEnd0, &frame_counter0);
 		world->updateViewSense();
 		timeFrameHandlerSenses.frameTick();
 	}

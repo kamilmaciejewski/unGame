@@ -56,12 +56,13 @@ public:
 private:
 	Genotype genotype;
 	const uint8_t ROTATION_STEP = 3;
-	float metabolism_factor = 0.02;
+	float metabolism_factor = 0.05;
 
 	UNG_Vector* lookAt(const SDL_FPoint point);
 	UNGNeuralNetwork *neuralNet;
 	bool activeState = false;
 	float speed = 0, rotation_speed = 0;
+//	UNGLogger* logger;
 };
 
 #endif /* CREATURE_H_ */
