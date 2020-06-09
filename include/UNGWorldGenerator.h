@@ -18,7 +18,7 @@ public:
     conf10KRandomCreatures = 10000,
   };
 
-  WorldGenerator();
+  WorldGenerator(Settings*);
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
   std::shared_ptr<Creature> generateCreature(TestConfigurations &, SDL_Surface*, World*);
@@ -28,6 +28,7 @@ public:
   float getRandomSpeed();
   float getRandomAlpha();
 private:
+  	  Settings* settings;
   	 UNGLogger* logger;
 	void gereratePlantsCircle(World*);
 

@@ -45,6 +45,7 @@ public:
 	void handleInput();
 	void draw(SDL_Renderer*);
 	void addCreature(SDL_Point);
+	std::shared_ptr<Creature> cloneAndRandomizeCreature(const std::shared_ptr<Creature> &);
 	void addCreature(std::shared_ptr<Creature>);
 	void addPlant(SDL_Point);
 	void addCreatureReuse(std::shared_ptr<Creature>);

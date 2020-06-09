@@ -8,7 +8,7 @@ class NeuralParams {
 public:
 
 	NeuralParams(std::default_random_engine*, std::normal_distribution<double>*);
-	NeuralParams() = default;
+//	NeuralParams() = default;
 
 	std::normal_distribution<double> *distribution;
 	std::default_random_engine *generator;
@@ -18,6 +18,7 @@ public:
 	uint8_t maxConnections = 10;
 	uint8_t fov = 45;
 	double treshold = 0.2;
+	float speed = 0.05;
 	void randomize();
 };
 

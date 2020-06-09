@@ -1,15 +1,16 @@
 #include "UNGNeuralNetwork.h"
 #include <iostream>
 using namespace UNG_Globals;
-UNGNeuralNetwork::UNGNeuralNetwork(NeuralParams params) {
-	this->params = params;
+UNGNeuralNetwork::UNGNeuralNetwork(NeuralParams params_) {
+	this->params = params_;
+	this->params.randomize();
 	input = new std::vector<UNGNeuron*>();
 	input->reserve(params.inputSize);
 	hidden = new std::vector<UNGNeuron*>();
 	hidden->reserve(params.hiddenSize);
 	output = new std::vector<UNGNeuron*>();
 
-	for (uint8_t i = 0; i < params.inputSize; i++) {
+	for (uint8_t i = 0; i < this->params.inputSize; i++) {
 		input->push_back(
 				new UNGNeuron(
 						SDL_FPoint { (float) neuralBox.x + 10,
@@ -161,19 +162,21 @@ void UNGNeuralNetwork::draw(SDL_Renderer *renderer) {
 	SDL_RenderDrawRect(renderer, &(neuralBox));
 //	stringColor(renderer, pos.x, pos.y + 6, id.c_str(), getColor());
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y,
-			("in:"+std::to_string(params.inputSize)).c_str(), UNG_Globals::GREEN);
+			("input: "+std::to_string(params.inputSize)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+10,
-				("hi:"+std::to_string(params.hiddenSize)).c_str(), UNG_Globals::GREEN);
+				("hidden: "+std::to_string(params.hiddenSize)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+20,
-				("ou:"+std::to_string(params.outputSize)).c_str(), UNG_Globals::GREEN);
+				("output: "+std::to_string(params.outputSize)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+30,
-				("fo:"+std::to_string(params.fov)).c_str(), UNG_Globals::GREEN);
+				("fov: "+std::to_string(params.fov)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+40,
-				("tr:"+std::to_string(params.treshold)).c_str(), UNG_Globals::GREEN);
+				("treshold: "+std::to_string(params.treshold)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+50,
-				("con:"+std::to_string(params.maxConnections)).c_str(), UNG_Globals::GREEN);
+				("connections:"+std::to_string(params.maxConnections)).c_str(), UNG_Globals::GREEN);
 	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+60,
-				("con:"+std::to_string(energyCost)).c_str(), UNG_Globals::GREEN);
+				("energy cost:"+std::to_string(energyCost)).c_str(), UNG_Globals::GREEN);
+	stringColor(renderer, UNG_Globals::neuralBox.x, UNG_Globals::neuralBox.y+70,
+				("speed: "+std::to_string(params.speed)).c_str(), UNG_Globals::GREEN);
 
 	for (auto neuron : *hidden) {
 		neuron->draw(renderer);
@@ -196,8 +199,6 @@ UNGNeuralNetwork::~UNGNeuralNetwork() {
 	hidden = nullptr;
 	delete output;
 	output = nullptr;
-	delete logger;
-	logger = nullptr;
 }
 
 void UNGNeuralNetwork::cleanupNetwork(std::vector<UNGNeuron*> *network) {

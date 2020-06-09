@@ -39,20 +39,20 @@ void runThread(vector<shared_ptr<Creature>> *vect, string engineId,
 	cout << "Thr" << id << " stop" << "\n";
 }
 
+int consoleTimeout = 0;
 int main(int argc, const char *argv[])
-try
-		{
+try {
 	settings = new Settings();
-	if(!handleOptions(argc, argv)){
+	if (!handleOptions(argc, argv)) {
 		return 0;
 	}
 
 	auto console = LoggingHandler::getConsole();
-	auto logger = LoggingHandler::getLogger("MAIN");
+//	auto logger = LoggingHandler::getLogger("MAIN");
 
 	UNGame unGame(settings);
 	unGame.run();
-	console->run();
+	console->run(consoleTimeout);
 	unGame.stop();
 
 //	logger->log("Start");
@@ -106,7 +106,8 @@ try
 //	logger->log("Closed");
 	console->close();
 	delete console;
-	delete logger;
+	sleep(1); //wait for loggers in destructors
+	LoggingHandler::cleanup();
 	return 0;
 }
 catch (const error &ex) {
@@ -116,7 +117,8 @@ catch (const error &ex) {
 bool handleOptions(int argc, const char *argv[]) {
 	options_description desc { "Options" };
 	desc.add_options()("help,h", "Help screen")("mode",
-			value<std::string>()->default_value("gui"), "Mode");
+			value<std::string>()->default_value("gui"), "Mode")("timeout",
+			value<int>(), "Timeout");
 
 	variables_map params;
 	store(parse_command_line(argc, argv, desc), params);
@@ -125,13 +127,23 @@ bool handleOptions(int argc, const char *argv[]) {
 	if (params.count("help")) {
 		std::cout << desc << '\n';
 		return false;
-	} else if (params.count("mode")) {
+	}
+
+	if (params.count("mode")) {
 		std::string mode = params["mode"].as<std::string>();
 		if (mode != "gui" && mode != "console") {
 			std::cout << "Mode can be 'gui' or 'console'" << std::endl;
 			return false;
 		}
 	}
+	if (params.count("timeout")) {
+		if (params["timeout"].as<int>() < 0) {
+			std::cout << "Timeout needs to be a positive value" << std::endl;
+			return false;
+		}
+		consoleTimeout = params["timeout"].as<int>();
+	}
+
 	std::string mode = params["mode"].as<std::string>();
 
 	if (mode == "gui") {
@@ -139,6 +151,7 @@ bool handleOptions(int argc, const char *argv[]) {
 	} else if (mode == "console") {
 		settings->mode = Settings::MODE::CONSOLE;
 	}
+
 
 	return true;
 }

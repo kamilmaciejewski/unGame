@@ -6,7 +6,7 @@ UNGConsole::~UNGConsole() {
 	}
 }
 
-void UNGConsole::run() {
+void UNGConsole::run(int timeout) {
 	initscr();
 	cbreak();
 	noecho();
@@ -14,11 +14,11 @@ void UNGConsole::run() {
 	halfdelay(10);
 	int counter = 0;
 
-	while (isRunning) {
+	while (isRunning && (timeout == 0 || counter++ < timeout)) {
 		char ch = getch();
 		if (ch == ERR) {
 			erase();
-			std::string cntStr = std::to_string(counter++);
+			std::string cntStr = std::to_string(counter);
 			mvaddstr(0, 0, ("Running for " + cntStr + " seconds").c_str());
 
 			while (!logqueue.empty()) {

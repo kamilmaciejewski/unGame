@@ -26,6 +26,7 @@ class Creature: public Object {
 
 public:
 	float energy = 255;
+	uint16_t generations = 0;
 	std::vector<UNG_Vector*> *multiview;
 
 	Creature(SDL_Surface*, NeuralParams);
@@ -61,8 +62,7 @@ private:
 	UNG_Vector* lookAt(const SDL_FPoint point);
 	UNGNeuralNetwork *neuralNet;
 	bool activeState = false;
-	float speed = 0, rotation_speed = 0;
-//	UNGLogger* logger;
+	float rotation_speed = 0;
 };
 
 #endif /* CREATURE_H_ */

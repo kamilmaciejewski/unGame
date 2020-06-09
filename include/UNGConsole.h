@@ -38,7 +38,7 @@ class UNGConsole {
 public:
 	UNGConsole() = default;
 	virtual ~UNGConsole();
-	void run();
+	void run(int);
 	void log(std::string);
 	void close();
 };

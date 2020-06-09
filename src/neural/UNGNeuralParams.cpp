@@ -15,4 +15,5 @@ void NeuralParams::randomize() {
 		maxConnections += maxConnections /3 * (distr(*generator));
 		fov += fov /3 * (distr(*generator));
 		treshold += treshold /3 * (distr(*generator));
+		speed += speed /2 * (distr(*generator));
 	}

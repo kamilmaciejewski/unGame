@@ -8,7 +8,6 @@ Creature::Creature(SDL_Surface *surfaceptr, NeuralParams params) {
 	multiview = new std::vector<UNG_Vector*>();
 	multiview->reserve(genotype.maxViewEntries);
 	surface = surfaceptr;
-//	logger = LoggingHandler::getLogger("CR");
 }
 
 Creature::Creature(const Creature &creature) {
@@ -17,18 +16,22 @@ Creature::Creature(const Creature &creature) {
 	genotype = creature.genotype;
 	multiview->reserve(genotype.maxViewEntries);
 	surface = creature.surface;
-//	logger = LoggingHandler::getLogger("CR");
+	energy = creature.energy;
+	pos = creature.pos;
+	drawable->rot_angle = creature.drawable->rot_angle;
+	generations = creature.generations+1;
 }
 
 Creature::~Creature() {
-
-//	const void *address = static_cast<const void*>(this);
-//	std::stringstream ss;
-//	ss << address;
-//	std::string name = ss.str();
-//	logger->log("Creature destr");
-//	delete logger;
-//	logger = nullptr;
+	auto logger = LoggingHandler::getLogger("CR");
+	const void *address = static_cast<const void*>(this);
+	std::stringstream ss;
+	ss << address;
+	std::string name = ss.str();
+	if(logger!=nullptr){
+	logger->log("Creature destr " + name);
+	}
+//	std::cout<<"Destr " << name <<"\n";
 	cleanupView();
 	delete multiview;
 	multiview = nullptr;
@@ -51,6 +54,9 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 			stringColor(renderer, pos.x, pos.y + 20,
 					("en:" + std::to_string(energy)).c_str(),
 					UNG_Globals::GREEN);
+			stringColor(renderer, pos.x, pos.y + 30,
+								("gen:" + std::to_string(generations)).c_str(),
+								UNG_Globals::GREEN);
 			neuralNet->draw(renderer);
 			for (auto vect : *multiview) {
 				vect->draw(renderer);
@@ -72,12 +78,13 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 	}
 	if (BOOST_LIKELY(settings->rotate)) {
 		rotate(rotation_speed * *timeDelta);
+		rotation_speed = 0;
 		if (BOOST_LIKELY(settings->move)) {
 			move(timeDelta);
 		}
 		drawable->rect_draw.x = pos.x - (drawable->rect_draw.w / 2); // - rotated_Surface->w / 2 - optimized_surface->w / 2;
 		drawable->rect_draw.y = pos.y - (drawable->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
-		energy -= metabolism_factor * (speed * *timeDelta);
+		energy -= metabolism_factor * (neuralNet->params.speed * *timeDelta);
 		energy -= metabolism_factor * neuralNet->energyCost;
 	}
 }
@@ -99,17 +106,10 @@ void Creature::rotate(const float &rotationAngle) {
 }
 
 void Creature::move(const uint32_t *time_delta) {
-	pos.x += sin(degToRad(drawable->rot_angle)) * speed * *time_delta;
-	pos.y += cos(degToRad(drawable->rot_angle)) * speed * *time_delta;
+	pos.x += sin(degToRad(drawable->rot_angle)) * neuralNet->params.speed * *time_delta;
+	pos.y += cos(degToRad(drawable->rot_angle)) * neuralNet->params.speed * *time_delta;
 }
 
-void Creature::setSpeed(float speed) {
-	this->speed = speed;
-}
-
-void Creature::setRotationSpeed(float speed) {
-	this->rotation_speed = speed;
-}
 
 void Creature::setActive() {
 	if (!activeState) {
@@ -191,7 +191,6 @@ void Creature::mapViewOnNeuralNetwork(UNG_Vector *vectView) {
 }
 
 void Creature::mapNeuralNetworkOutput() {
-	rotation_speed = 0;
 
 	int angle = ((*neuralNet->output).size() / 2) * (-1);
 	for (auto neuron : *neuralNet->output) {

@@ -8,7 +8,6 @@ void UNGEngine::run(World *world) {
 	timeFrameHandler.setLogger(logger);
 	loggerSenses = LoggingHandler::getLogger("SNS");
 	timeFrameHandlerSenses.setLogger(loggerSenses);
-	logger->log("ASD");
 	threadWorld = std::thread(&UNGEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&UNGEngine::runSensesThread, this, world);
 }
@@ -40,10 +39,6 @@ void UNGEngine::close() {
 	logger->log("World thread stopped");
 	threadViewSense.join();
 	logger->log("Sense thread stopped");
-	delete logger;
-	logger = nullptr;
-	delete loggerSenses;
-	loggerSenses = nullptr;
 }
 
 uint32_t* UNGEngine::countFrameTimeDelta() {

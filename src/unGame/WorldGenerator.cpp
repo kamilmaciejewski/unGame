@@ -3,29 +3,25 @@
 #include "UNGLoggingHandler.h"
 
 
-WorldGenerator::WorldGenerator() {
+WorldGenerator::WorldGenerator(Settings *settings) {
+	this->settings = settings;
 	logger = LoggingHandler::getLogger("WG");
 }
 
 WorldGenerator::~WorldGenerator() {
-	delete logger;
-	logger = nullptr;
 }
 
 World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 	World *tmpWorld = new World();
+	tmpWorld->setSettings(settings);
 	gereratePlantsCircle(tmpWorld);
 	NeuralParams params(&tmpWorld->generator, &tmpWorld->distribution);
 
 	if (testConfiguration == conf2CreatureSightTest) {
 		std::shared_ptr<Creature> observer = std::make_shared<Creature>(tmpWorld->surface, params);
 //		Creature *observer = new Creature(tmpWorld->surface, params);
-		float speedZero2 = 0.05;
-		float speedZero = 0.0;
 		observer->setPos(SDL_FPoint { (float) 300, (float) 300 });
 		observer->rotate(270);
-		observer->setSpeed(speedZero2);
-		observer->setRotationSpeed(speedZero);
 		observer->setActive();
 		tmpWorld->addCreature(observer);
 
@@ -55,7 +51,7 @@ std::shared_ptr<Creature> WorldGenerator::generateCreature(
 	NeuralParams params(&world->generator, &world->distribution);
 	params.randomize();
 	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface, params);
-	tmpCreature->setSpeed(fabs(world->distribution(world->generator)));
+//	tmpCreature->setSpeed(fabs(world->distribution(world->generator)));
 
 	switch (testConfiguration) {
 
@@ -78,7 +74,6 @@ std::shared_ptr<Creature> WorldGenerator::generateCreature(
 		tmpCreature->rotate(rand() % 359);
 		break;
 	}
-	logger->setPermaLog("RefCnt", std::to_string(tmpCreature.use_count()));
 	return (tmpCreature);
 }
 

@@ -49,8 +49,6 @@ World::~World() {
 		}
 	}
 	plants.clear();
-	delete logger;
-	logger = nullptr;
 }
 
 void World::initZones() {
@@ -64,31 +62,36 @@ void World::initZones() {
 }
 
 void World::addCreature(std::shared_ptr<Creature> creature) {
-	if (creaturesWorld.size() < MAX_CREATURES) {
-		creaturesWorld.push_back(creature);
-	} else {
-		logger->log(
-				"Slot not found WORLD" + std::to_string(creaturesWorld.size()));
-	}
-	if (creaturesSdl.size() < MAX_CREATURES) {
-		creaturesSdl.push_back(creature);
-	} else {
-		logger->log("Slot not found SDL" + std::to_string(creaturesSdl.size()));
-	}
+//	if (creaturesWorld.size() < MAX_CREATURES) {
+//		creaturesWorld.push_back(creature);
+//	} else {
+//		logger->log(
+//				"Slot not found WORLD" + std::to_string(creaturesWorld.size()));
+//	}
+//	if (settings->mode == Settings::GUI) {
+//
+//		if (creaturesSdl.size() < MAX_CREATURES) {
+//			creaturesSdl.push_back(creature);
+//		} else {
+//			logger->log(
+//					"Slot not found SDL" + std::to_string(creaturesSdl.size()));
+//		}
+//	}
 
 //	creature = nullptr;
 //	logger->setPermaLog("addCr", std::to_string(creature.use_count()));
 }
 
+std::shared_ptr<Creature> World::cloneAndRandomizeCreature(const std::shared_ptr<Creature> &creature){
+	return std::make_shared<Creature>(*creature);
+}
+
 void World::addCreature(SDL_Point pos) {
-	float speed = 0.05;
 	NeuralParams params(&generator, &distribution);
 	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface,
 			params);
 	tmpCreature->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
 	tmpCreature->rotate(0);
-	tmpCreature->setSpeed(speed);
-	tmpCreature->setRotationSpeed(speed);
 	tmpCreature->setInactive();
 	addCreatureReuse(tmpCreature);
 }
@@ -105,40 +108,38 @@ void World::addPlant(SDL_Point pos) {
 }
 
 void World::addCreatureReuse(std::shared_ptr<Creature> creature) {
+	//TODO rewrite to use multiengine collected resource pool
+	bool reuse = false;
+	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
+			if ((*ptr) == nullptr) {
+				(*ptr) = creature;
+				reuse = true;
+				logger->log("CR world reuse");
+				break;
+			}
+	}
+	if(!reuse && creaturesWorld.size() < MAX_CREATURES){
+		creaturesWorld.push_back(creature);
+		logger->log("CR world add new");
+	}
 
-//		for (ptr = creatures.begin(); ptr < creatures.end(); ptr++) {
-//			if (*ptr != nullptr) {
-//				(*ptr)->update(timeDelta, settings);
-//				if (!(*ptr)->isAlive()) {
-//					*ptr = nullptr;
-//				}
-//			}
-//		}
-//	}
+	if(settings->mode == Settings::GUI){
+	reuse = false;
+		for (auto ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
+				if ((*ptr) == nullptr) {
+					(*ptr) = creature;
+					reuse = true;
+					logger->log("CR sdl reuse");
+					break;
+				}
+		}
+	if(!reuse && creaturesSdl.size() < MAX_CREATURES){
+			creaturesSdl.push_back(creature);
+			logger->log("CR sdl add new");
+		}
+	}
 
-//	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
-//		if ((*ptr) == nullptr) {
-//			(*ptr) = creature;
-//			break;
-//		}
-//	}
-//	for (ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
-//		if ((*ptr) == nullptr) {
-//			(*ptr) = creature;
-//			break;
-//		}
-//	}
-
-//	creature = nullptr;
-//	for (auto cr : creatures) {
-//		if (cr == nullptr) {
-//			cr = creature;
-//			logger->log("Reuse!");
-//			return;
-//		}
-//		logger->log("Found no slot to reuse");
-//	}
-//	addCreature(creature);
+	creature = nullptr;
 }
 //TODO: Last two parameters should be a rectangle for zooming the screen.
 void World::draw(SDL_Renderer *renderer) {
@@ -208,11 +209,20 @@ void World::draw(SDL_Renderer *renderer) {
 void World::update(uint32_t *timeDelta) {
 
 	int counter = 0;
+	int maxGen = 0;
 	double minEnergy = 255;
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 		if ((*ptr) != nullptr) {
 			counter++;
+			if ((*ptr)->generations > maxGen) {
+				maxGen = (*ptr)->generations;
+			}
 			(*ptr)->update(timeDelta, settings);
+			if ((*ptr)->energy > 200){ //TODO this should be in creature, rewrite
+				(*ptr)->energy = 100;
+				addCreatureReuse(cloneAndRandomizeCreature(*ptr));
+
+			}
 			wrapPos(&(*ptr)->pos);
 			for (auto zone : zones) {
 				zone->update((*ptr));
@@ -248,6 +258,7 @@ void World::update(uint32_t *timeDelta) {
 		}
 	}
 	logger->setPermaLog("Size:", std::to_string(counter));
+	logger->setPermaLog("Max Gen:", std::to_string(maxGen));
 
 	for (auto plant : plants) {
 		if (plant->energy < 255.0) {
@@ -294,17 +305,16 @@ void World::updateViewSense() {
 	if (settings->look) {
 		for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end();
 				ptr++) {
-//			auto creature = *(ptr);
-			if ((*ptr) != nullptr) {
-//		for (auto creature : creatures) {
-				if ((*ptr)->isAlive()) {
+			auto creature = *ptr;
+			if (creature != nullptr) {
+				if (creature->isAlive()) {
 					++activeCreaturesCounter;
-					(*ptr)->cleanupView();
+					creature->cleanupView();
 					for (auto zone : zones) {
 //					zone->update(creature);
 						for (auto plant : *zone->plants) {
 							if (plant != nullptr) {
-								(*ptr)->lookAt(plant);
+								creature->lookAt(plant);
 							}
 //					if (distance(creature->pos, zone->pos) <= zone->size) {
 //						for (auto otherCreature : *zone->creatures) {
@@ -336,16 +346,15 @@ void World::updateViewSense() {
 		}
 		logger->setPermaLog("active creatures:",
 				std::to_string(activeCreaturesCounter));
-		logger->setPermaLog("active plants:",
-				std::to_string(activePlantsCounter));
 	}
 }
 
 void World::updateNeuralNetworks() {
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
-		if ((*ptr) != nullptr) {
-			if ((*ptr)->isAlive()) {
-				(*ptr)->updateNeuralNet(settings);
+		auto creature = *ptr;
+		if (creature != nullptr) {
+			if (creature->isAlive()) {
+				creature->updateNeuralNet(settings);
 			}
 		}
 	}
@@ -374,15 +383,16 @@ void World::handleInput() {
 			bool found = false;
 			for (auto ptr = creaturesSdl.begin(); ptr < creaturesSdl.end();
 					ptr++) {
-				if ((*ptr) != nullptr) {
+				auto creature = *ptr;
+				if (creature != nullptr) {
 
 					if (!found
 							&& SDL_PointInRect(&settings->mousePos,
-									&(*ptr)->getDrawable()->rect_draw)) {
-						(*ptr)->setActive();
+									&creature->getDrawable()->rect_draw)) {
+						creature->setActive();
 						found = true;
 					} else {
-						(*ptr)->setInactive();
+						creature->setInactive();
 					}
 				}
 			}

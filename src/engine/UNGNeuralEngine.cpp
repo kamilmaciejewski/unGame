@@ -15,7 +15,6 @@ void UNGNeuralEngine::runMainThread(World *world) {
 		world->updateNeuralNetworks();
 		timeFrameHandler.frameTick();
 	}
-	logger->setPermaLog("Neural", "STOP");
 	logger->log("engine stop");
 }
 
@@ -23,7 +22,5 @@ void UNGNeuralEngine::close() {
 
 	isRunning = false;
 	threadNeur.join();
-	delete logger;
-	logger = nullptr;
 }
 
