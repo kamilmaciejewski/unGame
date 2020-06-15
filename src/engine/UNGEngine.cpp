@@ -1,4 +1,5 @@
 #include "UNGEngine.h"
+#include <chrono>
 
 UNGEngine::~UNGEngine() {
 }
@@ -8,7 +9,6 @@ void UNGEngine::run(World *world) {
 	timeFrameHandler.setLogger(logger);
 	loggerSenses = LoggingHandler::getLogger("SNS");
 	timeFrameHandlerSenses.setLogger(loggerSenses);
-	logger->log("ASD");
 	threadWorld = std::thread(&UNGEngine::runMainThread, this, world);
 	threadViewSense = std::thread(&UNGEngine::runSensesThread, this, world);
 }
@@ -40,16 +40,14 @@ void UNGEngine::close() {
 	logger->log("World thread stopped");
 	threadViewSense.join();
 	logger->log("Sense thread stopped");
-	delete logger;
-	logger = nullptr;
-	delete loggerSenses;
-	loggerSenses = nullptr;
 }
 
 uint32_t* UNGEngine::countFrameTimeDelta() {
 	frameStart = SDL_GetTicks() - frameEnd;
 	if (isFPSLimitEnabled && frameStart < (1000.0 / fpsLimit)) {
-		SDL_Delay(1);
+//		std::this_thread::sleep_for(std::chrono::milliseconds(fpsLimitDelta / (SDL_GetTicks() - frameStart + 1) / 2));
+		std::this_thread::sleep_for(std::chrono::milliseconds(2));
+//		SDL_Delay(1);
 		return (countFrameTimeDelta());
 	} else {
 	frameEnd = SDL_GetTicks();

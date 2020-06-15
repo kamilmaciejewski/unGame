@@ -3,8 +3,6 @@
 #include "SDLEngine.h"
 
 SDLEngine::~SDLEngine() {
-	delete logger;
-	logger = nullptr;
 }
 
 SDL_bool SDLEngine::init(Settings *settings_) {
@@ -39,7 +37,8 @@ SDL_bool SDLEngine::init(Settings *settings_) {
 		if (renderer == nullptr) {
 			return SDL_FALSE;
 		}
-		return initTextEngine();
+//		return initTextEngine();
+		return SDL_TRUE;
 	}
 }
 
@@ -96,19 +95,15 @@ void SDLEngine::close() {
 	}
 	window = nullptr;
 	renderer = nullptr;
-	if (font != nullptr) {
-		TTF_CloseFont(font);
-	}
-	font = nullptr;
-	if (TTF_WasInit()) {
-		TTF_Quit();
-	}
+//	if (font != nullptr) {
+//		TTF_CloseFont(font);
+//	}
+//	font = nullptr;
+//	if (TTF_WasInit()) {
+//		TTF_Quit();
+//	}
 	if (SDL_WasInit(SDL_INIT_VIDEO)) {
 		SDL_QuitSubSystem(SDL_INIT_VIDEO);
-	}
-	if (logger != nullptr) {
-		delete logger;
-		logger = nullptr;
 	}
 }
 
@@ -133,20 +128,21 @@ void SDLEngine::setEngineParameters() {
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 }
 
-SDL_bool SDLEngine::initTextEngine() {
-	if (TTF_Init() != 0) {
-		logger->log("init: TTF_Init failed");
-		SDL_Quit();
-		return SDL_FALSE;
-	}
-	font = TTF_OpenFont("res/Pixel.ttf", 15);
-	if (font == nullptr) {
-		logger->log("init: font load failed");
-		SDL_Quit();
-		return SDL_FALSE;
-	}
-	return SDL_TRUE;
-}
+//SDL_bool SDLEngine::initTextEngine() {
+//	if (TTF_Init() != 0) {
+//		logger->log("init: TTF_Init failed");
+//		SDL_Quit();
+//		return SDL_FALSE;
+//	}
+//	font = TTF_OpenFont("res/Pixel.ttf", 15);
+//	if (font == nullptr) {
+//		logger->log("init: font load failed");
+//		SDL_Quit();
+//		return SDL_FALSE;
+//	}
+//	return SDL_TRUE;
+//}
+
 SDL_bool SDLEngine::initSDLEngine() {
 	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
 		if (SDL_Init( SDL_INIT_VIDEO) < 0) {

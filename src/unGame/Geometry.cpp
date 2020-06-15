@@ -17,3 +17,9 @@ float getDifference(float b1, float b2) {
 		r -= 360.0;
 	return r;
 }
+SDL_bool SDL_FPointInRect(const SDL_FPoint *p, const SDL_Rect *r)
+{
+    return ( (p->x >= r->x) && (p->x < (r->x + r->w)) &&
+             (p->y >= r->y) && (p->y < (r->y + r->h)) ) ? SDL_TRUE : SDL_FALSE;
+}
+

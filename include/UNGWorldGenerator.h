@@ -13,21 +13,23 @@ public:
   enum TestConfigurations {
     conf1Creature = 1,
 	conf2CreatureSightTest = 2,
+	conf5RandomCreatures = 5,
     conf99RandomCreatures = 99,
     conf1KRandomCreatures = 1000,
     conf10KRandomCreatures = 10000,
   };
 
-  WorldGenerator();
+  WorldGenerator(Settings*);
   virtual ~WorldGenerator();
   World* generateWorld(TestConfigurations);
-  std::shared_ptr<Creature> generateCreature(TestConfigurations &, SDL_Surface*, World*);
+  std::shared_ptr<Creature> generateCreature(TestConfigurations &, SDL_Surface*, World*, int);
   float getRandomPosH();
   float getRandomPosW();
   SDL_FPoint getRandomPos();
   float getRandomSpeed();
   float getRandomAlpha();
 private:
+  	  Settings* settings;
   	 UNGLogger* logger;
 	void gereratePlantsCircle(World*);
 

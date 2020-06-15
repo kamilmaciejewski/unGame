@@ -31,7 +31,7 @@ class SDLEngine {
 	void setWindowSize();
 
 	void clearScreen();
-	SDL_bool initTextEngine();
+//	SDL_bool initTextEngine();
 	SDL_bool initSDLEngine();
 	void draw();
 	void runThread(World*);

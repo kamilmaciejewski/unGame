@@ -22,8 +22,6 @@
 
 	MultiEngine::~MultiEngine(){
 		logger->log("Stop");
-		delete logger;
-		logger = nullptr;
 	}
 	vector<shared_ptr<Creature>>* MultiEngine::registerEngine(string id) {
 		vector<shared_ptr<Creature>> *vect = new vector<shared_ptr<Creature>>();
@@ -46,15 +44,15 @@
 	}
 
 	void MultiEngine::addFoo(int bar, int id) {
-		NeuralParams params;
-		shared_ptr<Creature> foo = make_shared<Creature>(nullptr, params);
-		for (auto vect : vectors) {
-			if (!addFooReuse(vect.second, foo)) {
-				logger->log("Push  to: " + vect.first);
-				vect.second->push_back(foo);
-
-			}
-		}
+//		NeuralParams params;
+//		shared_ptr<Creature> foo = make_shared<Creature>(nullptr, params);
+//		for (auto vect : vectors) {
+//			if (!addFooReuse(vect.second, foo)) {
+//				logger->log("Push  to: " + vect.first);
+//				vect.second->push_back(foo);
+//
+//			}
+//		}
 //		foo = nullptr;
 	}
 //main:

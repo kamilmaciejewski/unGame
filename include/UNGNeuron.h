@@ -16,10 +16,10 @@ public:
 	SDL_Rect rectPos;
 	UNG_Vector vect = UNG_Vector { &pos };
 	std::string id;
-	std::vector<std::pair<double, UNGNeuronConnection*>> *connections;
+	std::vector<std::pair<float, UNGNeuronConnection*>> *connections;
 	bool state = false;
 
-	UNGNeuron(SDL_FPoint, std::string, float, uint16_t, double);
+	UNGNeuron(SDL_FPoint, std::string, float, uint16_t, float);
 	virtual ~UNGNeuron();
 
 	void calculate();
@@ -28,7 +28,8 @@ public:
 	uint16_t fov;
 
 private:
-	double treshhold;
-	double net = 0, sigm = 0;
+	float treshhold;
+	float tresholdDelta=0.00001;
+	float net = 0, sigm = 0;
 };
 #endif /* UNGNEURON_H_ */

@@ -6,17 +6,14 @@ UNGame::UNGame(Settings *settings) {
 }
 
 UNGame::~UNGame() {
-	delete logger;
-	logger = nullptr;
 	delete world;
-//	world = nullptr;
+	world = nullptr;
 }
 
 void UNGame::run() {
-	WorldGenerator generator;
+	WorldGenerator generator(settings);
 	world = generator.generateWorld(
 			WorldGenerator::TestConfigurations::conf99RandomCreatures);
-	world->setSettings(settings);
 	MultiEngine multiEngine;
 	ungEngine.run(world);
 	sdlEngine.run(world, settings);

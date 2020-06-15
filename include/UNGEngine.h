@@ -18,7 +18,8 @@ class UNGEngine {
 	UNGTimeFrameHandler timeFrameHandler;
 	UNGTimeFrameHandler timeFrameHandlerSenses;
 	bool isFPSLimitEnabled = true;
-	int fpsLimit = 99;
+	int fpsLimit = 30;
+	uint32_t fpsLimitDelta = 1000.0/fpsLimit;
 	uint32_t frameEnd = 0, frameStart = 0;
 	bool isRunning = true;
 	std::thread threadWorld;

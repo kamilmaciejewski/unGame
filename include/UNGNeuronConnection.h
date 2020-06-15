@@ -16,12 +16,12 @@ public:
 
 	UNGNeuronConnection(SDL_FPoint, UNGNeuron*, std::string);
 	virtual ~UNGNeuronConnection();
+	std::string id;
+	UNGNeuron* neuron;
 
 private:
-	std::string id;
 	uint32_t getColor();
 	SDL_FPoint externalPos;
-	UNGNeuron* neuron;
 };
 
 #endif /* UNGNEURONCONNECTION_H_ */
