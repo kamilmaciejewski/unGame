@@ -22,6 +22,7 @@ enum MODE{CONSOLE, GUI};
   bool move = true;
   bool look = true;
   bool creature = true;
+  float timeScale = 1;
 };
 
 #endif /* UNGAME_SETTINGS_H_ */

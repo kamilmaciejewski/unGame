@@ -52,7 +52,7 @@ try {
 
 	UNGame unGame(settings);
 	unGame.run();
-	console->run(consoleTimeout);
+	console->run(consoleTimeout,settings);
 	unGame.stop();
 
 //	logger->log("Start");

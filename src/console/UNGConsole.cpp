@@ -6,7 +6,7 @@ UNGConsole::~UNGConsole() {
 	}
 }
 
-void UNGConsole::run(int timeout) {
+void UNGConsole::run(int timeout, Settings *settings) {
 	initscr();
 	cbreak();
 	noecho();
@@ -14,12 +14,14 @@ void UNGConsole::run(int timeout) {
 	halfdelay(10);
 	int counter = 0;
 
-	while (isRunning && (timeout == 0 || counter++ < timeout)) {
+	while (isRunning && (counter++ < timeout || timeout == 0)) {
 		char ch = getch();
 		if (ch == ERR) {
 			erase();
-			std::string cntStr = std::to_string(counter);
-			mvaddstr(0, 0, ("Running for " + cntStr + " seconds").c_str());
+			mvaddstr(0, 0,
+					("Running for " + std::to_string((int )(counter / 3600))
+							+ "h:" + std::to_string((int )((counter / 60) % 60))
+							+ "m:" + std::to_string(counter % 60) + "s").c_str());
 
 			while (!logqueue.empty()) {
 				log(logqueue.front());
@@ -31,9 +33,14 @@ void UNGConsole::run(int timeout) {
 			printLogs();
 			printInfo();
 			refresh();
-		} else {
+		} else if (ch == 27) {
 			isRunning = false;
+		} else if (ch == 45) {
+			settings->timeScale += 0.1;
+		} else if (ch == 43) {
+			settings->timeScale -= 0.1;
 		}
+
 	}
 	endwin();
 }
@@ -49,16 +56,18 @@ void UNGConsole::printLogs() {
 }
 
 void UNGConsole::printInfo() {
-		int rowid = 30;
-		mvaddstr(rowid++, 0, "Usage in Console window:");
-		mvaddstr(rowid++, 0, "ANY: exit");
-		rowid++;
-		mvaddstr(rowid++, 0, "Usage in GUI window:");
-		mvaddstr(rowid++, 0, "V: draw vectors toggle,  T: draw textures toggle");
-		mvaddstr(rowid++, 0, "R: rotate toggle,        M: move toggle");
-		mvaddstr(rowid++, 0, "L: look toggle,          C: add creature/plant toggle");
-		mvaddstr(rowid++, 0, "ESC: close GUI window");
-		mvaddstr(rowid++, 0, "LMB: mark active object, RMB: add creature/plant");
+	int rowid = 30;
+	mvaddstr(rowid++, 0, "Usage in Console window:");
+	mvaddstr(rowid++, 0, "ESC: exit");
+	mvaddstr(rowid++, 0, "+/-: time scale");
+	rowid++;
+	mvaddstr(rowid++, 0, "Usage in GUI window:");
+	mvaddstr(rowid++, 0, "V: draw vectors toggle,  T: draw textures toggle");
+	mvaddstr(rowid++, 0, "R: rotate toggle,        M: move toggle");
+	mvaddstr(rowid++, 0,
+			"L: look toggle,          C: add creature/plant toggle");
+	mvaddstr(rowid++, 0, "ESC: close GUI window");
+	mvaddstr(rowid++, 0, "LMB: mark active object, RMB: add creature/plant");
 }
 
 void UNGConsole::printFps() {
@@ -78,7 +87,6 @@ void UNGConsole::printPermaLogs() {
 		rowId++;
 	}
 }
-
 
 void UNGConsole::close() {
 	while (!logqueue.empty()) {

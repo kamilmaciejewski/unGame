@@ -19,14 +19,11 @@ class World {
 	const unsigned int SIZE_H = 770; //TODO: Size should be independent from the screen
 	const unsigned int MAX_CREATURES = 100000;
 	const unsigned int MAX_PLANTS = 100000;
-	uint32_t activeCreaturesCounter = 0;
-	uint32_t activePlantsCounter = 0;
-	float energryDelta = 0.01;
+	float energryDelta = 0.008;
 
 //	SDL_Surface *backgroundTexture = nullptr;
 
 	Settings *settings;
-	std::vector<std::shared_ptr<Creature>> creaturesWorld;
 	std::vector<std::shared_ptr<Creature>> creaturesSdl;
 	std::vector<Plant*> plants;
 	std::vector<Zone*> zones;
@@ -34,8 +31,16 @@ class World {
 	void wrapPos(SDL_FPoint*);
 	UNGLogger *logger;
 
+	//world stats
+	int counter = 0;
+	int maxGen = 0;
+	int maxGenEver = 0;
+	int clonesCounter = 0;
+	int nextId = 100;
+
 public:
 
+	std::vector<std::shared_ptr<Creature>> creaturesWorld; //private
 	std::default_random_engine generator;
 	std::normal_distribution<double> distribution;
 	World();

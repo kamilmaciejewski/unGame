@@ -10,6 +10,7 @@
 
 #include "SDL2/SDL.h"
 #include "UNGGlobals.h"
+#include "UNGSettings.h"
 
 struct UNGConsoleEntry{
 	UNG_Globals::engine engineId;
@@ -38,7 +39,7 @@ class UNGConsole {
 public:
 	UNGConsole() = default;
 	virtual ~UNGConsole();
-	void run(int);
+	void run(int,Settings*);
 	void log(std::string);
 	void close();
 };

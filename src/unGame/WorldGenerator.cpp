@@ -2,7 +2,6 @@
 #include "UNGWorldGenerator.h"
 #include "UNGLoggingHandler.h"
 
-
 WorldGenerator::WorldGenerator(Settings *settings) {
 	this->settings = settings;
 	logger = LoggingHandler::getLogger("WG");
@@ -18,7 +17,8 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 	NeuralParams params(&tmpWorld->generator, &tmpWorld->distribution);
 
 	if (testConfiguration == conf2CreatureSightTest) {
-		std::shared_ptr<Creature> observer = std::make_shared<Creature>(tmpWorld->surface, params);
+		std::shared_ptr<Creature> observer = std::make_shared<Creature>(
+				tmpWorld->surface, params,0);
 //		Creature *observer = new Creature(tmpWorld->surface, params);
 		observer->setPos(SDL_FPoint { (float) 300, (float) 300 });
 		observer->rotate(270);
@@ -36,28 +36,34 @@ World* WorldGenerator::generateWorld(TestConfigurations testConfiguration) {
 //		tmpWorld->addCreature(traveller);
 
 	} else {
-
+		logger->log("Add creatures");
 		for (int i = 0; i < testConfiguration; ++i) {
-			tmpWorld->addCreature(
-					generateCreature(testConfiguration, tmpWorld->surface, tmpWorld));
+			logger->log("Add creature" + std::to_string(i));
+			tmpWorld->addCreatureReuse(
+					generateCreature(testConfiguration, tmpWorld->surface,
+							tmpWorld, i));
 		}
 	}
+	logger->log("Creatures: " + std::to_string(tmpWorld->creaturesWorld.size()));
 	return (tmpWorld);
 }
 
 std::shared_ptr<Creature> WorldGenerator::generateCreature(
-		TestConfigurations &testConfiguration, SDL_Surface *surface, World* world) {
+		TestConfigurations &testConfiguration, SDL_Surface *surface,
+		World *world, int id) {
 
 	NeuralParams params(&world->generator, &world->distribution);
 	params.randomize();
-	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface, params);
+	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface,
+			params, id);
 //	tmpCreature->setSpeed(fabs(world->distribution(world->generator)));
 
 	switch (testConfiguration) {
 
 	case conf1Creature:
-		tmpCreature->setPos(SDL_FPoint { 500.0, 500.0 });
-		tmpCreature->rotate(0);
+	case conf5RandomCreatures:
+		tmpCreature->setPos(getRandomPos());
+		tmpCreature->rotate(rand() % 359);
 		break;
 	case conf2CreatureSightTest:
 		break;
@@ -97,20 +103,18 @@ float WorldGenerator::getRandomAlpha() {
 	return (10 + (rand() % 150));
 }
 
-void WorldGenerator::gereratePlantsCircle(World* world){
-	int n = 20;
-	int xs = UNG_Globals::worldBox.w/2;
-	int ys = UNG_Globals::worldBox.h/2;
+void WorldGenerator::gereratePlantsCircle(World *world) {
+	int n = 10;
+	int xs = UNG_Globals::worldBox.w / 2;
+	int ys = UNG_Globals::worldBox.h / 2;
 	int r = 300;
 
-	for(int i = 0; i < n; i++)
-	{
-	  double alpha = 6.283185 * i / (n);
+	for (int i = 0; i < n; i++) {
+		double alpha = 2 * M_PI * i / (n);
 
-	  int x = (int)(xs + r * cos(alpha));
-	  int y = (int)(ys + r * sin(alpha));
-	  world->addPlant({x,y});
+		int x = (int) (xs + r * cos(alpha));
+		int y = (int) (ys + r * sin(alpha));
+		world->addPlant( { x, y });
 	}
-
 
 }

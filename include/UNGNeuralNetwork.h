@@ -16,7 +16,7 @@
 
 class UNGNeuralNetwork {
 public:
-
+	UNGNeuralNetwork(const UNGNeuralNetwork&);
 	UNGNeuralNetwork(NeuralParams);
 	virtual ~UNGNeuralNetwork();
 	void process();
@@ -37,11 +37,14 @@ private:
 	void cleanupNetwork(std::vector<UNGNeuron*>*);
 	std::vector<UNGNeuron*> *input;
 	std::vector<UNGNeuron*> *hidden;
-	UNGNeuron* generateHiddenNeuron(std::string, const NeuralParams&);
+	void generateInputLayer();
+	void generateOutputLayer();
+	UNGNeuron* generateHiddenNeuron(UNGNeuron*);
+	UNGNeuron* generateHiddenNeuron(std::string);
 	void prepareNeuronConnections(UNGNeuron*, std::vector<UNGNeuron*>*,
 			std::map<float, UNGNeuron*>&);
-	void generateNeuronConnections(UNGNeuron*, std::map<float, UNGNeuron*>&,
-			uint16_t);
+	void generateNeuronConnections(UNGNeuron*, std::map<float, UNGNeuron*>&);
+	void copyNeuronConnections(const UNGNeuron*, UNGNeuron*);
 };
 
 #endif /* UNGNEURON_NET_H_ */

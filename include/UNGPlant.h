@@ -5,25 +5,23 @@
 #include "UNGObject.h"
 #include "UNGGlobals.h"
 #include "SDL2_gfxPrimitives.h"
+#include <atomic>
 
 class Plant: public Object {
 
 public:
-	Plant();
+	Plant(SDL_FPoint);
 	virtual ~Plant();
-
-	void setActive();
-	void setInactive();
 
 	void draw(SDL_Renderer*);
 	void update();
 
-	bool isActive();
+	bool isAlive();
 	std::string getInfo();
 
-	float energy = 255; //TODO: make private
+	 std::atomic<float> energy = 512; //TODO: make private
 private:
-	bool activeState = false;
+	 int size = 30;
 };
 
 #endif /* PLANT_H */

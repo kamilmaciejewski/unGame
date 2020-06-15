@@ -1,4 +1,5 @@
 #include "UNGEngine.h"
+#include <chrono>
 
 UNGEngine::~UNGEngine() {
 }
@@ -44,7 +45,9 @@ void UNGEngine::close() {
 uint32_t* UNGEngine::countFrameTimeDelta() {
 	frameStart = SDL_GetTicks() - frameEnd;
 	if (isFPSLimitEnabled && frameStart < (1000.0 / fpsLimit)) {
-		SDL_Delay(1);
+//		std::this_thread::sleep_for(std::chrono::milliseconds(fpsLimitDelta / (SDL_GetTicks() - frameStart + 1) / 2));
+		std::this_thread::sleep_for(std::chrono::milliseconds(2));
+//		SDL_Delay(1);
 		return (countFrameTimeDelta());
 	} else {
 	frameEnd = SDL_GetTicks();

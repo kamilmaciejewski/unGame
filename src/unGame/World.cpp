@@ -82,25 +82,29 @@ void World::addCreature(std::shared_ptr<Creature> creature) {
 //	logger->setPermaLog("addCr", std::to_string(creature.use_count()));
 }
 
-std::shared_ptr<Creature> World::cloneAndRandomizeCreature(const std::shared_ptr<Creature> &creature){
-	return std::make_shared<Creature>(*creature);
+std::shared_ptr<Creature> World::cloneAndRandomizeCreature(
+		const std::shared_ptr<Creature> &creature) {
+	logger->log(
+			"Cl gen:" + to_string(creature->generations) + " -> "
+					+ to_string(creature->id) + "("
+					+ to_string(creature->parentId) + ";"
+					+ to_string(creature->ancessorId) + ") to: "
+					+ to_string(nextId + 1)); //TODO: getter to gen info string
+	return std::make_shared<Creature>(*creature, nextId++);
 }
 
 void World::addCreature(SDL_Point pos) {
 	NeuralParams params(&generator, &distribution);
 	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface,
-			params);
+			params, nextId++);
 	tmpCreature->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
-	tmpCreature->rotate(0);
+	tmpCreature->rotate(rand() % 359);
 	tmpCreature->setInactive();
 	addCreatureReuse(tmpCreature);
 }
 
 void World::addPlant(SDL_Point pos) {
-	Plant *plant = new Plant();
-	plant->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
-	plant->setActive();
-	plant->update();
+	Plant *plant = new Plant(SDL_FPoint { (float) pos.x, (float) pos.y });
 	plants.push_back(plant);
 	for (auto zone : zones) {
 		zone->update(plant);
@@ -111,31 +115,27 @@ void World::addCreatureReuse(std::shared_ptr<Creature> creature) {
 	//TODO rewrite to use multiengine collected resource pool
 	bool reuse = false;
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
+		if ((*ptr) == nullptr) {
+			(*ptr) = creature;
+			reuse = true;
+			break;
+		}
+	}
+	if (!reuse && creaturesWorld.size() < MAX_CREATURES) {
+		creaturesWorld.push_back(creature);
+	}
+
+	if (settings->mode == Settings::GUI) {
+		reuse = false;
+		for (auto ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
 			if ((*ptr) == nullptr) {
 				(*ptr) = creature;
 				reuse = true;
-				logger->log("CR world reuse");
 				break;
 			}
-	}
-	if(!reuse && creaturesWorld.size() < MAX_CREATURES){
-		creaturesWorld.push_back(creature);
-		logger->log("CR world add new");
-	}
-
-	if(settings->mode == Settings::GUI){
-	reuse = false;
-		for (auto ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
-				if ((*ptr) == nullptr) {
-					(*ptr) = creature;
-					reuse = true;
-					logger->log("CR sdl reuse");
-					break;
-				}
 		}
-	if(!reuse && creaturesSdl.size() < MAX_CREATURES){
+		if (!reuse && creaturesSdl.size() < MAX_CREATURES) {
 			creaturesSdl.push_back(creature);
-			logger->log("CR sdl add new");
 		}
 	}
 
@@ -155,13 +155,21 @@ void World::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
-	logger->setPermaLog("Size SDL:", std::to_string(counter));
+	logger->setPermaLog("Size SDL", std::to_string(counter));
 
-	for (auto zone : zones) {
-		zone->draw(renderer);
+	if (settings->draw_vectors) {
+		for (auto zone : zones) {
+			zone->draw(renderer);
+		}
+
 	}
-	for (auto plant : plants) {
-		plant->draw(renderer);
+	if (settings->draw_textures) {
+		for (auto plant : plants) {
+			if (plant->isAlive()) {
+				plant->draw(renderer);
+			}
+		}
+
 	}
 //	for (auto creature : creatures) {
 //		creature->draw(renderer, settings);
@@ -207,49 +215,46 @@ void World::draw(SDL_Renderer *renderer) {
 //	}
 
 void World::update(uint32_t *timeDelta) {
+	maxGen = 0;
+	counter = 0;
 
-	int counter = 0;
-	int maxGen = 0;
-	double minEnergy = 255;
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 		if ((*ptr) != nullptr) {
 			counter++;
 			if ((*ptr)->generations > maxGen) {
 				maxGen = (*ptr)->generations;
 			}
-			(*ptr)->update(timeDelta, settings);
-			if ((*ptr)->energy > 200){ //TODO this should be in creature, rewrite
-				(*ptr)->energy = 100;
-				addCreatureReuse(cloneAndRandomizeCreature(*ptr));
-
+			if ((*ptr)->generations > maxGenEver) {
+				maxGenEver = (*ptr)->generations;
 			}
-			wrapPos(&(*ptr)->pos);
-			for (auto zone : zones) {
-				zone->update((*ptr));
-				for (auto plant : *zone->plants) {
-					SDL_Point tmpPos = { (int) (*ptr)->pos.x,
-							(int) (*ptr)->pos.y };
-					if (SDL_PointInRect(&tmpPos,
-							&plant->getDrawable()->rect_draw)) {
-						if ((*ptr)->energy < 255 && plant->energy > 0) {
-							(*ptr)->energy += energryDelta * *timeDelta;
-							plant->energy -= energryDelta * *timeDelta;
+			if (settings->rotate) {
+				(*ptr)->update(timeDelta, settings);
+				if ((*ptr)->energy > 200) { //TODO this should be in creature, rewrite
+					(*ptr)->energy = 100;
+					addCreatureReuse(cloneAndRandomizeCreature(*ptr));
+					clonesCounter++;
+				}
+				wrapPos(&(*ptr)->pos);
+				for (auto zone : zones) {
+					zone->update((*ptr));
+					for (auto plant : *zone->plants) {
+						if (SDL_FPointInRect(&(*ptr)->pos,
+								&plant->getDrawable()->rect_draw)) {
+							if ((*ptr)->energy < 255 && plant->energy > 0) {
+								(*ptr)->energy += (*ptr)->feed_factor
+										* energryDelta * *timeDelta;
+								plant->energy = plant->energy
+										- ((*ptr)->feed_factor * energryDelta
+												* *timeDelta);
+							}
 						}
 					}
 				}
 			}
 
-			if ((*ptr)->energy < minEnergy) {
-				minEnergy = (*ptr)->energy;
-			}
 			if (!(*ptr)->isAlive()) {
 				for (auto zone : zones) {
-//					if (
 					zone->kickOut(*ptr);
-//							> 0) {
-//						logger->log(
-//								"Zone UC " + std::to_string(ptr->use_count()));
-//					}
 				}
 				(*ptr) = nullptr;
 				continue;
@@ -257,14 +262,23 @@ void World::update(uint32_t *timeDelta) {
 
 		}
 	}
-	logger->setPermaLog("Size:", std::to_string(counter));
-	logger->setPermaLog("Max Gen:", std::to_string(maxGen));
+	logger->setPermaLog("Size", std::to_string(counter));
+	logger->setPermaLog("Max Gen",
+			std::to_string(maxGen) + "(" + std::to_string(maxGenEver) + ")");
+	logger->setPermaLog("CR cloned", std::to_string(clonesCounter));
+	logger->setPermaLog("Time scale", std::to_string(settings->timeScale));
 
-	for (auto plant : plants) {
-		if (plant->energy < 255.0) {
-			plant->energy += (energryDelta / ((plants.size() / 5)))
-					* *timeDelta;
+	if (settings->rotate) {
+		for (auto plant : plants) {
+			if (plant->energy < 512.0) {
+				plant->energy = plant->energy
+						+ (energryDelta / (plants.size())) * *timeDelta;
+			}
+			plant->update();
 		}
+	}
+	if (counter < 5) {
+		addCreature(SDL_Point { (rand() % 1000), (rand() % 1000) });
 	}
 //	for (ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 //		if (*ptr != nullptr) {
@@ -300,15 +314,12 @@ void World::update(uint32_t *timeDelta) {
 }
 
 void World::updateViewSense() {
-	activeCreaturesCounter = 0;
-	activePlantsCounter = 0;
 	if (settings->look) {
 		for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end();
 				ptr++) {
 			auto creature = *ptr;
 			if (creature != nullptr) {
 				if (creature->isAlive()) {
-					++activeCreaturesCounter;
 					creature->cleanupView();
 					for (auto zone : zones) {
 //					zone->update(creature);
@@ -336,16 +347,10 @@ void World::updateViewSense() {
 			}
 		}
 		for (auto plant : plants) {
-			if (!plant->isActive()) {
-				for (auto zone : zones) {
-					zone->kickOut(plant);
-				}
-			} else {
-				++activePlantsCounter;
+			for (auto zone : zones) {
+				zone->update(plant);
 			}
 		}
-		logger->setPermaLog("active creatures:",
-				std::to_string(activeCreaturesCounter));
 	}
 }
 

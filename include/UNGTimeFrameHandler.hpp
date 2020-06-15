@@ -10,7 +10,7 @@ class UNGTimeFrameHandler {
 public:
 	void frameTick();
 	bool isFPSLimitEnabled = true;
-	uint32_t fpsLimit = 100;
+	uint32_t fpsLimit = 30;
 	uint32_t fpsLimitDelta = 1000.0/fpsLimit;
 	void setLogger(UNGLogger*);
 	virtual ~UNGTimeFrameHandler();
