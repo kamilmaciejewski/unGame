@@ -53,28 +53,20 @@ std::shared_ptr<Creature> WorldGenerator::generateCreature(
 		World *world, int id) {
 
 	NeuralParams params(&world->generator, &world->distribution);
-	params.randomize();
+	for (int i = 0; i < 10; i++) {
+		params.randomize();
+	}
 	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface,
 			params, id);
-//	tmpCreature->setSpeed(fabs(world->distribution(world->generator)));
 
 	switch (testConfiguration) {
 
-	case conf1Creature:
-	case conf5RandomCreatures:
-		tmpCreature->setPos(getRandomPos());
-		tmpCreature->rotate(rand() % 359);
-		break;
 	case conf2CreatureSightTest:
 		break;
+	case conf1Creature:
+	case conf50RandomCreatures:
 	case conf99RandomCreatures:
-		tmpCreature->setPos(getRandomPos());
-		tmpCreature->rotate(rand() % 359);
-		break;
 	case conf1KRandomCreatures:
-		tmpCreature->setPos(getRandomPos());
-		tmpCreature->rotate(rand() % 359);
-		break;
 	case conf10KRandomCreatures:
 		tmpCreature->setPos(getRandomPos());
 		tmpCreature->rotate(rand() % 359);
@@ -84,13 +76,11 @@ std::shared_ptr<Creature> WorldGenerator::generateCreature(
 }
 
 float WorldGenerator::getRandomPosH() {
-	return (float) (UNG_Globals::SCREEN_H / 2
-			+ rand() % UNG_Globals::SCREEN_H / 10);
+	return (float) (rand() % UNG_Globals::worldBox.h);
 }
 
 float WorldGenerator::getRandomPosW() {
-	return (float) (UNG_Globals::SCREEN_W / 2
-			+ rand() % UNG_Globals::SCREEN_W / 10);
+	return (float) (rand() % UNG_Globals::worldBox.w);
 }
 
 SDL_FPoint WorldGenerator::getRandomPos() {
@@ -104,7 +94,7 @@ float WorldGenerator::getRandomAlpha() {
 }
 
 void WorldGenerator::gereratePlantsCircle(World *world) {
-	int n = 10;
+	int n = 3;
 	int xs = UNG_Globals::worldBox.w / 2;
 	int ys = UNG_Globals::worldBox.h / 2;
 	int r = 300;

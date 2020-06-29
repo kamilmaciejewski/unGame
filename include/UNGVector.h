@@ -17,10 +17,10 @@ public:
 	void add(float*);
 	float getAngleDeg();
 	float getAngleRad();
+	SDL_FPoint* pos; //TODO Private
+	float value; //TODO Private
 private:
 	float angle;
-	SDL_FPoint* pos;
-	float value;
 };
 
 #endif /* UNGAME_VECTOR_H_ */

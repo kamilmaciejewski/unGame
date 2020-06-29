@@ -14,7 +14,7 @@ const float f360 = 360.0, f180 = 180.0;
 
 float distance(const SDL_FPoint*, const SDL_FPoint*);
 float distance(SDL_FPoint, SDL_FPoint);
-float getDifference(float, float);
+float getAngleDifference(float, float);
 
 SDL_bool SDL_FPointInRect(const SDL_FPoint*, const SDL_Rect*);
 #endif /* SRC_UNGAME_GEOMETRY_HPP_ */

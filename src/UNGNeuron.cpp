@@ -4,15 +4,18 @@
 #include <SDL2/SDL.h>
 using namespace std;
 UNGNeuron::UNGNeuron(SDL_FPoint pos, std::string id, float angle, uint16_t fov,
-		float treshold) {
+		float treshold, float maxConnDist, float connWeightAngleFactor) {
 	connections = new std::vector<std::pair<float, UNGNeuronConnection*>>();
 	this->pos = pos;
+	this->vect.setAngleDeg(angle);
+	this->vect.setVal(maxConnDist);
+	posDirection.x = pos.x+sin(vect.getAngleRad())*vect.value/30;
+	posDirection.y = pos.y+cos(vect.getAngleRad())*vect.value/30;
 	this->rectPos = { (int) pos.x - 5, (int) pos.y - 5, 10, 10 };
 	this->id = id;
-	this->vect.setAngleDeg(angle);
-	this->vect.setVal((float) 10);
 	this->fov = fov;
 	this->treshhold = treshold;
+	this->connWeightAngleFactor = connWeightAngleFactor;
 }
 
 UNGNeuron::~UNGNeuron() {
@@ -39,21 +42,19 @@ void UNGNeuron::draw(SDL_Renderer *renderer) {
 					(connection.second->id + ": "
 							+ std::to_string(connection.first)).c_str(),
 					connection.second->getColor());
-			stringColor(renderer, pos.x, pos.y + 30,
-					("net:" + std::to_string(net)).c_str(), getColor());
-			stringColor(renderer, pos.x, pos.y + 40,
-					("sigm:" + std::to_string(sigm)).c_str(), getColor());
-			stringColor(renderer, pos.x, pos.y + 50,
-					("trsh:" + std::to_string(treshhold)).c_str(), getColor());
 
 		}
+		stringColor(renderer, pos.x, pos.y + 30,
+				("net:" + std::to_string(net)).c_str(), getColor());
+		stringColor(renderer, pos.x, pos.y + 40,
+				("sigm:" + std::to_string(sigm)).c_str(), getColor());
+		stringColor(renderer, pos.x, pos.y + 50,
+				("trsh:" + std::to_string(treshhold)).c_str(), getColor());
+		stringColor(renderer, pos.x, pos.y + 20, ("id:" + id).c_str(),
+				getColor());
 	}
-	stringColor(renderer, pos.x, pos.y + 20,
-			("id:" + id
-					+ ("(" + to_string((int)pos.x) + ";" + to_string((int)pos.y) + ")")).c_str(),
-			getColor());
 	circleColor(renderer, pos.x, pos.y, 5, getColor());
-	vect.draw(renderer);
+	lineColor(renderer,pos.x, pos.y, posDirection.x, posDirection.y,getColor());
 
 }
 
@@ -64,18 +65,28 @@ uint32_t UNGNeuron::getColor() {
 	return UNG_Globals::RED;
 }
 void UNGNeuron::calculate() {
+	calculateNet();
+	calculateValue();
+}
+void UNGNeuron::calculateValue() {
+
+	sigm = 1.0 / (1.0 + exp(net));
+	if ((sigm) < treshhold) {
+		treshhold -= 10*tresholdDelta;
+		state = true;
+	} else {
+		treshhold += tresholdDelta;
+		state = false;
+	}
+}
+void UNGNeuron::resetNet() {
 	net = 0;
+}
+void UNGNeuron::calculateNet() {
+	resetNet();
 	for (auto connection : *connections) {
 		if (connection.second->neuron->state) {
 			net = net + connection.first;
 		}
-	}
-	sigm = 1.0 / (1.0 + exp(net));
-	if ((sigm) < treshhold) {
-		treshhold-=tresholdDelta;
-		state = true;
-	} else {
-		treshhold+=tresholdDelta;
-		state = false;
 	}
 }

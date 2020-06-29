@@ -22,15 +22,15 @@ struct Genotype {
 class Creature: public Object {
 
 public:
-	float energy = 199;
-	uint16_t generations = 0;
-	std::vector<UNG_Vector*> *multiview;
-	int id=0, parentId=0, ancessorId=0;
+	float energy = 100;
+	uint64_t generations = 0;
+	std::vector<UNG_Vector*> *multiview;//TODO: vector object instead of pointer?
+	uint64_t id=0, parentId=0, ancessorId=0;
 
 
-	Creature(SDL_Surface*, NeuralParams, int);
+	Creature(SDL_Surface*, NeuralParams, uint64_t);
 //	Creature(SDL_Surface*, NeuralParams);
-	Creature(const Creature&, int);
+	Creature(const Creature&, uint64_t);
 //	Creature(const Creature&);
 	virtual ~Creature();
 
@@ -49,22 +49,23 @@ public:
 	bool isActive();
 	bool isAlive();
 	void cleanupView();
+	void updateView();
 	std::string getInfo();
 	bool lookAt(const Creature*);
 	bool lookAt(const Plant*);
 	void mapViewOnNeuralNetwork(UNG_Vector*);
 	void mapNeuralNetworkOutput();
 	float feed_factor = 1.0;
+	UNGNeuralNetwork *neuralNet;//TODO private
 
 private:
 	float tmpSpeed = 0;
 	Genotype genotype;
 	const uint8_t ROTATION_STEP = 3;
-	float metabolism_factor = 0.045;
-	float neural_factor = 0.015;
+	float metabolism_factor = 0.025;
+	float neural_factor = 0.005;
 
 	UNG_Vector* lookAt(const SDL_FPoint point);
-	UNGNeuralNetwork *neuralNet;
 	bool activeState = false;
 	float rotation_speed = 0;
 };

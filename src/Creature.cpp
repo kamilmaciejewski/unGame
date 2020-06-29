@@ -4,7 +4,7 @@
 #include <sstream> //for std::stringstream temp
 #include <string>  //for std::string temp
 
-Creature::Creature(SDL_Surface *surfaceptr, NeuralParams params, int id) {
+Creature::Creature(SDL_Surface *surfaceptr, NeuralParams params, uint64_t id) {
 	this->id = id;
 	parentId = id;
 	ancessorId = id;
@@ -14,7 +14,7 @@ Creature::Creature(SDL_Surface *surfaceptr, NeuralParams params, int id) {
 	surface = surfaceptr;
 }
 
-Creature::Creature(const Creature &creature, int id){
+Creature::Creature(const Creature &creature, uint64_t id){
 	this->id = id;
 	parentId = creature.id;
 	ancessorId = creature.ancessorId;
@@ -71,9 +71,24 @@ void Creature::draw(SDL_Renderer *renderer, Settings *settings) {
 					("id:" + std::to_string(id) + "(" + std::to_string(parentId)
 							+ ";" + std::to_string(ancessorId) + ")").c_str(),
 					UNG_Globals::GREEN);
+//			stringColor(renderer, pos.x, pos.y + 60,
+//								("mview size:" + std::to_string(multiview->size())).c_str(),
+//								UNG_Globals::GREEN);
 			neuralNet->draw(renderer);
-			for (auto vect : *multiview) {
-				vect->draw(renderer);
+			int tmpOffset = 70;
+			for (auto mvect : *multiview) {
+				mvect->draw(renderer);
+				auto relativeAngle = getAngleDifference(mvect->getAngleDeg(),
+						vect->getAngleDeg());
+				stringColor(renderer, mvect->pos->x, mvect->pos->y + tmpOffset,
+						(std::to_string(mvect->getAngleDeg()) + "("
+								+ std::to_string(relativeAngle) + ";"
+
+								+ std::to_string(relativeAngle
+												/ neuralNet->params.sightFov)
+								+ ")").c_str(), UNG_Globals::GREEN);
+				tmpOffset += 10;
+//				neuralNet->kickInput(relativeAngle, 0);
 			}
 			SDL_RenderDrawRect(renderer, &drawable->rect_draw);
 		}
@@ -100,7 +115,7 @@ void Creature::update(const uint32_t *timeDelta, Settings *settings) {
 		drawable->rect_draw.y = pos.y - (drawable->rect_draw.h / 2); // - rotated_Surface->h / 2 - optimized_surface->h / 2;
 		energy -= metabolism_factor * (neuralNet->params.speed * *timeDelta * settings->timeScale);
 		energy -= neural_factor * neuralNet->energyCost;
-		feed_factor = feed_factor - 0.00005;
+		feed_factor = feed_factor - 0.00004;
 	}
 }
 
@@ -161,6 +176,10 @@ void Creature::cleanupView() {
 		multiview->clear();
 	}
 }
+//void Creature::updateView() {
+//	neuralNet->updateInput();
+//}
+
 
 bool Creature::lookAt(const Creature *otherCreature) {
 	if (multiview->size() < genotype.maxViewEntries) {
@@ -190,7 +209,7 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 	float dist = distance(pos, point);
 	if (dist != 0 && abs(dist) < neuralNet->params.viewDist) {
 		float angle = radToDeg(atan2(point.x - pos.x, point.y - pos.y));
-		if (abs(getDifference(vect->getAngleDeg(), angle))
+		if (abs(getAngleDifference(vect->getAngleDeg(), angle))
 				< neuralNet->params.sightFov) {
 			return new UNG_Vector(&pos, angle, dist);
 		}
@@ -199,13 +218,15 @@ UNG_Vector* Creature::lookAt(const SDL_FPoint point) {
 }
 
 void Creature::mapViewOnNeuralNetwork(UNG_Vector *vectView) {
-	neuralNet->kickInput(
-			int(
-			//TODO: should be relative vector passed here
-					(getDifference(vectView->getAngleDeg(), vect->getAngleDeg())
-							+ neuralNet->params.sightFov)
-							/ (2 * neuralNet->params.sightFov
-									/ neuralNet->params.inputSize)));
+	auto relativeAngle = getAngleDifference(vectView->getAngleDeg(), vect->getAngleDeg());
+	neuralNet->kickInput(relativeAngle, vectView->value);
+//	neuralNet->kickInput(
+//			int(
+//			//TODO: should be relative vector passed here
+//					(getAngleDifference(vectView->getAngleDeg(), vect->getAngleDeg())
+//							+ neuralNet->params.sightFov)
+//							/ (2 * neuralNet->params.sightFov
+//									/ neuralNet->params.inputSize)));
 }
 
 void Creature::mapNeuralNetworkOutput() {
@@ -218,6 +239,10 @@ void Creature::mapNeuralNetworkOutput() {
 			tmpSpeed -= (abs(angle) ^ 2) * neuralNet->params.speedFactor;
 //			tmp = tmp + neuron->id + ":"+ std::to_string(angle) + ";";
 		}
+	}
+	if (neuralNet->foodFound){
+		tmpSpeed = tmpSpeed*neuralNet->params.feedDetectspeedFactor;
+		neuralNet->foodFound = false;
 	}
 }
 

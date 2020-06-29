@@ -36,9 +36,9 @@ void UNGConsole::run(int timeout, Settings *settings) {
 		} else if (ch == 27) {
 			isRunning = false;
 		} else if (ch == 45) {
-			settings->timeScale += 0.1;
-		} else if (ch == 43) {
 			settings->timeScale -= 0.1;
+		} else if (ch == 43) {
+			settings->timeScale += 0.1;
 		}
 
 	}
@@ -50,13 +50,13 @@ void UNGConsole::log(std::string log) {
 }
 void UNGConsole::printLogs() {
 	for (int logEntry = 0; logEntry < logsSize; logEntry++) {
-		mvaddstr(15 + logEntry, 0,
+		mvaddstr(20 + logEntry, 0,
 				logs[(logEntry + logCycle) % logsSize].c_str());
 	}
 }
 
 void UNGConsole::printInfo() {
-	int rowid = 30;
+	int rowid = 40;
 	mvaddstr(rowid++, 0, "Usage in Console window:");
 	mvaddstr(rowid++, 0, "ESC: exit");
 	mvaddstr(rowid++, 0, "+/-: time scale");

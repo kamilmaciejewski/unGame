@@ -6,3 +6,5 @@ Debug
 Build*
 Debug*
 /Default/
+bin
+obj

@@ -13,6 +13,7 @@
 #include "UNGGeometry.h"
 #include "SDL2/SDL2_gfxPrimitives.h"
 #include "UNGNeuralParams.h"
+#include "UNGVector.h"
 
 class UNGNeuralNetwork {
 public:
@@ -22,11 +23,17 @@ public:
 	void process();
 	void draw(SDL_Renderer*);
 	void kickInput(int);
+	void kickFoodFoundFactor();
+	void kickInput(const float&, const float&);
 	void handleMouseInput(Settings*);
 	void clearInput();
+	void updateInput();
 	std::vector<UNGNeuron*> *output;
 	float energyCost;
 	NeuralParams params{nullptr,nullptr};
+	bool foodFound = false;
+	float avgHiddenTreshhlold = 0; //TODO: Private
+	float avgOutputTreshhlold = 0; //TODO: Private
 
 private:
 	const float neuronEnergryCost = 0.01;
@@ -39,8 +46,9 @@ private:
 	std::vector<UNGNeuron*> *hidden;
 	void generateInputLayer();
 	void generateOutputLayer();
-	UNGNeuron* generateHiddenNeuron(UNGNeuron*);
+	UNGNeuron* generateNeuron(UNGNeuron*, const SDL_Rect&);
 	UNGNeuron* generateHiddenNeuron(std::string);
+	UNGNeuron* generateInputNeuron(std::string);
 	void prepareNeuronConnections(UNGNeuron*, std::vector<UNGNeuron*>*,
 			std::map<float, UNGNeuron*>&);
 	void generateNeuronConnections(UNGNeuron*, std::map<float, UNGNeuron*>&);
