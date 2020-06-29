@@ -18,17 +18,29 @@ float NeuralParams::randomizeVal(float val) {
 void NeuralParams::randomize() {
 
 	auto distr = *distribution;
-	if(randomizeChance(15)){inputSize += inputSize / 3 * (distr(*generator));}
+	if(randomizeChance(15)){
+		inputSize += inputSize / 3 * (distr(*generator));
+//		sightSharpness = 1.0/inputSize;
+	}
 	if(randomizeChance(15)){hiddenSize += hiddenSize / 3 * (distr(*generator));}
 	if(randomizeChance(15)){outputSize += outputSize / 3 * (distr(*generator));}
 	if(randomizeChance(15)){maxConnections += maxConnections / 3 * (distr(*generator));}
 	if(randomizeChance(15)){neuronFov += neuronFov / 3 * (distr(*generator));}
+	if(randomizeChance(15)){sightFov += sightFov / 2 * (distr(*generator));}
 	if(randomizeChance(15)){treshold += treshold / 3 * (distr(*generator));}
 	if(randomizeChance(15)){speed += speed / 2 * (distr(*generator));}
 	if(randomizeChance(15)){speedFactor += speedFactor / 2 * (distr(*generator));}
 	if(randomizeChance(15)){rotationFactor += rotationFactor / 2 * (distr(*generator));}
 	if(randomizeChance(15)){viewDist += viewDist / 2 * (distr(*generator));}
+	if(randomizeChance(15)){sightSharpness += sightSharpness / 2 * (distr(*generator));}
+	if(randomizeChance(15)){feedDetectspeedFactor += feedDetectspeedFactor / 2 * (distr(*generator));}
+
+	if(randomizeChance(15)){maxConnectionDistance += maxConnectionDistance / 2 * (distr(*generator));}
+	if(randomizeChance(15)){connWeightAngleFactor += connWeightAngleFactor / 2 * (distr(*generator));}
+	if(randomizeChance(15)){connectionCopyChance += connectionCopyChance / 2 * (distr(*generator));}
+
 }
+
 
 bool NeuralParams::randomizeChance(const int percent) {
 	return  (rand() % 100 < percent);

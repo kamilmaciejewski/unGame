@@ -1,9 +1,10 @@
 #include <iostream>
 #include <stdio.h>
 #include <UNGWorld.h>
+using namespace std;
 
 World::World() {
-	distribution = std::normal_distribution<double>(0.0, 0.3);
+	distribution = normal_distribution<double>(0.0, 0.3);
 	logger = LoggingHandler::getLogger("WRLD");
 	surface = SDL_LoadBMP("res/arrow.bmp");
 	SDL_SetColorKey(surface, SDL_TRUE,
@@ -61,12 +62,12 @@ void World::initZones() {
 
 }
 
-void World::addCreature(std::shared_ptr<Creature> creature) {
+void World::addCreature(shared_ptr<Creature> creature) {
 //	if (creaturesWorld.size() < MAX_CREATURES) {
 //		creaturesWorld.push_back(creature);
 //	} else {
 //		logger->log(
-//				"Slot not found WORLD" + std::to_string(creaturesWorld.size()));
+//				"Slot not found WORLD" + to_string(creaturesWorld.size()));
 //	}
 //	if (settings->mode == Settings::GUI) {
 //
@@ -74,28 +75,31 @@ void World::addCreature(std::shared_ptr<Creature> creature) {
 //			creaturesSdl.push_back(creature);
 //		} else {
 //			logger->log(
-//					"Slot not found SDL" + std::to_string(creaturesSdl.size()));
+//					"Slot not found SDL" + to_string(creaturesSdl.size()));
 //		}
 //	}
 
 //	creature = nullptr;
-//	logger->setPermaLog("addCr", std::to_string(creature.use_count()));
+//	logger->setPermaLog("addCr", to_string(creature.use_count()));
 }
 
-std::shared_ptr<Creature> World::cloneAndRandomizeCreature(
-		const std::shared_ptr<Creature> &creature) {
+shared_ptr<Creature> World::cloneAndRandomizeCreature(
+		const shared_ptr<Creature> &creature) {
 	logger->log(
 			"Cl gen:" + to_string(creature->generations) + " -> "
 					+ to_string(creature->id) + "("
 					+ to_string(creature->parentId) + ";"
 					+ to_string(creature->ancessorId) + ") to: "
 					+ to_string(nextId + 1)); //TODO: getter to gen info string
-	return std::make_shared<Creature>(*creature, nextId++);
+	return make_shared<Creature>(*creature, nextId++);
 }
 
 void World::addCreature(SDL_Point pos) {
 	NeuralParams params(&generator, &distribution);
-	std::shared_ptr<Creature> tmpCreature = std::make_shared<Creature>(surface,
+	for (int i = 0; i < 10; i++) {
+		params.randomize();
+	}
+	shared_ptr<Creature> tmpCreature = make_shared<Creature>(surface,
 			params, nextId++);
 	tmpCreature->setPos(SDL_FPoint { (float) pos.x, (float) pos.y });
 	tmpCreature->rotate(rand() % 359);
@@ -111,7 +115,7 @@ void World::addPlant(SDL_Point pos) {
 	}
 }
 
-void World::addCreatureReuse(std::shared_ptr<Creature> creature) {
+void World::addCreatureReuse(shared_ptr<Creature> creature) {
 	//TODO rewrite to use multiengine collected resource pool
 	bool reuse = false;
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
@@ -155,7 +159,7 @@ void World::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
-	logger->setPermaLog("Size SDL", std::to_string(counter));
+//	logger->setPermaLog("Size SDL", to_string(counter));
 
 	if (settings->draw_vectors) {
 		for (auto zone : zones) {
@@ -163,20 +167,18 @@ void World::draw(SDL_Renderer *renderer) {
 		}
 
 	}
-	if (settings->draw_textures) {
 		for (auto plant : plants) {
-			if (plant->isAlive()) {
+			if (plant->isAlive() && settings->draw_textures) {
 				plant->draw(renderer);
 			}
 		}
 
-	}
 //	for (auto creature : creatures) {
 //		creature->draw(renderer, settings);
 //		if (creature->isActive()) {
 //			infoStr = creature->getInfo();
 //	}
-//	logger->setPermaLog("SDL size", std::to_string(creaturesSdl.size()));
+//	logger->setPermaLog("SDL size", to_string(creaturesSdl.size()));
 //
 //	for (ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
 //		if ((*ptr) != nullptr) {
@@ -191,7 +193,7 @@ void World::draw(SDL_Renderer *renderer) {
 
 //	for (ptr = creaturesSdl.begin(); ptr < creaturesSdl.end(); ptr++) {
 //		auto xxx = ptr;
-//		std::shared_ptr<Creature> cr = *xxx;
+//		shared_ptr<Creature> cr = *xxx;
 //		if ((*ptr) != nullptr) {
 //			auto xx = *ptr;
 //			if (xx!=nullptr && !xx->isAlive()) {
@@ -216,16 +218,13 @@ void World::draw(SDL_Renderer *renderer) {
 
 void World::update(uint32_t *timeDelta) {
 	maxGen = 0;
-	counter = 0;
+	count = 0;
 
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 		if ((*ptr) != nullptr) {
-			counter++;
+			count++;
 			if ((*ptr)->generations > maxGen) {
 				maxGen = (*ptr)->generations;
-			}
-			if ((*ptr)->generations > maxGenEver) {
-				maxGenEver = (*ptr)->generations;
 			}
 			if (settings->rotate) {
 				(*ptr)->update(timeDelta, settings);
@@ -234,18 +233,22 @@ void World::update(uint32_t *timeDelta) {
 					addCreatureReuse(cloneAndRandomizeCreature(*ptr));
 					clonesCounter++;
 				}
-				wrapPos(&(*ptr)->pos);
+				if (wrapPos(&(*ptr)->pos))
+				{
+					(*ptr)->energy -= screenWrapPenality;
+				}
 				for (auto zone : zones) {
 					zone->update((*ptr));
-					for (auto plant : *zone->plants) {
+					for (auto plant : plants) {
 						if (SDL_FPointInRect(&(*ptr)->pos,
-								&plant->getDrawable()->rect_draw)) {
+								&plant->rect_food)) {
 							if ((*ptr)->energy < 255 && plant->energy > 0) {
 								(*ptr)->energy += (*ptr)->feed_factor
 										* energryDelta * *timeDelta;
 								plant->energy = plant->energy
 										- ((*ptr)->feed_factor * energryDelta
 												* *timeDelta);
+								(*ptr)->neuralNet->kickFoodFoundFactor();
 							}
 						}
 					}
@@ -262,24 +265,59 @@ void World::update(uint32_t *timeDelta) {
 
 		}
 	}
-	logger->setPermaLog("Size", std::to_string(counter));
-	logger->setPermaLog("Max Gen",
-			std::to_string(maxGen) + "(" + std::to_string(maxGenEver) + ")");
-	logger->setPermaLog("CR cloned", std::to_string(clonesCounter));
-	logger->setPermaLog("Time scale", std::to_string(settings->timeScale));
+	if (count > maxCount) {
+		maxCount = count;
+	}
+	if (maxGen > maxGenEver) {
+		maxGenEver = maxGen;
+		maxCountAtMaxGenEver = count;
+		maxScreenWrapPenalityAtMaxGenEver = screenWrapPenality;
+		minEneryDeltaAtMaxGenEver = energryDelta;
+	} else if (maxGen == maxGenEver) {
+		if (count > maxCountAtMaxGenEver) {
+			maxCountAtMaxGenEver = count;
+		}
+		if (screenWrapPenality > maxScreenWrapPenalityAtMaxGenEver) {
+			maxScreenWrapPenalityAtMaxGenEver = screenWrapPenality;
+		}
+		if (energryDelta < minEneryDeltaAtMaxGenEver) {
+			minEneryDeltaAtMaxGenEver = energryDelta;
+		}
+	}
 
-	if (settings->rotate) {
+	if (count > 50 && energryDelta > 0) {
+		energryDelta -= (count-50) * 0.000000005;
+//		screenWrapPenality += 0.005;
+	}
+	else {
+		energryDelta += 0.000000005;
+//		screenWrapPenality -= 0.005;
+	}
+	logger->setPermaLog("Size", to_string(count) + " (" + to_string(maxCount)+ ")");
+	logger->setPermaLog("Vect size", to_string(creaturesWorld.size()));
+	logger->setPermaLog("Time scale", to_string(settings->timeScale));
+	logger->setPermaLog("Max Gen",
+			to_string(maxGen) + "(max gen ever: " + to_string(maxGenEver)
+					+ ", max cnt at max gen: " + to_string(maxCountAtMaxGenEver)
+					+ ")");
+	logger->setPermaLog("Max Gen st.",
+						"max scr wrp pen: " + to_string(maxScreenWrapPenalityAtMaxGenEver)
+						+ ", min energy delta: " + to_string(minEneryDeltaAtMaxGenEver)
+						);
+	logger->setPermaLog("CR cloned", to_string(clonesCounter));
+	logger->setPermaLog("Enegry delta", to_string(energryDelta) + " (" + to_string(baseEnergryDelta) + ")");
+	logger->setPermaLog("Screen wrap penality", to_string(screenWrapPenality) + " (" + to_string(baseScreenWrapPenality) + ")");
+
 		for (auto plant : plants) {
-			if (plant->energy < 512.0) {
+			if (plant->energy < 1024.0) {
 				plant->energy = plant->energy
-						+ (energryDelta / (plants.size())) * *timeDelta;
+						+ (energryDelta / count) * *timeDelta;
 			}
 			plant->update();
 		}
-	}
-	if (counter < 5) {
+	if (count < 5) {
 		addCreature(SDL_Point { (rand() % 1000), (rand() % 1000) });
-	}
+	} //TODO: Disabled for view map check
 //	for (ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 //		if (*ptr != nullptr) {
 //			auto xx = *ptr;
@@ -321,12 +359,13 @@ void World::updateViewSense() {
 			if (creature != nullptr) {
 				if (creature->isAlive()) {
 					creature->cleanupView();
-					for (auto zone : zones) {
+//					for (auto zone : zones) {
 //					zone->update(creature);
-						for (auto plant : *zone->plants) {
+						for (auto plant : plants) {
 							if (plant != nullptr) {
 								creature->lookAt(plant);
 							}
+//							creature->updateView();
 //					if (distance(creature->pos, zone->pos) <= zone->size) {
 //						for (auto otherCreature : *zone->creatures) {
 //							if (otherCreature != nullptr) {
@@ -335,7 +374,7 @@ void World::updateViewSense() {
 
 //						}
 						}
-					}
+//					}
 //				} else {
 //					for (auto zone : zones) {
 //						zone->kickOut(creature);
@@ -355,14 +394,26 @@ void World::updateViewSense() {
 }
 
 void World::updateNeuralNetworks() {
+float avgHiddenLayerTreshold = 0.0;
+float avgOutputLayerTreshold = 0.0;
+int countt = 0;
 	for (auto ptr = creaturesWorld.begin(); ptr < creaturesWorld.end(); ptr++) {
 		auto creature = *ptr;
 		if (creature != nullptr) {
 			if (creature->isAlive()) {
 				creature->updateNeuralNet(settings);
+				countt++;
+				avgHiddenLayerTreshold += creature->neuralNet->avgHiddenTreshhlold;
+				avgOutputLayerTreshold += creature->neuralNet->avgOutputTreshhlold;
 			}
 		}
 	}
+	avgHiddenLayerTreshold = avgHiddenLayerTreshold / countt;
+	avgOutputLayerTreshold = avgOutputLayerTreshold / countt;
+	logger->setPermaLog("Max Gen neur st.",
+			"avg hidden trsh: " + to_string(avgHiddenLayerTreshold)
+					+ ", avg output trsh: "
+					+ to_string(avgOutputLayerTreshold));
 }
 
 void World::setSettings(Settings *_settings) {
@@ -405,15 +456,35 @@ void World::handleInput() {
 	}
 }
 
-void World::wrapPos(SDL_FPoint *pos) {
+bool World::wrapPos(SDL_FPoint *pos) {
+//	if (pos->x < 0) {
+//		pos->x = SIZE_W + pos->x;
+//		return true;
+//	} else if (pos->x > SIZE_W) {
+//		pos->x = pos->x - SIZE_W;
+//		return true;
+//	}
+//	if (pos->y < 0) {
+//		pos->y = SIZE_H + pos->y;
+//		return true;
+//	} else if (pos->y > SIZE_H) {
+//		pos->y = pos->y - SIZE_H;
+//		return true;
+//	}
+//	return false;
 	if (pos->x < 0) {
-		pos->x = SIZE_W + pos->x;
+		pos->x = 0;
+		return true;
 	} else if (pos->x > SIZE_W) {
-		pos->x = pos->x - SIZE_W;
+		pos->x = SIZE_W;
+		return true;
 	}
 	if (pos->y < 0) {
-		pos->y = SIZE_H + pos->y;
+		pos->y = 0;
+		return true;
 	} else if (pos->y > SIZE_H) {
-		pos->y = pos->y - SIZE_H;
+		pos->y = SIZE_H;
+		return true;
 	}
+	return false;
 }

@@ -12,18 +12,24 @@ public:
 
 	std::normal_distribution<double> *distribution;
 	std::default_random_engine *generator;
-	uint8_t inputSize = 20;
-	uint8_t hiddenSize = 50;
+	uint16_t inputSize = 50;
+	uint16_t hiddenSize = 50;
+//	float sightSharpness = 2.0/inputSize;
+	float sightSharpness = 0.15;
 	uint8_t outputSize = 10;
 	uint8_t maxConnections = 10;
+	float maxConnectionDistance = 300;
+	float connWeightAngleFactor = 0.0;
 	uint16_t neuronFov = 45;
-	uint16_t sightFov = 135;
-	float treshold = 0.2;
+	uint16_t sightFov = 145;
+	float treshold = 0.3;
 
-	float speed = 0.04;
-	float rotationFactor = 0.04;
-	float speedFactor = 0.0015;
-	uint16_t viewDist = 300;
+	float speed = 0.06;
+	float rotationFactor = 0.06;
+	float speedFactor = 0.001;
+	float feedDetectspeedFactor = 0.2;
+	float viewDist = 300;
+	int connectionCopyChance = 90;
 	void randomize();
 	float randomizeVal(float);
 	bool randomizeChance(const int percent);

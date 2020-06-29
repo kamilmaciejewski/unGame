@@ -19,9 +19,12 @@ public:
 	bool isAlive();
 	std::string getInfo();
 
-	 std::atomic<float> energy = 512; //TODO: make private
+	 std::atomic<float> energy = startEnergy; //TODO: make private
+
+	 float startEnergy = 200; //TODO: make private
+	 SDL_Rect rect_food;
 private:
-	 int size = 30;
+	 int sizeFactor = 5;
 };
 
 #endif /* PLANT_H */

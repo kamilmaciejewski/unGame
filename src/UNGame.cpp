@@ -13,7 +13,7 @@ UNGame::~UNGame() {
 void UNGame::run() {
 	WorldGenerator generator(settings);
 	world = generator.generateWorld(
-			WorldGenerator::TestConfigurations::conf99RandomCreatures);
+			WorldGenerator::TestConfigurations::conf50RandomCreatures);
 	MultiEngine multiEngine;
 	ungEngine.run(world);
 	sdlEngine.run(world, settings);

@@ -19,28 +19,35 @@ class World {
 	const unsigned int SIZE_H = 770; //TODO: Size should be independent from the screen
 	const unsigned int MAX_CREATURES = 100000;
 	const unsigned int MAX_PLANTS = 100000;
-	float energryDelta = 0.008;
+	float baseEnergryDelta = 0.0008;
+	float energryDelta = baseEnergryDelta;
+	float baseScreenWrapPenality = 10.0;
+	float screenWrapPenality = baseScreenWrapPenality;
 
 //	SDL_Surface *backgroundTexture = nullptr;
 
 	Settings *settings;
-	std::vector<std::shared_ptr<Creature>> creaturesSdl;
-	std::vector<Plant*> plants;
-	std::vector<Zone*> zones;
+	std::vector<std::shared_ptr<Creature>> creaturesSdl{};
+	std::vector<Plant*> plants{};
+	std::vector<Zone*> zones{};
 
-	void wrapPos(SDL_FPoint*);
+	bool wrapPos(SDL_FPoint*);
 	UNGLogger *logger;
 
 	//world stats
-	int counter = 0;
-	int maxGen = 0;
-	int maxGenEver = 0;
-	int clonesCounter = 0;
-	int nextId = 100;
+	uint64_t count = 0;
+	uint64_t maxCount = 0;
+	uint64_t maxGen = 0;
+	uint64_t maxGenEver = 0;
+	uint64_t maxCountAtMaxGenEver = 0;
+	float maxScreenWrapPenalityAtMaxGenEver = 0.0;
+	float minEneryDeltaAtMaxGenEver = 0.0;
+	uint64_t clonesCounter = 0;
+	uint64_t nextId = 100;
 
 public:
 
-	std::vector<std::shared_ptr<Creature>> creaturesWorld; //private
+	std::vector<std::shared_ptr<Creature>> creaturesWorld{}; //private
 	std::default_random_engine generator;
 	std::normal_distribution<double> distribution;
 	World();

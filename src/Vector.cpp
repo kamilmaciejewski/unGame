@@ -5,15 +5,12 @@ UNG_Vector::UNG_Vector(SDL_FPoint *pos) {
 	value = 40;
 	angle = 0.0;
 	this->pos = pos;
-
 }
-UNG_Vector::UNG_Vector(SDL_FPoint *pos, float angle , float value) {
+UNG_Vector::UNG_Vector(SDL_FPoint *pos, float angle, float value) {
 	this->value = value;
 	this->angle = angle;
 	this->pos = pos;
-
 }
-
 
 void UNG_Vector::draw(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
